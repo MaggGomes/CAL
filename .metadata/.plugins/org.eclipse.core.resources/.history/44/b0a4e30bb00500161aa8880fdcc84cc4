@@ -1,6 +1,6 @@
 #include "BusStop.h"
 
-BusStop::BusStop(int ID, string name, string localization){
+BusStop::BusStop(int ID, string name, Localization localization){
 	this->ID = ID;
 	this->name = name;
 	this->localization = localization;
@@ -21,9 +21,9 @@ void BusStop::setName(string name){
 string BusStop::getName(){
 	return name;
 }
-void BusStop::setLocalization(string localization){
+void BusStop::setLocalization(Localization localization){
 	this->localization = localization;
 }
-string BusStop::getLocalization(){
+Localization BusStop::getLocalization(){
 	return localization;
 }

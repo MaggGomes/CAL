@@ -1,8 +1,6 @@
 #ifndef SCHOOLBUS_H
 #define SCHOOLBUS_H
 
-#include "Bus.h"
-#include <vector>
 #include <string>
 
 using namespace std;

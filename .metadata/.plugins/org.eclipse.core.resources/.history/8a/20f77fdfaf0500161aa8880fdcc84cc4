@@ -9,10 +9,6 @@ using namespace std;
 
 //! This classe defines a position in earth by latitude and longitude
 class Localization{
-
-public:
-	Localization();
-};
 	//! The latitude relative to Equator
 	/*long double latitude;
 	//! The longitude relative to Greenwich
