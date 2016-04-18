@@ -1,0 +1,16 @@
+#ifndef SCHOOLBUS_H
+#define SCHOOLBUS_H
+
+#include <string>
+
+using namespace std;
+
+class SchoolBus {
+	vector <Bus> bus;
+public:
+	SchoolBus();
+	void addBus(const Bus &bus);
+	vector <Bus> getBus();
+};
+
+#endif // SCHOOLBUS_H
