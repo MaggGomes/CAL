@@ -1,0 +1,14 @@
+#ifndef BUS_STOP_H
+#define BUS_STOP_H
+
+/**
+ * Classe that enumerated the Edge types. Use EdgeType.UNDIRECTED for an undirected edge, or
+ * EdgeType.DIRECTED for a directed edge.
+ */
+class BusStop {
+ public:
+  const static int UNDIRECTED = 0;
+  const static int DIRECTED = 1;
+};
+
+#endif // BUS_STOP_H

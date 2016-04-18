@@ -1,0 +1,6 @@
+#include "School.h"
+
+School::School(){};
+	void addStudent(const Student &student);
+	vector <Student> getStudents();
+	int getNumStudents();

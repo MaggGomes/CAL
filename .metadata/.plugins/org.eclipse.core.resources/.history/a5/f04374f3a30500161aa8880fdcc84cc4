@@ -1,0 +1,12 @@
+#include <string>
+
+using namespace std;
+
+class School {
+	int capacity = 0;
+	vector <Student> students;
+
+public:
+	School(int capacity);
+
+};

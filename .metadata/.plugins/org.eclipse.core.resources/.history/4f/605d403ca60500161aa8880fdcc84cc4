@@ -1,0 +1,7 @@
+BusStop(int ID, string name, Localization localization);
+void setID(int ID);
+int getID();
+void setName(string name);
+string getName();
+void setLocalization(Localization localization);
+Localization getLocalization();
