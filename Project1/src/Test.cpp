@@ -16,10 +16,12 @@ void runAllTests(int argc, char const *argv[]){
 	cute::makeRunner<>(lis,argc,argv)(s, "AllTests");
 }
 
-int main(int argc, char const *argv[]){
+// TODO - FOR TESTING
+
+/*int main(int argc, char const *argv[]){
     runAllTests(argc,argv);
     return 0;
-}
+}*/
 
 
 
