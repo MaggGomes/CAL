@@ -18,11 +18,11 @@ vector <School> SchoolBus::getSchool() const{
 	return schools;
 }
 
-void SchoolBus::addStudent(string name, int ID, const BusStop &busStop, School &school){
+void SchoolBus::addStudent(string name, int ID, const string &localization, School &school){
 
 	for (unsigned int i = 0; i < schools.size(); i++){
 		if (schools[i] == school){
-			schools[i].addStudent(Student (name, ID, busStop));
+			schools[i].addStudent(Student (name, ID, localization));
 			break;
 		}
 	}

@@ -18,7 +18,7 @@ public:
 	vector <Bus> getBus() const;
 	void addSchool(const School &school);
 	vector <School> getSchool() const;
-	void addStudent(string name, int ID, const BusStop &busStop, School &school);
+	void addStudent(string name, int ID, const string &localization, School &school);
 	void loadData();
 	void saveData();
 	void menuStarting();

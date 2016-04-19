@@ -1,23 +1,23 @@
 #ifndef STUDENT_H
 #define STUDENT_H
 
-#include "BusStop.h"
+#include <string>
 
 using namespace std;
 
 class Student {
 	string name;
 	int ID;
-	BusStop busStop;
+	string localization;
 
 public:
-	Student(string name, int ID, const BusStop &busStop);
+	Student(string name, int ID, const string &localization);
 	void setName(string name);
 	string getName();
 	void setID(int ID);
 	int getID() const;
-	void setBusStop(const BusStop &busStop);
-	BusStop getBusStop() const;
+	void setLocalization(const string &localization);
+	string getLocalization() const;
 };
 
 #endif // STUDENT_H

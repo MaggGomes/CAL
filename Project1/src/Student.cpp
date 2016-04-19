@@ -1,9 +1,9 @@
 #include "Student.h"
 
-Student::Student(string name, int ID, const BusStop &busStop){
+Student::Student(string name, int ID, const string &localization){
 	this->name = name;
 	this->ID = ID;
-	this->busStop = busStop;
+	this->localization = localization;
 }
 
 void Student::setName(string name){
@@ -22,10 +22,10 @@ int Student::getID() const{
 	return ID;
 }
 
-void Student::setBusStop(const BusStop &busStop){
-	this->busStop = busStop;
+void Student::setLocalization(const string &localization){
+	this->localization = localization;
 }
 
-BusStop Student::getBusStop() const{
-	return busStop;
+string Student::getLocalization() const{
+	return localization;
 }
