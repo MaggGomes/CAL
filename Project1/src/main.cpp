@@ -1,10 +1,13 @@
 #include "Utilities.h"
+#include "Menu.h"
 
 using namespace std;
 
 int main(){
 
 	// TODO - APAGAR - Debugging
-	printAppName();
+
+	Menu menu;
+	menu.menuStarting();
 
 }
