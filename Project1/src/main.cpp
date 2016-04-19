@@ -1,11 +1,10 @@
-#include "Utilities.h"
-#include "Menu.h"
+#include "SchoolBus.h"
 
 using namespace std;
 
 int main(){
-	Menu menu;
-	menu.menuStarting();
+	SchoolBus schoolBus;
+	schoolBus.menuStarting();
 
 	return 0;
 }
