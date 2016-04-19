@@ -25,6 +25,7 @@ void setColor(unsigned int color, unsigned int background_color)
 				BACKGROUND_RED);
 }
 
+// TODO - MUDAR TITULO
 void printAppName()
 {
 	setColor(3, 0);
