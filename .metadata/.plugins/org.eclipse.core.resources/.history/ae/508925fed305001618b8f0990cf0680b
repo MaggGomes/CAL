@@ -1,7 +1,0 @@
-#include "Menu.h"
-
-Menu::Menu(){};
-// TODO FALTA IMPLEMENTAR SAVE E LOAD DATA
-void Menu::loadData(){};
-void saveData();
-void createStartingMenu();
