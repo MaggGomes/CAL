@@ -12,11 +12,11 @@ class Bus {
 public:
 	Bus(int buildYear, string registration, int capacity);
 	void setBuildYear(int year);
-	int getBuildYear();
+	int getBuildYear() const;
 	void setRegistration(string registration);
-	string getRegistration();
+	string getRegistration() const;
 	void setCapacity(int capacity);
-	int getCapacity();
+	int getCapacity() const;
 };
 
 #endif // BUS_H

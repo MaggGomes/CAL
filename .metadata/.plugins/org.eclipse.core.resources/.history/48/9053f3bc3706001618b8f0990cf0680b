@@ -1,0 +1,40 @@
+#include "Student.h"
+
+Student::Student(string name, int ID, const BusStop &busStop, const School &school){
+	this->name = name;
+	this->ID = ID;
+	this->busStop = busStop;
+	this->school = school;
+}
+
+void Student::setName(string name){
+	this->name = name;
+}
+
+string Student::getName(){
+	return name;
+}
+
+void Student::setID(int ID){
+	this->ID = ID;
+}
+
+int Student::getID(){
+	return ID;
+}
+
+void Student::setBusStop(const BusStop &busStop){
+	this->busStop = busStop;
+}
+
+BusStop Student::getBusStop(){
+	return busStop;
+}
+
+void Student::setSchool(const School &school){
+	this->school = school;
+}
+
+School Student::getSchool(){
+	return school;
+}

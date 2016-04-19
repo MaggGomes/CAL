@@ -10,8 +10,9 @@ public:
 	void loadData();
 	void saveData();
 	void menuStarting();
-	void menuBusManagement();
+	void menuSchoolManagement();
 	void menuClientManagement();
+	void menuBusManagement();
 };
 
 

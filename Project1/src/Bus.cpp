@@ -10,7 +10,7 @@ void Bus::setBuildYear(int year){
 	this->buildYear = year;
 }
 
-int Bus::getBuildYear(){
+int Bus::getBuildYear() const{
 	return buildYear;
 }
 
@@ -18,7 +18,7 @@ void Bus::setRegistration(string registration){
 	this->registration = registration;
 }
 
-string Bus::getRegistration(){
+string Bus::getRegistration() const{
 	return registration;
 }
 
@@ -26,6 +26,6 @@ void Bus::setCapacity(int capacity){
 	this->capacity = capacity;
 }
 
-int Bus::getCapacity(){
+int Bus::getCapacity() const{
 	return capacity;
 }

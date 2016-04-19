@@ -4,10 +4,8 @@
 using namespace std;
 
 int main(){
-
-	// TODO - APAGAR - Debugging
-
 	Menu menu;
 	menu.menuStarting();
 
+	return 0;
 }

@@ -12,7 +12,7 @@ class SchoolBus {
 public:
 	SchoolBus();
 	void addBus(const Bus &bus);
-	vector <Bus> getBus();
+	vector <Bus> getBus() const;
 };
 
 #endif // SCHOOLBUS_H

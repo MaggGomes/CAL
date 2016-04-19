@@ -1,0 +1,30 @@
+#ifndef STUDENT_H
+#define STUDENT_H
+
+#include <string>
+#include "BusStop.h"
+#include "School.h"
+
+using namespace std;
+
+
+
+class Student {
+	string name;
+	int ID;
+	BusStop busStop;
+	School school;
+
+public:
+	Student(string name, int ID, const BusStop &busStop, const School &school);
+	void setName(string name);
+	string getName();
+	void setID(int ID);
+	int getID() const;
+	void setBusStop(const BusStop &busStop);
+	BusStop getBusStop() const;
+	void setSchool(const School &school);
+	School getSchool() const;
+};
+
+#endif // STUDENT_H

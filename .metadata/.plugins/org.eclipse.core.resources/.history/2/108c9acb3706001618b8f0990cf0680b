@@ -1,0 +1,18 @@
+#include <string>
+#include <vector>
+#include "Student.h"
+
+using namespace std;
+
+class Student;
+
+class School {
+	vector <Student> students;
+	string localization;
+
+public:
+	School(string localization);
+	void addStudent(const Student &student);
+	vector <Student> getStudents();
+	int getNumStudents();
+};
