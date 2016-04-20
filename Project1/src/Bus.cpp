@@ -29,3 +29,40 @@ void Bus::setCapacity(int capacity){
 int Bus::getCapacity() const{
 	return capacity;
 }
+
+void Bus::setSchool(const School &school){
+	this->school = school;
+}
+
+School Bus::getSchool() const{
+	return school;
+}
+
+void Bus::addStudent(const Student &student){
+	this->students.push_back(student);
+}
+
+vector<Student> Bus::getStudents() const{
+	return students;
+}
+
+bool Bus::operator==(const Bus bus) const{
+	if (this->registration == bus.getRegistration())
+		return true;
+	else
+		return false;
+}
+
+ostream& operator<<(ostream& os, const Bus& bus){
+	os << "> Registration: ";
+	/*os << bus.getRegistration();
+	os << " :::: ";
+	os << "Capacity: ";
+	os << bus.getCapacity();
+	os << " :::: ";
+	os << "Current occupation: ";
+	os << bus.getStudents().size();
+	os << endl;*/
+
+	return os;
+}

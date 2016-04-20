@@ -1,0 +1,25 @@
+#ifndef BUS_H
+#define BUS_H
+
+#include <string>
+
+using namespace std;
+
+class Bus {
+	int buildYear;
+	string registration;
+	int capacity;
+	vector<Student> students;
+public:
+	Bus(int buildYear, string registration, int capacity);
+	void setBuildYear(int year);
+	int getBuildYear() const;
+	void setRegistration(string registration);
+	string getRegistration() const;
+	void setCapacity(int capacity);
+	int getCapacity() const;
+	void addStudent(const Student &student);
+	vector<Student> getStudents() const;
+};
+
+#endif // BUS_H

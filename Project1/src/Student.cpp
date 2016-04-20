@@ -10,7 +10,7 @@ void Student::setName(string name){
 	this->name = name;
 }
 
-string Student::getName(){
+string Student::getName() const{
 	return name;
 }
 
@@ -28,4 +28,22 @@ void Student::setLocalization(const string &localization){
 
 string Student::getLocalization() const{
 	return localization;
+}
+
+bool Student::operator==(const Student s) const{
+	if (this->name == s.getName() && this->ID == s.getID())
+		return true;
+	else
+		return false;
+}
+
+ostream& operator<<(ostream& os, const Student& student){
+	os << "> Name: ";
+	/*os << student.getName();
+	os << " :::: ";
+	os << "ID: ";
+	os << student.getID();
+	os << endl;*/
+
+	return os;
 }

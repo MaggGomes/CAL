@@ -33,7 +33,7 @@ void SchoolBus::loadData(){};
 void SchoolBus::saveData(){};
 
 void SchoolBus::menuStarting(){
-	string Menu[5] = { "<<  SCHOOL MANAGEMENT>>", "<<  CLIENT MANAGEMENT >>", "<<  BUS MANAGEMENT    >>", "<<  VIEW OF CITY MAP  >>", "<<  EXIT              >>" };
+	string Menu[5] = { "<<  SCHOOL MANAGEMENT >>", "<<  CLIENT MANAGEMENT >>", "<<  BUS MANAGEMENT    >>", "<<  VIEW OF CITY MAP  >>", "<<  EXIT              >>" };
 	bool validade = true;
 	int pointer = 0;
 
@@ -120,7 +120,7 @@ void SchoolBus::menuStarting(){
 }
 
 void SchoolBus::menuSchoolManagement(){
-	string Menu[4] = { "<<   BUS MANAGEMENT     >>", "<<  CLIENT MANAGEMENT >>", "<<  SEE CITY MAP      >>", "<<  EXIT              >>" };
+	string Menu[4] = { "<<   SEE SCHOOLS      >>", "<<  SEARCH SCHOOL     >>", "<<  BACK              >>", "<<  EXIT              >>" };
 	bool validade = true;
 	int pointer = 0;
 
@@ -129,7 +129,7 @@ void SchoolBus::menuSchoolManagement(){
 		clrscr();
 		printAppName();
 		setColor(11, 0);
-		cout << setw(51) << "<<<<<   CLIENT   >>>>>" << endl << endl;
+		cout << setw(51) << "<<<<<    SCHOOLS   >>>>>" << endl << endl;
 
 		for (int i = 0; i < 4; ++i)
 		{
@@ -191,7 +191,7 @@ void SchoolBus::menuSchoolManagement(){
 					break;
 				case 2:
 					validade = false;
-					exit(0);
+					menuStarting();
 					break;
 				case 3:
 					saveData();
@@ -203,7 +203,7 @@ void SchoolBus::menuSchoolManagement(){
 }
 
 void SchoolBus::menuClientManagement(){
-	string Menu[4] = { "<<   BUS MANAGEMENT     >>", "<<  CLIENT MANAGEMENT >>", "<<  SEE CITY MAP      >>", "<<  EXIT              >>" };
+	string Menu[4] = { "<<  SEE CLIENTS       >>", "<<  SEARCH CLIENT     >>", "<<  BACK              >>", "<<  EXIT              >>" };
 	bool validade = true;
 	int pointer = 0;
 
@@ -212,7 +212,7 @@ void SchoolBus::menuClientManagement(){
 		clrscr();
 		printAppName();
 		setColor(11, 0);
-		cout << setw(51) << "<<<<<   CLIENT   >>>>>" << endl << endl;
+		cout << setw(51) << "<<<<<    CLIENT    >>>>>" << endl << endl;
 
 		for (int i = 0; i < 4; ++i)
 		{
@@ -274,7 +274,7 @@ void SchoolBus::menuClientManagement(){
 					break;
 				case 2:
 					validade = false;
-					exit(0);
+					menuStarting();
 					break;
 				case 3:
 					saveData();
@@ -286,7 +286,7 @@ void SchoolBus::menuClientManagement(){
 }
 
 void SchoolBus::menuBusManagement(){
-	string Menu[4] = { "<<  BUS MANAGEMENT    >>", "<<  CLIENT MANAGEMENT >>", "<<  SEE CITY MAP      >>", "<<  EXIT              >>" };
+	string Menu[4] = { "<<  SEE ALL BUS       >>", "<<  SEARCH BUS        >>", "<<  BACK              >>", "<<  EXIT              >>" };
 	bool validade = true;
 	int pointer = 0;
 
@@ -357,7 +357,7 @@ void SchoolBus::menuBusManagement(){
 					break;
 				case 2:
 					validade = false;
-					exit(0);
+					menuStarting();
 					break;
 				case 3:
 					saveData();

@@ -3,7 +3,6 @@
 
 #include "Bus.h"
 #include "Utilities.h"
-#include "School.h"
 #include <vector>
 #include <string>
 
