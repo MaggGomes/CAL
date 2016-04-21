@@ -1,6 +1,8 @@
 #ifndef SCHOOLBUS_H
 #define SCHOOLBUS_H
 
+#include "Graph.h"
+#include "Graphviewer.h"
 #include "Bus.h"
 #include "Utilities.h"
 #include <vector>
@@ -9,6 +11,8 @@
 using namespace std;
 
 class SchoolBus {
+	GraphViewer *gv;
+	Graph <string> graph;
 	vector <Bus> bus;
 	vector <School> schools;
 public:
