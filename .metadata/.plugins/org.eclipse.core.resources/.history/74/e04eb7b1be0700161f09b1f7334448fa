@@ -15,7 +15,6 @@ class SchoolBus {
 	Graph <string> graph;
 	vector <Bus> bus;
 	vector <School> schools;
-	int nodeID;
 public:
 	SchoolBus();
 	void addBus(const Bus &bus);

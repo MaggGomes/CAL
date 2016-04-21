@@ -10,7 +10,7 @@ class Student {
 	string name;
 	int ID;
 	string localization;
-	int nodeID;
+
 public:
 	Student(string name, int ID, const string &localization);
 	void setName(string name);

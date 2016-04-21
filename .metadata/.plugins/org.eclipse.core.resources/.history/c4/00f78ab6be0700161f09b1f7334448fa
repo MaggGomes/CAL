@@ -8,7 +8,7 @@ class School {
 	string name;
 	vector <Student> students;
 	string localization;
-	int nodeID;
+
 public:
 	School();
 	School(string name, string localization);
