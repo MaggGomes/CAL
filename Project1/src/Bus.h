@@ -11,6 +11,8 @@ using namespace std;
 class Student;
 
 class Bus {
+	int ID;
+	static int lastID;
 	int buildYear;
 	string registration;
 	int capacity;
@@ -28,6 +30,8 @@ public:
 	School getSchool() const;
 	void addStudent(const Student &student);
 	vector<Student> getStudents() const;
+	void setID(int ID);
+	int getID() const;
 	bool operator==(const Bus bus) const;
 	friend ostream& operator<<(ostream& os, const Bus& bus);
 };

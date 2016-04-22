@@ -53,6 +53,7 @@ void exiting(){
 	cout << setw(51) << "<<<<<               >>>>>" << endl;
 	cout << setw(51) << "<<<<<<<<<<<<+>>>>>>>>>>>>" << endl << endl << endl;
 	setColor(7, 0);
+	Sleep(1000);
 	exit(0);
 }
 

@@ -9,10 +9,11 @@ using namespace std;
 class Student {
 	string name;
 	int ID;
+	static int lastID;
 	string localization;
 	int nodeID;
 public:
-	Student(string name, int ID, const string &localization);
+	Student(string name, int nodeID, const string &localization);
 	void setName(string name);
 	string getName() const;
 	void setID(int ID);

@@ -8,13 +8,14 @@
 #include <vector>
 #include <string>
 #include <sstream>
+#include <ctime>
 
 class SchoolBus {
 	GraphViewer *gv;
 	Graph <int> routesGraph;
 	vector <Bus> bus;
 	vector <School> schools;
-	int nodeID = 1;
+	int nodeID = 1; // TODO - ALTERAR PARA O VALOR A USAR
 public:
 	SchoolBus();
 	SchoolBus(const Graph<int> &graph);
@@ -27,9 +28,18 @@ public:
 	void showGraph(unsigned int srcNode, unsigned int destNod);
 	void loadData();
 	void saveData();
+	void menuShowBus();
 	void menuStarting();
 	void menuSchoolManagement();
 	void menuClientManagement();
+	void searchBusID(int busID);
+	void searchBusReg(string busReg);
+	void menuSearchBus();
+	int registerBusYear();
+	bool validRegistration(const string &reg);
+	string registerBusRegistration();
+	int registerBusCapacity();
+	void registerNewBus();
 	void menuBusManagement();
 };
 

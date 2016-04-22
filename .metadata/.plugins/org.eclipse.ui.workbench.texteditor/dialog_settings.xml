@@ -2,22 +2,23 @@
 <section name="Workbench">
 	<section name="org.eclipse.ui.texteditor.FindReplaceDialog">
 		<item value="false" key="isRegEx"/>
-		<item value="road_name" key="selection"/>
+		<item value="validity" key="selection"/>
 		<item value="false" key="casesensitive"/>
 		<item value="false" key="incremental"/>
 		<item value="true" key="wrap"/>
 		<item value="false" key="wholeword"/>
 		<list key="findhistory">
+			<item value="validade"/>
+			<item value="see"/>
+			<item value="41.1818"/>
+			<item value="21.1818"/>
 			<item value="road_name"/>
 			<item value="cout"/>
 			<item value="info"/>
 			<item value="label"/>
-			<item value="setl"/>
-			<item value="vertexsize"/>
-			<item value="procId"/>
-			<item value="procID"/>
 		</list>
 		<list key="replacehistory">
+			<item value="validity"/>
 			<item value="setColor"/>
 		</list>
 	</section>

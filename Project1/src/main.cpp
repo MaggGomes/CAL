@@ -8,7 +8,7 @@ using namespace std;
 Graph<int> CreateTestGraph(){
 	Graph<int> myGraph;
 
-	for(int i = 0; i < 700; i++)
+	for(int i = 0; i < 20; i++)
 		myGraph.addVertex(i);
 
 	myGraph.addEdge(0, 1, 2);
@@ -46,14 +46,16 @@ int main(){
 
 	// TODO - APAGAR -  código de teste
 
-	//SchoolBus schoolBus(CreateTestGraph());
-	//schoolBus.menuStarting();
+	SchoolBus schoolBus(CreateTestGraph());
+	schoolBus.addBus(Bus(2000, "20ZX20", 20));
+	schoolBus.addBus(Bus(2001, "30CD20", 20));
+	schoolBus.menuStarting();
 
-	int tempID = 1;
+	/*int tempID = 1;
 
 	GraphViewer *gv = graphCreator(txtAReader(),txtBReader() ,txtCReader(tempID));
 	gv->rearrange();
-	getchar();
+	getchar();*/
 
 
 	return 0;

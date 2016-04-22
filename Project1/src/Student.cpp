@@ -1,8 +1,11 @@
 #include "Student.h"
 
-Student::Student(string name, int ID, const string &localization){
+int Student::lastID = 0;
+
+Student::Student(string name, int nodeID, const string &localization){
 	this->name = name;
-	this->ID = ID;
+	this->ID = lastID;
+	this->nodeID = nodeID;
 	this->localization = localization;
 }
 
@@ -37,13 +40,14 @@ bool Student::operator==(const Student s) const{
 		return false;
 }
 
+// TODO - MOSTRAR COORDENADAS GPS DA MORADA PARA CADA ALUNO E RESPETIVO NODEID ASSOCIADO
 ostream& operator<<(ostream& os, const Student& student){
-	os << "> Name: ";
-	/*os << student.getName();
-	os << " :::: ";
-	os << "ID: ";
+	os << "> ID: ";
 	os << student.getID();
-	os << endl;*/
+	os << " // ";
+	os << "Name: ";
+	os << student.getName();
+	os << endl;
 
 	return os;
 }

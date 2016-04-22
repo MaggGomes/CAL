@@ -1,9 +1,13 @@
 #include "Bus.h"
 
+int Bus::lastID = 0;
+
 Bus::Bus(int buildYear, string registration, int capacity){
+	this->ID = lastID;
 	this->buildYear = buildYear;
 	this->registration = registration;
 	this->capacity = capacity;
+	lastID++;
 }
 
 void Bus::setBuildYear(int year){
@@ -45,6 +49,13 @@ void Bus::addStudent(const Student &student){
 vector<Student> Bus::getStudents() const{
 	return students;
 }
+void Bus::setID(int ID){
+	this->ID = ID;
+}
+
+int Bus::getID() const {
+	return ID;
+}
 
 bool Bus::operator==(const Bus bus) const{
 	if (this->registration == bus.getRegistration())
@@ -54,15 +65,18 @@ bool Bus::operator==(const Bus bus) const{
 }
 
 ostream& operator<<(ostream& os, const Bus& bus){
-	os << "> Registration: ";
-	/*os << bus.getRegistration();
-	os << " :::: ";
+	os << "> ID: ";
+	os << bus.getID();
+	os << " // ";
+	os << "Registration: ";
+	os << bus.getRegistration();
+	os << " // ";
 	os << "Capacity: ";
 	os << bus.getCapacity();
-	os << " :::: ";
+	os << " // ";
 	os << "Current occupation: ";
 	os << bus.getStudents().size();
-	os << endl;*/
+	os << endl;
 
 	return os;
 }
