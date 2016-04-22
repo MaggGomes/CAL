@@ -7,17 +7,20 @@ using namespace std;
 class School {
 	string name;
 	vector <Student> students;
-	string localization;
+	int ID;
+	static int lastID;
 	int nodeID;
 public:
-	School();
-	School(string name, string localization);
+	School(string name, int nodeID);
 	void setName(int name);
 	string getName() const;
 	void addStudent(const Student &student);
 	vector <Student> getStudents() const;
 	int getNumStudents() const;
-	void setLocalization(string localization);
-	string getLocalization() const;
+	void setNodeID(int nodeID);
+	int getNodeID() const;
+	void setID(int id);
+	int getID() const;
 	bool operator==(const School s) const;
+	friend ostream& operator<<(ostream& os, School * school);
 };

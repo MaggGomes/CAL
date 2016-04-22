@@ -16,19 +16,19 @@ vector <Bus> SchoolBus::getBus() const{
 	return bus;
 }
 
-void SchoolBus::addSchool(const School &school){
+void SchoolBus::addSchool(School * school){
 	this->schools.push_back(school);
 }
 
-vector <School> SchoolBus::getSchool() const{
+vector <School *> SchoolBus::getSchools() const{
 	return schools;
 }
 
-void SchoolBus::addStudent(string name, int ID, const string &localization, School &school){
+void SchoolBus::addStudent(string name, int ID, const string &localization, School * school){
 
 	for (unsigned int i = 0; i < schools.size(); i++){
-		if (schools[i] == school){
-			schools[i].addStudent(Student (name, ID, localization));
+		if (*schools[i] == *school){
+			schools[i]->addStudent(Student (name, ID, localization));
 			break;
 		}
 	}
@@ -92,9 +92,132 @@ void SchoolBus::showGraph(unsigned int srcNode, unsigned int destNode){
 	gv->rearrange();
 }
 
+void SchoolBus::saveBus(){
+	ofstream file;
+
+	remove("bus.csv");
+	file.open("bus.csv");
+
+	for (unsigned int i = 0; i < bus.size(); i++){
+		if (i < bus.size() - 1)
+			file << bus[i].getID() << ";" << bus[i].getRegistration() << ";" << bus[i].getBuildYear()<<";"<< bus[i].getCapacity() << ";" << bus[i].getSchool()->getID() <<"\n";
+		else
+			file << bus[i].getID() << ";" << bus[i].getRegistration() << ";" << bus[i].getBuildYear()<<";"<< bus[i].getCapacity() << ";" << bus[i].getSchool()->getID();
+	}
+
+	file.close();
+}
+
+void SchoolBus::saveSchools(){
+	ofstream file;
+
+	remove("schools.csv");
+	file.open("schools.csv");
+
+	for (unsigned int i = 0; i < schools.size(); i++){
+		if (i < schools.size() - 1)
+			file << schools[i]->getID() << ";" << schools[i]->getName() << ";" << schools[i]->getNodeID() << "\n";
+		else
+			file << schools[i]->getID() << ";" << schools[i]->getName() << ";" << schools[i]->getNodeID();
+	}
+
+	file.close();
+}
+// TODO - IMPLEMENTAR
+void SchoolBus::saveStudents(){
+
+}
+
 // TODO - falta implementar save e load data
-void SchoolBus::loadData(){};
-void SchoolBus::saveData(){};
+void SchoolBus::saveData(){
+	saveSchools();
+	saveBus();
+	//saveStudents();
+};
+
+void SchoolBus::loadBus(){
+	ifstream file;
+	string line;
+	string buffer;
+	string registration;
+	int ID;
+	int buildYear;
+	int capacity;
+	int schoolID;
+
+	file.open("bus.csv");
+
+	while(getline(file, line)){
+		istringstream ss(line);
+
+		while(ss.good()){
+			getline(ss, buffer, ';');
+			ID = atoi(buffer.c_str()); // ID
+			getline(ss, registration, ';'); // Registration
+			getline(ss, buffer, ';');
+			buildYear = atoi(buffer.c_str()); // Build year
+			getline(ss, buffer, ';');
+			capacity = atoi(buffer.c_str()); // Build year
+			getline(ss, buffer, ';');
+			schoolID = atoi(buffer.c_str()); // schoolID
+		}
+
+		Bus busTemp(buildYear, registration, capacity);
+		busTemp.setID(ID);
+
+		for (unsigned int i = 0; i < schools.size(); i++){
+			if (schools[i]->getID() == schoolID){
+				busTemp.setSchool(schools[i]);
+				break;
+			}
+		}
+
+		bus.push_back(busTemp);
+	}
+
+	file.close();
+}
+
+void SchoolBus::loadSchools(){
+	ifstream file;
+	string line;
+	string buffer;
+	string name;
+	int ID;
+	int nodeID;
+
+	file.open("schools.csv");
+
+	while(getline(file, line)){
+		istringstream ss(line);
+
+		while(ss.good()){
+			getline(ss, buffer, ';');
+			ID = atoi(buffer.c_str()); // ID
+			getline(ss, name, ';'); // Name
+			getline(ss, buffer, ';');
+			nodeID = atoi(buffer.c_str()); // Node ID
+		}
+
+		School * school = new School(name, nodeID);
+		school->setID(ID);
+		schools.push_back(school);
+	}
+
+	file.close();
+}
+
+// TODO - IMPLEMENTAR
+void SchoolBus::loadStudents(){
+
+}
+
+// TODO - IMPLEMENTAR
+void SchoolBus::loadData(){
+	loadSchools();
+	loadBus();
+	// loadStudents();
+};
 
 void SchoolBus::menuShowBus(){
 	clrscr();
@@ -103,6 +226,33 @@ void SchoolBus::menuShowBus(){
 
 	for (unsigned int i = 0; i < bus.size(); i++){
 		cout << bus[i];
+	}
+
+	cout << endl;
+}
+
+void SchoolBus::menuShowSchools(){
+	clrscr();
+	printAppName();
+
+	cout << schools[0]->getName() << endl;
+
+	for (unsigned int i = 0; i < schools.size(); i++){
+		cout << schools[i];
+	}
+
+	cout << endl;
+}
+
+void SchoolBus::menuShowStudents(){
+	clrscr();
+	printAppName();
+	cout << endl << endl;
+
+	for (unsigned int i = 0; i < bus.size(); i++){
+		for (unsigned int j = 0; j < bus[i].getStudents().size(); j++){
+			cout << "Bus Registration: " << bus[i].getRegistration() << " | " << bus[i].getStudents()[j];
+		};
 	}
 
 	cout << endl;
@@ -196,7 +346,7 @@ void SchoolBus::menuStarting(){
 }
 
 void SchoolBus::menuSchoolManagement(){
-	string Menu[4] = { "<<  SEE SCHOOLS       >>", "<<  SEARCH SCHOOL     >>", "<<  BACK              >>", "<<  EXIT              >>" };
+	string Menu[5] = { "<<  SEE SCHOOLS       >>", "<<  SEARCH SCHOOL     >>", "<<  CREATE SCHOOL     >>","<<  BACK              >>", "<<  EXIT              >>" };
 	bool validity = true;
 	int pointer = 0;
 
@@ -207,7 +357,7 @@ void SchoolBus::menuSchoolManagement(){
 		setColor(11, 0);
 		cout << setw(51) << "<<<<<    SCHOOLS   >>>>>" << endl << endl;
 
-		for (int i = 0; i < 4; ++i)
+		for (int i = 0; i < 5; ++i)
 		{
 			if (i == pointer)
 			{
@@ -233,7 +383,7 @@ void SchoolBus::menuSchoolManagement(){
 			if (ch == ARROW_DOWN) {
 				Beep(250, 160);
 				pointer += 1;
-				if (pointer == 4)
+				if (pointer == 5)
 				{
 					pointer = 0;
 				}
@@ -245,7 +395,7 @@ void SchoolBus::menuSchoolManagement(){
 				pointer -= 1;
 				if (pointer == -1)
 				{
-					pointer = 3;
+					pointer = 4;
 				}
 				break;
 			}
@@ -259,7 +409,9 @@ void SchoolBus::menuSchoolManagement(){
 				{
 				case 0:
 					validity = false;
-					exit(0);
+					menuShowSchools();
+					pressKeyToContinue();
+					menuSchoolManagement();
 					break;
 				case 1:
 					validity = false;
@@ -267,9 +419,13 @@ void SchoolBus::menuSchoolManagement(){
 					break;
 				case 2:
 					validity = false;
-					menuStarting();
+					exit(0);
 					break;
 				case 3:
+					validity = false;
+					menuStarting();
+					break;
+				case 4:
 					saveData();
 					exiting();
 				}
@@ -279,7 +435,7 @@ void SchoolBus::menuSchoolManagement(){
 }
 
 void SchoolBus::menuClientManagement(){
-	string Menu[4] = { "<<  SEE CLIENTS       >>", "<<  SEARCH CLIENT     >>", "<<  BACK              >>", "<<  EXIT              >>" };
+	string Menu[5] = { "<<  SEE CLIENTS       >>", "<<  SEARCH CLIENT     >>","<<  CREATE CLIENT     >>", "<<  BACK              >>", "<<  EXIT              >>" };
 	bool validity = true;
 	int pointer = 0;
 
@@ -290,7 +446,7 @@ void SchoolBus::menuClientManagement(){
 		setColor(11, 0);
 		cout << setw(51) << "<<<<<    CLIENT    >>>>>" << endl << endl;
 
-		for (int i = 0; i < 4; ++i)
+		for (int i = 0; i < 5; ++i)
 		{
 			if (i == pointer)
 			{
@@ -316,7 +472,7 @@ void SchoolBus::menuClientManagement(){
 			if (ch == ARROW_DOWN) {
 				Beep(250, 160);
 				pointer += 1;
-				if (pointer == 4)
+				if (pointer == 5)
 				{
 					pointer = 0;
 				}
@@ -328,7 +484,7 @@ void SchoolBus::menuClientManagement(){
 				pointer -= 1;
 				if (pointer == -1)
 				{
-					pointer = 3;
+					pointer = 4;
 				}
 				break;
 			}
@@ -342,7 +498,9 @@ void SchoolBus::menuClientManagement(){
 				{
 				case 0:
 					validity = false;
-					exit(0);
+					menuShowStudents();
+					pressKeyToContinue();
+					menuClientManagement();
 					break;
 				case 1:
 					validity = false;
@@ -350,9 +508,13 @@ void SchoolBus::menuClientManagement(){
 					break;
 				case 2:
 					validity = false;
-					menuStarting();
+					exit(0);
 					break;
 				case 3:
+					validity = false;
+					menuStarting();
+					break;
+				case 4:
 					saveData();
 					exiting();
 				}
@@ -376,7 +538,7 @@ void SchoolBus::searchBusID(int busID){
 		printAppName();
 		cleanBuffer();
 		char input = ' ';
-		cout << "> Do you want see the BUS Route?";
+		cout << "> Do you want to see the BUS Route?";
 		cin >> input;
 		if (input == 'y' || input == 'Y'){
 			cout << "\n> Please wait a moment while the map loads.\n";
@@ -411,7 +573,7 @@ void SchoolBus::searchBusReg(string busReg){
 		printAppName();
 		cleanBuffer();
 		char input = ' ';
-		cout << "> Do you want see the BUS Route?";
+		cout << "> Do you want to see the BUS Route?";
 		cin >> input;
 		if (input == 'y' || input == 'Y'){
 			cout << "\n> Please wait a moment while the map loads.\n";

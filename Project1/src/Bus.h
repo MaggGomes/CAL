@@ -13,10 +13,10 @@ class Student;
 class Bus {
 	int ID;
 	static int lastID;
+	School * school;
 	int buildYear;
 	string registration;
 	int capacity;
-	School school;
 	vector<Student> students;
 public:
 	Bus(int buildYear, string registration, int capacity);
@@ -26,8 +26,8 @@ public:
 	string getRegistration() const;
 	void setCapacity(int capacity);
 	int getCapacity() const;
-	void setSchool(const School &school);
-	School getSchool() const;
+	void setSchool(School * school);
+	School *  getSchool() const;
 	void addStudent(const Student &student);
 	vector<Student> getStudents() const;
 	void setID(int ID);

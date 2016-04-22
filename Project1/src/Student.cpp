@@ -44,7 +44,7 @@ bool Student::operator==(const Student s) const{
 ostream& operator<<(ostream& os, const Student& student){
 	os << "> ID: ";
 	os << student.getID();
-	os << " // ";
+	os << " | ";
 	os << "Name: ";
 	os << student.getName();
 	os << endl;

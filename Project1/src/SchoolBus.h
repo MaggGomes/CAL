@@ -9,26 +9,35 @@
 #include <string>
 #include <sstream>
 #include <ctime>
+#include <fstream>
 
 class SchoolBus {
 	GraphViewer *gv;
 	Graph <int> routesGraph;
 	vector <Bus> bus;
-	vector <School> schools;
+	vector <School *> schools;
 	int nodeID = 1; // TODO - ALTERAR PARA O VALOR A USAR
 public:
 	SchoolBus();
 	SchoolBus(const Graph<int> &graph);
 	void addBus(const Bus &bus);
 	vector <Bus> getBus() const;
-	void addSchool(const School &school);
-	vector <School> getSchool() const;
-	void addStudent(string name, int ID, const string &localization, School &school);
+	void addSchool(School * school);
+	vector <School *> getSchools() const;
+	void addStudent(string name, int ID, const string &localization, School * school);
 	Graph <int> getRoutesGraph() const;
 	void showGraph(unsigned int srcNode, unsigned int destNod);
-	void loadData();
+	void saveBus();
+	void saveSchools();
+	void saveStudents();
 	void saveData();
+	void loadBus();
+	void loadSchools();
+	void loadStudents();
+	void loadData();
 	void menuShowBus();
+	void menuShowSchools();
+	void menuShowStudents();
 	void menuStarting();
 	void menuSchoolManagement();
 	void menuClientManagement();
