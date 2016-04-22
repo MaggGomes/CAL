@@ -32,7 +32,7 @@ struct typeC{
 
 vector<typeA> txtAReader(){
 	vector<typeA> ret;
-	ifstream input( "nos.txt" );
+	ifstream input( "res/nos.txt" );
 	for( string line; getline( input, line ); ){
 		int in = 0,comp = 0,var = 0;
 		typeA temp;
@@ -74,7 +74,7 @@ vector<typeA> txtAReader(){
 vector<typeB> txtBReader(){
 	vector<typeB> ret;
 
-	ifstream input( "arestas.txt" );
+	ifstream input( "res/arestas.txt" );
 	for( string line; getline( input, line ); ){
 		int in = 0,comp = 0,var = 0;
 
@@ -109,7 +109,7 @@ vector<typeB> txtBReader(){
 
 vector<typeC> txtCReader(int &tempID){
 	vector<typeC> ret;
-	ifstream input( "ligacoes.txt" );
+	ifstream input( "res/ligacoes.txt" );
 	long long int nodeCmp = 0;
 
 	for( string line; getline( input, line ); ){
@@ -176,13 +176,14 @@ int deg_to_cartLong(double coord){
 }
 
 GraphViewer * graphCreator(vector<typeA> vecA, vector<typeB> vecB, vector<typeC> vecC){
-	GraphViewer *gv = new GraphViewer(600,600,true);
-	gv->createWindow(600,600);
+	GraphViewer *gv = new GraphViewer(800,600,true);
+	gv->createWindow(800,600);
 	gv->defineVertexColor("blue");
 	gv->defineEdgeColor("black");
 
 	for(unsigned int i = 0;i<vecA.size();i++){
 		gv->addNode(vecA[i].node_id,deg_to_cartLat(vecA[i].lat_deg),deg_to_cartLong(vecA[i].long_deg));
+		gv->setVertexSize(vecA[i].node_id, 5);
 	}
 
 	for(unsigned int i = 0;i<vecC.size();i++){
@@ -200,7 +201,6 @@ GraphViewer * graphCreator(vector<typeA> vecA, vector<typeB> vecB, vector<typeC>
 		else
 			gv->addEdge(vecC[i].road_id,vecC[i].node1,vecC[i].node2,EdgeType::DIRECTED);
 
-		gv->setEdgeLabel(vecC[i].road_id,temp.road_name);
 	}
 
 	return gv;

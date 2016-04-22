@@ -7,22 +7,24 @@
 #include "Utilities.h"
 #include <vector>
 #include <string>
-
-using namespace std;
+#include <sstream>
 
 class SchoolBus {
 	GraphViewer *gv;
-	Graph <string> graph;
+	Graph <int> routesGraph;
 	vector <Bus> bus;
 	vector <School> schools;
-	int nodeID;
+	int nodeID = 1;
 public:
 	SchoolBus();
+	SchoolBus(const Graph<int> &graph);
 	void addBus(const Bus &bus);
 	vector <Bus> getBus() const;
 	void addSchool(const School &school);
 	vector <School> getSchool() const;
 	void addStudent(string name, int ID, const string &localization, School &school);
+	Graph <int> getRoutesGraph() const;
+	void showGraph(unsigned int srcNode, unsigned int destNod);
 	void loadData();
 	void saveData();
 	void menuStarting();

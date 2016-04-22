@@ -1,6 +1,12 @@
 #include "SchoolBus.h"
 
+using namespace std;
+
 SchoolBus::SchoolBus(){};
+
+SchoolBus::SchoolBus(const Graph<int> &graph){
+	this->routesGraph = graph;
+}
 
 void SchoolBus::addBus(const Bus &bus){
 	this->bus.push_back(bus);
@@ -26,6 +32,64 @@ void SchoolBus::addStudent(string name, int ID, const string &localization, Scho
 			break;
 		}
 	}
+}
+
+Graph <int> SchoolBus::getRoutesGraph() const{
+	return routesGraph;
+}
+
+// TODO - alterar para showGraph(int source, int destiny) para assim dar para qualquer grafo
+void SchoolBus::showGraph(unsigned int srcNode, unsigned int destNode){
+	unsigned int width = 800;
+	unsigned int height = 600;
+
+	routesGraph.dijkstraShortestPath(srcNode);
+	gv = new GraphViewer(width, height, true);
+	gv->createWindow(width, height);
+	gv->defineVertexColor("blue");
+	gv->defineEdgeCurved(false);
+
+	// Get network of nodes
+	vector<Vertex<int>*> routes = routesGraph.getVertexSet();
+
+	// Create the nodes
+	for (unsigned int i = 0; i < routes.size(); i++){
+		gv->addNode(i);
+		gv->setVertexSize(i, 5);
+		routes[i]->gvNodeID = i;
+	}
+
+	// Create the edges
+	unsigned int counter = 0;
+	for (unsigned int i = 0; i < routes.size(); i++){
+		for (int unsigned j = 0; j < routes[i]->adj.size(); j++){
+			gv->addEdge(counter++, routes[i]->gvNodeID,
+					routes[i]->adj[j].getDest()->gvNodeID,
+					EdgeType::UNDIRECTED);
+
+			routes[i]->adj[j].setGvEdgeID(counter);
+			gv->setEdgeWeight(counter-1, routes[i]->adj[j].getWeigth());
+		}
+	}
+
+	unsigned int i  = destNode;
+	while (routes[i]->path != NULL){
+		cout << i << endl;
+		for (int unsigned j = 0; j < routes[i]->path->adj.size(); j++){
+			if (routes[i]->path->adj[j].getDest()->getInfo() == routes[i]->getInfo()){
+				gv->removeEdge(routes[i]->path->adj[j].getGvEdgeID());
+				gv->addEdge(routes[i]->path->adj[j].getGvEdgeID(), routes[i]->path->gvNodeID,
+									routes[i]->path->adj[j].getDest()->gvNodeID,
+									EdgeType::DIRECTED);
+				gv->setEdgeColor(routes[i]->path->adj[j].getGvEdgeID(), "GREEN");
+				gv->setEdgeThickness(routes[i]->path->adj[j].getGvEdgeID(), 3);
+				i = routes[i]->path->getInfo();
+				break;
+			}
+		}
+	}
+
+	gv->rearrange();
 }
 
 // TODO - falta implementar save e load data
@@ -107,8 +171,8 @@ void SchoolBus::menuStarting(){
 					menuBusManagement();
 					break;
 				case 3:
-					validade = false;
-					exit(0);
+					// TODO - APAGAR/MODIFICAR
+					showGraph(0, 6);
 					break;
 				case 4:
 					saveData();
