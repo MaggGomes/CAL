@@ -807,9 +807,9 @@ int SchoolBus::registerBusSchool(){
 	printAppName();
 
 	cout << ">> SCHOOL ID: ";
-	cin >> ID;
+	cin >> capacity;
 
-	while(cin.fail() || ID < 10 || ID > 20){
+	while(cin.fail() || capacity < 10 || capacity > 20){
 		cleanBuffer();
 		setColor(4, 0);
 		cout << ":: ERROR: Invalid school ID! Please try again." << endl << endl;
@@ -823,7 +823,7 @@ int SchoolBus::registerBusSchool(){
 
 	cleanBuffer();
 
-	return ID;
+	return capacity;
 }
 
 void SchoolBus::registerNewBus(){

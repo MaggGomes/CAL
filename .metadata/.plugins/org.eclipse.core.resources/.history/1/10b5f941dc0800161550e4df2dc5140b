@@ -800,37 +800,11 @@ int SchoolBus::registerBusCapacity(){
 	return capacity;
 }
 
-int SchoolBus::registerBusSchool(){
-	int ID;
-
-	clrscr();
-	printAppName();
-
-	cout << ">> SCHOOL ID: ";
-	cin >> ID;
-
-	while(cin.fail() || ID < 10 || ID > 20){
-		cleanBuffer();
-		setColor(4, 0);
-		cout << ":: ERROR: Invalid school ID! Please try again." << endl << endl;
-		Sleep(1000);
-		setColor(7, 0);
-		clrscr();
-		printAppName();
-		cout << ">> SCHOOL ID: ";
-		cin >> ID;
-	}
-
-	cleanBuffer();
-
-	return ID;
-}
-
 void SchoolBus::registerNewBus(){
 
 	if (schools.size() == 0){
 		setColor(4, 0);
-		cout << ":: ERROR: Can´t create bus because there are no currently any school in database." << endl << endl;
+		cout << ":: ERROR: Invalid bus capacity! Please try again." << endl << endl;
 		Sleep(1000);
 		setColor(7, 0);
 

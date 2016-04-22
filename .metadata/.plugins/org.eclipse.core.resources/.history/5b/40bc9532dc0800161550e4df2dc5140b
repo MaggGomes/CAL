@@ -800,60 +800,21 @@ int SchoolBus::registerBusCapacity(){
 	return capacity;
 }
 
-int SchoolBus::registerBusSchool(){
-	int ID;
-
-	clrscr();
-	printAppName();
-
-	cout << ">> SCHOOL ID: ";
-	cin >> ID;
-
-	while(cin.fail() || ID < 10 || ID > 20){
-		cleanBuffer();
-		setColor(4, 0);
-		cout << ":: ERROR: Invalid school ID! Please try again." << endl << endl;
-		Sleep(1000);
-		setColor(7, 0);
-		clrscr();
-		printAppName();
-		cout << ">> SCHOOL ID: ";
-		cin >> ID;
-	}
-
-	cleanBuffer();
-
-	return ID;
-}
-
 void SchoolBus::registerNewBus(){
 
-	if (schools.size() == 0){
-		setColor(4, 0);
-		cout << ":: ERROR: Can´t create bus because there are no currently any school in database." << endl << endl;
-		Sleep(1000);
-		setColor(7, 0);
+	int year = registerBusYear();
+	string registration = registerBusRegistration();
+	int capacity = registerBusCapacity();
 
-		Sleep(2000);
-		menuBusManagement();
-	}
+	bus.push_back(Bus(year, registration, capacity));
 
-	else {
-		int year = registerBusYear();
-		string registration = registerBusRegistration();
-		int capacity = registerBusCapacity();
+	setColor(10, 0);
+	cout << ":: INFO: A new bus was registered with success!" << endl << endl;
+	setColor(7, 0);
 
-		bus.push_back(Bus(year, registration, capacity));
+	Sleep(2000);
 
-		setColor(10, 0);
-		cout << ":: INFO: A new bus was registered with success!" << endl << endl;
-		setColor(7, 0);
-
-		Sleep(2000);
-
-		menuBusManagement();
-	}
-
+	menuBusManagement();
 }
 
 void SchoolBus::menuBusManagement(){

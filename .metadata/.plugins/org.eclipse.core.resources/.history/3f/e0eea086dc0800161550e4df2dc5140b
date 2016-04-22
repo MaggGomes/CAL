@@ -801,29 +801,29 @@ int SchoolBus::registerBusCapacity(){
 }
 
 int SchoolBus::registerBusSchool(){
-	int ID;
+	int capacity;
 
 	clrscr();
 	printAppName();
 
 	cout << ">> SCHOOL ID: ";
-	cin >> ID;
+	cin >> capacity;
 
-	while(cin.fail() || ID < 10 || ID > 20){
+	while(cin.fail() || capacity < 10 || capacity > 20){
 		cleanBuffer();
 		setColor(4, 0);
-		cout << ":: ERROR: Invalid school ID! Please try again." << endl << endl;
+		cout << ":: ERROR: Invalid bus capacity! Please try again." << endl << endl;
 		Sleep(1000);
 		setColor(7, 0);
 		clrscr();
 		printAppName();
-		cout << ">> SCHOOL ID: ";
-		cin >> ID;
+		cout << ">> BUS CAPACITY (min: 10 | max: 20): ";
+		cin >> capacity;
 	}
 
 	cleanBuffer();
 
-	return ID;
+	return capacity;
 }
 
 void SchoolBus::registerNewBus(){

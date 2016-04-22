@@ -823,7 +823,7 @@ int SchoolBus::registerBusSchool(){
 
 	cleanBuffer();
 
-	return ID;
+	return capacity;
 }
 
 void SchoolBus::registerNewBus(){

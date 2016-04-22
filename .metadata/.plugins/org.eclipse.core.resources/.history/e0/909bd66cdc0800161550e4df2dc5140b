@@ -48,7 +48,6 @@ public:
 	bool validRegistration(const string &reg);
 	string registerBusRegistration();
 	int registerBusCapacity();
-	int registerBusSchool();
 	void registerNewBus();
 	void menuBusManagement();
 };
