@@ -50,7 +50,7 @@ vector<typeA> txtAReader(){
 					comp = 0;
 					var++;
 				}else if(var == 2){
-					temp. long_deg = atof((line.substr(in,comp)).c_str());
+					temp.long_deg = atof((line.substr(in,comp)).c_str());
 					in = i+1;
 					comp = 0;
 					var++;
@@ -60,9 +60,6 @@ vector<typeA> txtAReader(){
 					comp = 0;
 					var++;
 				}
-			}else if(var == 4){
-				temp.lat_deg = atof((line.substr(in,line.size()-1)).c_str());
-				break;
 			}else
 				comp++;
 		}
@@ -157,12 +154,11 @@ int deg_to_cartLat(double coord){
 
 	ret = ((coord - lat_min) * maxWin)/dLat;
 
-
 	return ret;
 }
 
 int deg_to_cartLong(double coord){
-	int ret = 0, maxWin=600;
+	int ret = 0, maxWin=800;
 
 	double long_min = -8.6225;
 	double long_max = -8.5843;
@@ -171,12 +167,11 @@ int deg_to_cartLong(double coord){
 
 
 	ret = ((coord - long_min) * maxWin)/dLong;
-
 	return ret;
 }
 
 GraphViewer * graphCreator(vector<typeA> vecA, vector<typeB> vecB, vector<typeC> vecC){
-	GraphViewer *gv = new GraphViewer(800,600,true);
+	GraphViewer *gv = new GraphViewer(800,600,false);
 	gv->createWindow(800,600);
 	gv->defineVertexColor("blue");
 	gv->defineEdgeColor("black");
