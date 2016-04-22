@@ -32,12 +32,12 @@ struct typeC{
 
 vector<typeA> txtAReader(){
 	vector<typeA> ret;
-	ifstream input( "res/nos.txt" );
+	ifstream input( "nos.txt" );
 	for( string line; getline( input, line ); ){
 		int in = 0,comp = 0,var = 0;
 		typeA temp;
 
-		for(unsigned int i = 0; i<line.size(); i++){
+		for(int i = 0;i<line.size();i++){
 			if(line[i]==';'){
 				if(var == 0){
 					temp.node_id = atoi((line.substr(in,comp)).c_str());
@@ -61,7 +61,7 @@ vector<typeA> txtAReader(){
 					var++;
 				}
 			}else if(var == 4){
-				temp.lat_rad = atof((line.substr(in,line.size()-1)).c_str());
+				temp.long_deg = atof((line.substr(in,line.size()-1)).c_str());
 				break;
 			}else
 				comp++;
@@ -80,7 +80,7 @@ vector<typeB> txtBReader(){
 
 		typeB temp;
 
-		for(unsigned int i = 0;i<line.size();i++){
+		for(int i = 0;i<line.size();i++){
 			if(line[i]==';'){
 				if(var == 0){
 					temp.road_id = atoi((line.substr(in,comp)).c_str());
@@ -111,6 +111,7 @@ vector<typeB> txtBReader(){
 vector<typeC> txtCReader(int &tempID){
 	vector<typeC> ret;
 	ifstream input( "res/ligacoes.txt" );
+	long long int nodeCmp = 0;
 
 	for( string line; getline( input, line ); ){
 		int in = 0,comp = 0,var = 0;
@@ -199,6 +200,7 @@ GraphViewer * graphCreator(vector<typeA> vecA, vector<typeB> vecB, vector<typeC>
 			gv->addEdge(vecC[i].road_id,vecC[i].node1,vecC[i].node2,EdgeType::UNDIRECTED);
 		else
 			gv->addEdge(vecC[i].road_id,vecC[i].node1,vecC[i].node2,EdgeType::DIRECTED);
+
 	}
 
 	return gv;

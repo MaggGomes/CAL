@@ -199,6 +199,7 @@ GraphViewer * graphCreator(vector<typeA> vecA, vector<typeB> vecB, vector<typeC>
 			gv->addEdge(vecC[i].road_id,vecC[i].node1,vecC[i].node2,EdgeType::UNDIRECTED);
 		else
 			gv->addEdge(vecC[i].road_id,vecC[i].node1,vecC[i].node2,EdgeType::DIRECTED);
+
 	}
 
 	return gv;
