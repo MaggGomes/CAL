@@ -16,7 +16,7 @@ class SchoolBus {
 	Graph <int> routesGraph;
 	vector <Bus> bus;
 	vector <School *> schools;
-	int nodeID = 1; // TODO - ALTERAR PARA O VALOR A USAR
+	int nodeID = 0; // TODO - ALTERAR PARA O VALOR A USAR
 public:
 	SchoolBus();
 	SchoolBus(const Graph<int> &graph);
@@ -38,6 +38,14 @@ public:
 	void menuShowSchools();
 	void menuShowStudents();
 	void menuStarting();
+	void searchSchoolID(int schoolID);
+	void searchSchoolName(string busReg);
+	void menuSearchSchool();
+	bool validSchoolName(const string &name);
+	string registerSchoolName();
+	bool validNodeID(int nodeID);
+	int registerNodeID();
+	void registerNewSchool();
 	void menuSchoolManagement();
 	void menuClientManagement();
 	void searchBusID(int busID);

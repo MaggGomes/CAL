@@ -398,6 +398,287 @@ void SchoolBus::menuStarting(){
 	}
 }
 
+void SchoolBus::searchSchoolID(int schoolID){
+	bool found = false;
+
+	for (unsigned int i = 0; i < schools.size(); i++){
+		if (schools[i]->getID()==schoolID){
+			found = true;
+			break;
+		}
+	}
+
+	if (found){
+		clrscr();
+		printAppName();
+		cleanBuffer();
+		char input = ' ';
+		cout << "> Do you want to see the BUS Route?";
+		cin >> input;
+		if (input == 'y' || input == 'Y'){
+			cout << "\n> Please wait a moment while the map loads.\n";
+			showGraph(this->nodeID, 6); // TODO - IMPRIMIR ROTA - alterar para valores corretos (valor 6 aqui colocado é random - deve ser mudado apra o nodeID da escola)
+		}
+
+		pressKeyToContinue();
+		menuSearchSchool();
+	}
+
+	else {
+		setColor(4, 0);
+		cout << ":: ERROR: There is no School with the ID " << schoolID << " registered in the database! Please try again."<< endl << endl;
+		setColor(7, 0);
+		Sleep(1000);
+		menuSearchSchool();
+	}
+}
+
+void SchoolBus::searchSchoolName(string schoolName){
+	bool found = false;
+
+	for (unsigned int i = 0; i < schools.size(); i++){
+		if (schools[i]->getName()==schoolName){
+			found = true;
+			break;
+		}
+	}
+
+	if (found){
+		clrscr();
+		printAppName();
+		cleanBuffer();
+		char input = ' ';
+		cout << "> Do you want to see the BUS Route?";
+		cin >> input;
+		if (input == 'y' || input == 'Y'){
+			cout << "\n> Please wait a moment while the map loads.\n";
+			showGraph(this->nodeID, 6); // TODO - IMPRIMIR ROTA - alterar para valores corretos (valor 6 aqui colocado é random - deve ser mudado apra o nodeID da escola)
+		}
+		pressKeyToContinue();
+		menuSearchBus();
+	}
+
+	else {
+		setColor(4, 0);
+		cout << ":: ERROR: There is no School with the name " << schoolName << " registered in the database! Please try again."<< endl << endl;
+		setColor(7, 0);
+		Sleep(1000);
+		menuSearchBus();
+	}
+}
+
+void SchoolBus::menuSearchSchool(){
+	string Menu[4] = { "<<  SEARCH BY ID      >>", "<<  SEARCH BY NAME  >>", "<<  BACK              >>", "<<  EXIT              >>" };
+	bool validity = true;
+	int pointer = 0;
+	int id;
+	string name;
+
+	while (validity)
+	{
+		clrscr();
+		printAppName();
+		setColor(11, 0);
+		cout << setw(51) << "<<<<<  SEARCH BUS  >>>>>" << endl << endl;
+
+		for (int i = 0; i < 4; ++i)
+		{
+			if (i == pointer)
+			{
+				cout << "                           ";
+				setColor(3, 1);
+				cout << Menu[i] << endl << endl;
+			}
+			else
+			{
+				setColor(3, 0);
+				cout << setw(51) << Menu[i] << endl << endl;
+			}
+		}
+		setColor(7, 0);
+
+		while (validity)
+		{
+			int ch = _getch();
+
+			if (ch == 0 || ch == 224)
+				ch = 256 + _getch();
+
+			if (ch == ARROW_DOWN) {
+				Beep(250, 160);
+				pointer += 1;
+				if (pointer == 4)
+				{
+					pointer = 0;
+				}
+				break;
+			}
+
+			if (ch == ARROW_UP){
+				Beep(250, 160);
+				pointer -= 1;
+				if (pointer == -1)
+				{
+					pointer = 3;
+				}
+				break;
+			}
+
+			if (ch == '\r')
+			{
+				setColor(7, 0);
+				Beep(200, 160);
+
+				switch (pointer)
+				{
+				case 0:
+					validity = false;
+					clrscr();
+					printAppName();
+					cleanBuffer();
+					cout << ">> SCHOOL ID: ";
+					cin >> id;
+					if (cin.fail()){
+						setColor(4, 0);
+						cout << ":: ERROR: Invalid input! Please try again." << endl << endl;
+						setColor(7, 0);
+						Sleep(1000);
+					}
+					else
+						searchSchoolID(id);
+					pressKeyToContinue();
+					cleanBuffer();
+					menuSearchBus();
+				case 1:
+					validity = false;
+					clrscr();
+					printAppName();
+					cleanBuffer();
+					cout << ">> BUS REGISTRATION: ";
+					getline(cin, name);
+					searchSchoolName(name);
+					pressKeyToContinue();
+					cleanBuffer();
+					menuSearchSchool();
+					break;
+				case 2:
+					validity = false;
+					menuSchoolManagement();
+					break;
+				case 3:
+					saveData();
+					exiting();
+				}
+			}
+		}
+	}
+}
+
+bool SchoolBus::validSchoolName(const string &name){
+
+	for (unsigned int i = 0; i < schools.size(); i++){
+		if (schools[i]->getName() == name)
+			return false;
+	}
+
+	return true;
+}
+
+string SchoolBus::registerSchoolName(){
+	string name;
+	clrscr();
+	printAppName();
+
+	cout << ">> SCHOOL NAME: ";
+	getline(cin, name);
+
+	while(cin.fail() || !validSchoolName(name)){
+		cleanBuffer();
+		setColor(4, 0);
+		cout << ":: ERROR: Invalid school name! Please try again." << endl << endl;
+		Sleep(1000);
+		setColor(7, 0);
+		clrscr();
+		printAppName();
+		cout << ">> SCHOOL NAME: ";
+		getline(cin, name);
+	}
+
+	cleanBuffer();
+
+	return name;
+}
+
+bool SchoolBus::validNodeID(int nodeID){
+
+	// Can't there is repeated node ID
+
+	if (this->nodeID == nodeID)
+		return false;
+
+	for (unsigned int i = 0; i < routesGraph.getVertexSet().size(); i++){
+		if (routesGraph.getVertexSet()[i]->getInfo() == nodeID)
+			return false;
+	}
+
+	for (unsigned int i = 0; i < schools.size(); i++){
+		if (schools[i]->getNodeID()==nodeID)
+			return false;
+	}
+
+	for (unsigned int i = 0; i < bus.size(); i++){
+		for (unsigned j = 0; j < bus[i].getStudents().size(); j++){
+			if (bus[i].getStudents()[j]->getNodeID() == nodeID)
+				return false;
+		}
+	}
+
+	return true;
+}
+int SchoolBus::registerNodeID(){
+
+	int nodeID;
+
+	clrscr();
+	printAppName();
+
+	cout << ">> SCHOOL NODE ID (localization in the graph): ";
+	cin >> nodeID;
+
+	while(cin.fail() || !validNodeID(nodeID)){
+		cleanBuffer();
+		setColor(4, 0);
+		cout << ":: ERROR: Invalid school localization! Please try again." << endl << endl;
+		Sleep(1000);
+		setColor(7, 0);
+		clrscr();
+		printAppName();
+		cout << ">> SCHOOL NODE ID (localization in the graph): ";
+		cin >> nodeID;
+	}
+
+	cleanBuffer();
+
+	return nodeID;
+}
+
+void SchoolBus::registerNewSchool(){
+
+	string name = registerBusRegistration();
+	int schoolID = registerNodeID();
+
+	School * schoolTemp = new School(name, nodeID);
+	this->schools.push_back(schoolTemp);
+
+	setColor(10, 0);
+	cout << ":: INFO: A new school was registered with success!" << endl << endl;
+	setColor(7, 0);
+
+	Sleep(2000);
+
+	menuSchoolManagement();
+}
+
 void SchoolBus::menuSchoolManagement(){
 	string Menu[5] = { "<<  SEE SCHOOLS       >>", "<<  SEARCH SCHOOL     >>", "<<  CREATE SCHOOL     >>","<<  BACK              >>", "<<  EXIT              >>" };
 	bool validity = true;
@@ -468,11 +749,11 @@ void SchoolBus::menuSchoolManagement(){
 					break;
 				case 1:
 					validity = false;
-					exit(0);
+					menuSearchSchool();
 					break;
 				case 2:
 					validity = false;
-					exit(0);
+					registerNewSchool();
 					break;
 				case 3:
 					validity = false;
@@ -604,7 +885,7 @@ void SchoolBus::searchBusID(int busID){
 
 	else {
 		setColor(4, 0);
-		cout << ":: ERROR: There is no BUS with the ID " << busID << " registered on the database! Please try again."<< endl << endl;
+		cout << ":: ERROR: There is no BUS with the ID " << busID << " registered in the database! Please try again."<< endl << endl;
 		setColor(7, 0);
 		Sleep(1000);
 		menuSearchBus();
@@ -634,15 +915,15 @@ void SchoolBus::searchBusReg(string busReg){
 		}
 
 		pressKeyToContinue();
-		menuSearchBus();
+		menuSearchSchool();
 	}
 
 	else {
 		setColor(4, 0);
-		cout << ":: ERROR: There is no BUS with the Registration " << busReg << " registered on the database! Please try again."<< endl << endl;
+		cout << ":: ERROR: There is no BUS with the Registration " << busReg << " registered in the database! Please try again."<< endl << endl;
 		setColor(7, 0);
 		Sleep(1000);
-		menuSearchBus();
+		menuSearchSchool();
 	}
 }
 
@@ -719,7 +1000,7 @@ void SchoolBus::menuSearchBus(){
 					cin >> id;
 					if (cin.fail()){
 						setColor(4, 0);
-						cout << ":: ERRO: Invalid input! Please try again." << endl << endl;
+						cout << ":: ERROR: Invalid input! Please try again." << endl << endl;
 						setColor(7, 0);
 						Sleep(1000);
 					}
