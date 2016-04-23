@@ -44,7 +44,7 @@ public:
 	bool validSchoolName(const string &name);
 	string registerSchoolName();
 	bool validNodeID(int nodeID);
-	int registerSchoolNodeID();
+	int registerNodeID();
 	void registerNewSchool();
 	void menuSchoolManagement();
 	void menuClientManagement();

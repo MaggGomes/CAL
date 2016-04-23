@@ -616,6 +616,11 @@ bool SchoolBus::validNodeID(int nodeID){
 	if (this->nodeID == nodeID)
 		return false;
 
+	for (unsigned int i = 0; i < routesGraph.getVertexSet().size(); i++){
+		if (routesGraph.getVertexSet()[i]->getInfo() == nodeID)
+			return false;
+	}
+
 	for (unsigned int i = 0; i < schools.size(); i++){
 		if (schools[i]->getNodeID()==nodeID)
 			return false;
@@ -628,12 +633,7 @@ bool SchoolBus::validNodeID(int nodeID){
 		}
 	}
 
-	for (unsigned int i = 0; i < routesGraph.getVertexSet().size(); i++){
-			if (routesGraph.getVertexSet()[i]->getInfo() == nodeID)
-				return true;
-		}
-
-	return false;
+	return true;
 }
 
 int SchoolBus::registerSchoolNodeID(){
