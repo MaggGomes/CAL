@@ -7,7 +7,7 @@ Bus::Bus(int buildYear, string registration, int capacity){
 	this->buildYear = buildYear;
 	this->registration = registration;
 	this->capacity = capacity;
-	lastID++;
+	this->lastID++;
 }
 
 void Bus::setBuildYear(int year){
@@ -34,11 +34,11 @@ int Bus::getCapacity() const{
 	return capacity;
 }
 
-void Bus::addStudent(const Student &student){
+void Bus::addStudent(Student* student){
 	this->students.push_back(student);
 }
 
-vector<Student> Bus::getStudents() const{
+vector<Student*> Bus::getStudents() const{
 	return students;
 }
 

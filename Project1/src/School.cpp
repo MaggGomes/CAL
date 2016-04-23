@@ -17,11 +17,11 @@ string School::getName() const{
 	return name;
 }
 
-void School::addStudent(const Student &student){
+void School::addStudent(Student *student){
 	this->students.push_back(student);
 }
 
-vector <Student> School::getStudents() const{
+vector <Student*> School::getStudents() const{
 	return students;
 }
 
@@ -45,8 +45,8 @@ int School::getID() const{
 	return ID;
 }
 
-bool School::operator==( const School s) const{
-	if (this->name == s.getName())
+bool School::operator==(School * school) const{
+	if (this->name == school->getName())
 		return true;
 	else
 		return false;

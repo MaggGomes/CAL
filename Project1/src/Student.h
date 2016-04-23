@@ -10,18 +10,23 @@ class Student {
 	string name;
 	int ID;
 	static int lastID;
-	string localization;
+	int schoolID;
+	int busID;
 	int nodeID;
 public:
-	Student(string name, int nodeID, const string &localization);
+	Student(string name, int nodeID);
 	void setName(string name);
 	string getName() const;
 	void setID(int ID);
 	int getID() const;
-	void setLocalization(const string &localization);
-	string getLocalization() const;
-	bool operator==(const Student s) const;
-	friend ostream& operator<<(ostream& os, const Student& student);
+	void setNodeID(int nodeID);
+	int getNodeID() const;
+	void setSchoolID(int schoolID);
+	int getSchoolID() const;
+	void setBusID(int busID);
+	int getBusID() const;
+	bool operator==(Student * student) const;
+	friend ostream& operator<<(ostream& os, Student * student);
 };
 
 #endif // STUDENT_H

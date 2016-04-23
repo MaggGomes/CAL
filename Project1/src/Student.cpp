@@ -2,11 +2,10 @@
 
 int Student::lastID = 0;
 
-Student::Student(string name, int nodeID, const string &localization){
+Student::Student(string name, int nodeID){
 	this->name = name;
 	this->ID = lastID;
 	this->nodeID = nodeID;
-	this->localization = localization;
 }
 
 void Student::setName(string name){
@@ -25,28 +24,47 @@ int Student::getID() const{
 	return ID;
 }
 
-void Student::setLocalization(const string &localization){
-	this->localization = localization;
+void Student::setNodeID(int nodeID){
+	this->nodeID = nodeID;
 }
 
-string Student::getLocalization() const{
-	return localization;
+int Student::getNodeID() const {
+	return nodeID;
 }
 
-bool Student::operator==(const Student s) const{
-	if (this->name == s.getName() && this->ID == s.getID())
+void Student::setSchoolID(int schoolID){
+	this->schoolID = schoolID;
+}
+
+int Student::getSchoolID() const{
+	return schoolID;
+}
+
+void Student::setBusID(int busID){
+	this->busID = busID;
+}
+
+int Student::getBusID() const{
+	return busID;
+}
+
+bool Student::operator==(Student * student) const{
+	if (this->name == student->getName() && this->ID == student->getID())
 		return true;
 	else
 		return false;
 }
 
 // TODO - MOSTRAR COORDENADAS GPS DA MORADA PARA CADA ALUNO E RESPETIVO NODEID ASSOCIADO
-ostream& operator<<(ostream& os, const Student& student){
+ostream& operator<<(ostream& os, Student * student){
 	os << "> ID: ";
-	os << student.getID();
+	os << student->getID();
 	os << " | ";
 	os << "Name: ";
-	os << student.getName();
+	os << student->getName();
+	os << " | ";
+	os << "NODE ID: ";
+	os << student->getNodeID();
 	os << endl;
 
 	return os;

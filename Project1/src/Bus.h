@@ -17,7 +17,7 @@ class Bus {
 	int buildYear;
 	string registration;
 	int capacity;
-	vector<Student> students;
+	vector<Student *> students;
 public:
 	Bus(int buildYear, string registration, int capacity);
 	void setBuildYear(int year);
@@ -28,8 +28,8 @@ public:
 	int getCapacity() const;
 	void setSchool(School * school);
 	School *  getSchool() const;
-	void addStudent(const Student &student);
-	vector<Student> getStudents() const;
+	void addStudent(Student * student);
+	vector<Student *> getStudents() const;
 	void setID(int ID);
 	int getID() const;
 	bool operator==(const Bus bus) const;

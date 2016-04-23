@@ -6,7 +6,7 @@ using namespace std;
 
 class School {
 	string name;
-	vector <Student> students;
+	vector <Student *> students;
 	int ID;
 	static int lastID;
 	int nodeID;
@@ -14,13 +14,13 @@ public:
 	School(string name, int nodeID);
 	void setName(int name);
 	string getName() const;
-	void addStudent(const Student &student);
-	vector <Student> getStudents() const;
+	void addStudent(Student * student);
+	vector <Student*> getStudents() const;
 	int getNumStudents() const;
 	void setNodeID(int nodeID);
 	int getNodeID() const;
 	void setID(int id);
 	int getID() const;
-	bool operator==(const School s) const;
+	bool operator==(School * school) const;
 	friend ostream& operator<<(ostream& os, School * school);
 };

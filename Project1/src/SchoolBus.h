@@ -24,7 +24,6 @@ public:
 	vector <Bus> getBus() const;
 	void addSchool(School * school);
 	vector <School *> getSchools() const;
-	void addStudent(string name, int ID, const string &localization, School * school);
 	Graph <int> getRoutesGraph() const;
 	void showGraph(unsigned int srcNode, unsigned int destNod);
 	void saveBus();
@@ -48,6 +47,7 @@ public:
 	bool validRegistration(const string &reg);
 	string registerBusRegistration();
 	int registerBusCapacity();
+	bool validBusSchoolID(int id);
 	int registerBusSchool();
 	void registerNewBus();
 	void menuBusManagement();

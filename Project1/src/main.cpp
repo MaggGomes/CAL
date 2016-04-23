@@ -12,10 +12,12 @@ Graph<int> CreateTestGraph(){
 		myGraph.addVertex(i);
 
 	myGraph.addEdge(0, 1, 2);
+	myGraph.addEdge(1, 0, 2);
 	myGraph.addEdge(0, 3, 7);
 	myGraph.addEdge(1, 3, 3);
 	myGraph.addEdge(1, 4, 5);
 	myGraph.addEdge(2, 0, 2);
+	myGraph.addEdge(0, 2, 2);
 	myGraph.addEdge(2, 5, 5);
 	myGraph.addEdge(3, 2, 1);
 	myGraph.addEdge(3, 4, 1);
