@@ -1283,10 +1283,10 @@ int SchoolBus::registerStudentNode(){
 		cout << ">> STUDENT NODE ID (localization in the graph): ";
 		cin >> nodeID;
 
-		while(cin.fail() || !validNodeID(nodeID)){
+		while(cin.fail()){
 			cleanBuffer();
 			setColor(4, 0);
-			cout << ":: ERROR: Invalid school localization! Please try again." << endl << endl;
+			cout << ":: ERROR: Invalid student localization! Please try again." << endl << endl;
 			Sleep(1000);
 			setColor(7, 0);
 			clrscr();
@@ -1343,7 +1343,7 @@ void SchoolBus::registerNewClient(){
 
 		Sleep(2000);
 
-		menuBusManagement();
+		menuClientManagement();
 	}
 
 }

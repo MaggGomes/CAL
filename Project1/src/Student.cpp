@@ -6,6 +6,7 @@ Student::Student(string name, int nodeID){
 	this->name = name;
 	this->ID = lastID;
 	this->nodeID = nodeID;
+	lastID++;
 }
 
 void Student::setName(string name){
