@@ -302,9 +302,9 @@ void SchoolBus::menuShowStudents(){
 	printAppName();
 	cout << endl << endl;
 
-	for (unsigned int i = 0; i < bus.size(); i++){
+	for (unsigned int i = 0; i < schools.size(); i++){
 		for (unsigned int j = 0; j < bus[i].getStudents().size(); j++){
-			cout << "Bus Registration: " << bus[i].getRegistration() << " | " << bus[i].getStudents()[j];
+			cout << "Student ID: " << bus[i].getStudents()[j]->getID() << " | " << "Student Name: " << bus[i].getStudents()[j]->getName() << " | " << "Node ID: " << bus[i].getStudents()[j]->getNodeID() << " | " << "School ID: " << bus[i].getStudents()[j]->getSchoolID() << " | " << "Bus ID: " << bus[i].getStudents()[j]->getBusID() << "\n";
 		};
 	}
 
