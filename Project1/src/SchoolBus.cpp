@@ -842,8 +842,8 @@ void SchoolBus::menuClientManagement(){
 					exit(0);
 					break;
 				case 2:
-					validity = false;
-					exit(0);
+					saveData();
+					registerNewClient();
 					break;
 				case 3:
 					validity = false;
@@ -1200,6 +1200,145 @@ void SchoolBus::registerNewBus(){
 
 		setColor(10, 0);
 		cout << ":: INFO: A new bus was registered with success!" << endl << endl;
+		setColor(7, 0);
+
+		Sleep(2000);
+
+		menuBusManagement();
+	}
+
+}
+
+string SchoolBus::registerStudentName(){
+	string stuName;
+	clrscr();
+	printAppName();
+
+	cout << ">> STUDENT NAME: ";
+	getline(cin, stuName);
+
+	while(cin.fail()){
+		cleanBuffer();
+		setColor(4, 0);
+		cout << ":: ERROR: Invalid name! Please try again." << endl << endl;
+		Sleep(1000);
+		setColor(7, 0);
+		clrscr();
+		printAppName();
+		cout << ">> STUDENT NAME: ";
+		getline(cin, stuName);
+	}
+
+	cleanBuffer();
+
+	return stuName;
+}
+
+int SchoolBus::registerStudentSchool(){
+	int stuSchool = 0;
+	clrscr();
+	printAppName();
+
+	cout << ">> SCHOOL ID: ";
+	cin >> stuSchool;
+
+	while(cin.fail() || !validBusSchoolID(stuSchool)){
+		cleanBuffer();
+		setColor(4, 0);
+		cout << ":: ERROR: Invalid school ID! Please try again." << endl << endl;
+		Sleep(1000);
+		setColor(7, 0);
+		clrscr();
+		printAppName();
+		cout << ">> SCHOOL ID: ";
+		cin >> stuSchool;
+	}
+
+	cleanBuffer();
+
+	return stuSchool;
+}
+
+
+int SchoolBus::resgisterStudentBus(int schoolID){
+	int stuBus = 0;
+
+	for(int i = 0;i < bus.size();i++){
+		if((bus[i].getSchool()->getID() == schoolID) && ((bus[i].getCapacity() - 1) > bus[i].getStudents().size())){
+			stuBus = bus[i].getID();
+			break;
+
+		}
+	}
+
+	return stuBus;
+}
+
+int SchoolBus::registerStudentNode(){
+	int nodeID;
+
+		clrscr();
+		printAppName();
+
+		cout << ">> STUDENT NODE ID (localization in the graph): ";
+		cin >> nodeID;
+
+		while(cin.fail() || !validNodeID(nodeID)){
+			cleanBuffer();
+			setColor(4, 0);
+			cout << ":: ERROR: Invalid school localization! Please try again." << endl << endl;
+			Sleep(1000);
+			setColor(7, 0);
+			clrscr();
+			printAppName();
+			cout << ">> STUDENT NODE ID (localization in the graph): ";
+			cin >> nodeID;
+		}
+
+		cleanBuffer();
+
+		return nodeID;
+}
+
+
+void SchoolBus::registerNewClient(){
+
+	if (bus.size() == 0){
+		setColor(4, 0);
+		cout << ":: ERROR: Can´t register client because currently there is any bus in database." << endl << endl;
+		Sleep(2000);
+		setColor(7, 0);
+		menuClientManagement();
+	}
+
+	else {
+		string name = registerStudentName();
+		int schoolID = registerStudentSchool();
+		int busID = resgisterStudentBus(schoolID);
+		int nodeID = registerStudentNode();
+
+		Student tempStudent(name, nodeID);
+		tempStudent.setBusID(busID);
+		tempStudent.setSchoolID(schoolID);
+
+		Student* ptTempStudent = &tempStudent;
+
+		for (unsigned int i = 0; i < schools.size(); i++){
+			if (schools[i]->getID() == schoolID){
+				schools[i]->addStudent(ptTempStudent);
+				break;
+			}
+		}
+
+		for (unsigned int i = 0; i < bus.size(); i++){
+			if (bus[i].getID() == busID){
+				bus[i].addStudent(ptTempStudent);
+				break;
+			}
+		}
+
+		setColor(10, 0);
+		cout << ":: INFO: A new client was registered with success!" << endl << endl;
 		setColor(7, 0);
 
 		Sleep(2000);

@@ -58,6 +58,12 @@ public:
 	bool validBusSchoolID(int id);
 	int registerBusSchool();
 	void registerNewBus();
+	string registerStudentName();
+	int registerStudentSchool();
+	bool validBus(int stuBus, int schoolID);
+	int resgisterStudentBus(int schoolID);
+	int registerStudentNode();
+	void registerNewClient();
 	void menuBusManagement();
 };
 
