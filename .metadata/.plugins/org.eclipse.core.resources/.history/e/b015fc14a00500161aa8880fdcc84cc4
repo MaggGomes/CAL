@@ -1,6 +1,0 @@
-#include "Student.cpp"
-
-Student::Student(string name, int age){
-	this.name = name;
-	this.age = age;
-}

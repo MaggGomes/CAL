@@ -57,9 +57,10 @@ int main(){
 	int ints[] = {3,6,7,9,12,14,15,17};
 	vector<int> vec (ints, ints + sizeof(ints) / sizeof(int) );
 
+	test.dijkstraShortestPath(0);
 	Graph<int> multPointsGraph = test.multiplePoints(test,0,19,vec);
 
-	//test.dijkstraShortestPath(0);
+	test.dijkstraShortestPath(0);
 	//multPointsGraph.dijkstraShortestPath(0);
 
 

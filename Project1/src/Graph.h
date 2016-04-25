@@ -710,25 +710,25 @@ Graph<T> Graph<T>::multiplePoints(Graph<T> graph, const T &start, const T &end, 
 		if(i == toVisit.size()){
 			ret.addEdge(start,end,routes[end]->getDist());
 		}else{
-			newCost = routes[i]->getDist();
+			newCost = routes[toVisit[i]]->getDist();
 			if (newCost < INT_INFINITY)
 				ret.addEdge(start,toVisit[i],newCost);
 		}
 	}
 
-	// TODO
-	/*for(int j = 0; j < toVisit.size();j++){
+
+	for(int j = 0; j < toVisit.size();j++){
 		tempGraph.dijkstraShortestPath(toVisit[j]);
 		for(int i = 0;i <= toVisit.size();i++){
 			if(i == toVisit.size()){
 				ret.addEdge(toVisit[j],end,routes[end]->getDist());
 			}else if (i != j){
-				newCost = routes[i]->getDist();
+				newCost = routes[toVisit[i]]->getDist();
 				if (newCost < INT_INFINITY)
 					ret.addEdge(toVisit[j],toVisit[i],newCost);
 			}
 		}
-	}*/
+	}
 
 	return ret;
 }
