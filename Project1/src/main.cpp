@@ -8,7 +8,7 @@ using namespace std;
 Graph<int> CreateTestGraph(){
 	Graph<int> myGraph;
 
-	for(int i = 0; i < 20; i++)
+	for(int i = 0; i < 10; i++)
 		myGraph.addVertex(i);
 
 	myGraph.addEdge(0, 1, 2);
@@ -29,7 +29,7 @@ Graph<int> CreateTestGraph(){
 	myGraph.addEdge(6, 7, 1);
 	myGraph.addEdge(7, 6, 1);
 	myGraph.addEdge(7, 8, 2);
-	myGraph.addEdge(8, 9, 5);
+	myGraph.addEdge(8, 9, 5);/*
 	myGraph.addEdge(9, 12, 5);
 	myGraph.addEdge(10, 11, 1);
 	myGraph.addEdge(6, 14, 3);
@@ -41,7 +41,7 @@ Graph<int> CreateTestGraph(){
 	myGraph.addEdge(17, 19, 2);
 	myGraph.addEdge(6, 10, 3);
 	myGraph.addEdge(12, 15, 4);
-	myGraph.addEdge(18, 3, 4);
+	myGraph.addEdge(18, 3, 4);*/
 
 	return myGraph;
 }
@@ -54,11 +54,11 @@ int main(){
 	/////////////////////////////////////////////
 	Graph<int> test = CreateTestGraph();
 
-	int ints[] = {3,6,7,9,12,14,15,17};
+	int ints[] = {3,5,7,8/*,12,14,15,17*/};
 	vector<int> vec (ints, ints + sizeof(ints) / sizeof(int) );
 
 	test.dijkstraShortestPath(0);
-	Graph<int> multPointsGraph = test.multiplePoints(test,0,19,vec);
+	Graph<int> multPointsGraph = test.multiplePoints(test,0,9,vec);
 
 	test.dijkstraShortestPath(0);
 	//multPointsGraph.dijkstraShortestPath(0);
@@ -95,7 +95,7 @@ int main(){
 	//////////////////////////////////////
 
 	Graph<int> test1 = CreateTestGraph();
-	test1.dijkstraShortestPath(0);
+	test1.dijkstraShortestPath(3);
 	vector<Vertex<int>*> routes1 = test1.getVertexSet();
 
 	for (unsigned int i = 0; i <routes1.size(); i++){

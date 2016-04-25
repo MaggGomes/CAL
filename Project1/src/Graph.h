@@ -708,7 +708,9 @@ Graph<T> Graph<T>::multiplePoints(Graph<T> graph, const T &start, const T &end, 
 
 	for(int i = 0;i <= toVisit.size();i++){
 		if(i == toVisit.size()){
-			ret.addEdge(start,end,routes[end]->getDist());
+			newCost = routes[end]->getDist();
+			if (newCost < INT_INFINITY)
+				ret.addEdge(start,end,routes[end]->getDist());
 		}else{
 			newCost = routes[toVisit[i]]->getDist();
 			if (newCost < INT_INFINITY)
@@ -716,12 +718,21 @@ Graph<T> Graph<T>::multiplePoints(Graph<T> graph, const T &start, const T &end, 
 		}
 	}
 
+	for(int i = 0;i < toVisit.size();i++){
+		tempGraph.dijkstraShortestPath(toVisit[i]);
+		newCost = routes[start]->getDist();
+		if (newCost < INT_INFINITY)
+			ret.addEdge(toVisit[i],start,newCost);
+	}
+
 
 	for(int j = 0; j < toVisit.size();j++){
 		tempGraph.dijkstraShortestPath(toVisit[j]);
 		for(int i = 0;i <= toVisit.size();i++){
 			if(i == toVisit.size()){
-				ret.addEdge(toVisit[j],end,routes[end]->getDist());
+				newCost = routes[end]->getDist();
+				if (newCost < INT_INFINITY)
+					ret.addEdge(toVisit[j],end,routes[end]->getDist());
 			}else if (i != j){
 				newCost = routes[toVisit[i]]->getDist();
 				if (newCost < INT_INFINITY)
