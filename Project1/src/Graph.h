@@ -654,41 +654,6 @@ void Graph<T>::dijkstraShortestPath(const T &s) {
 	}
 }
 
-// TODO REMOVER A VERSAO QUE NAO INTERESSE
-/*template<class T>
-Graph<T> Graph<T>::multiplePoints(Graph<T> graph, const T &start, const T &end, vector<T> toVisit) {
-	Graph<T> ret;
-
-	Graph<T> tempGraph = graph;
-
-	ret.addVertex(start);
-	for(size_t i = 0;i < toVisit.size();i++){
-		ret.addVertex(toVisit[i]);
-	}
-	ret.addVertex(end);
-
-	tempGraph.dijkstraShortestPath(start);
-	for(int i = 0;i <= toVisit.size();i++){
-		if(i == toVisit.size()){
-			ret.addEdge(start,end,tempGraph.edgeCost(start,end));
-		}else{
-			ret.addEdge(start,toVisit[i],tempGraph.edgeCost(start,toVisit[i]));
-		}
-	}
-
-	for(int j = 0; j < toVisit.size();j++){
-		tempGraph.dijkstraShortestPath(toVisit[j]);
-		for(int i = 0;i <= toVisit.size();i++){
-			if(i == toVisit.size()){
-				ret.addEdge(toVisit[j],end,tempGraph.edgeCost(toVisit[j],end));
-			}else if (i != j){
-				ret.addEdge(toVisit[j],toVisit[i],tempGraph.edgeCost(toVisit[j],toVisit[i]));
-			}
-		}
-	}
-
-	return ret;
-}*/
 
 template<class T>
 Graph<T> Graph<T>::multiplePoints(Graph<T> graph, const T &start, const T &end, vector<T> toVisit) {
@@ -724,7 +689,6 @@ Graph<T> Graph<T>::multiplePoints(Graph<T> graph, const T &start, const T &end, 
 		if (newCost < INT_INFINITY)
 			ret.addEdge(toVisit[i],start,newCost);
 	}
-
 
 	for(int j = 0; j < toVisit.size();j++){
 		tempGraph.dijkstraShortestPath(toVisit[j]);

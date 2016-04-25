@@ -8,7 +8,7 @@ using namespace std;
 Graph<int> CreateTestGraph(){
 	Graph<int> myGraph;
 
-	for(int i = 0; i < 10; i++)
+	for(int i = 0; i < 20; i++)
 		myGraph.addVertex(i);
 
 	myGraph.addEdge(0, 1, 2);
@@ -29,7 +29,7 @@ Graph<int> CreateTestGraph(){
 	myGraph.addEdge(6, 7, 1);
 	myGraph.addEdge(7, 6, 1);
 	myGraph.addEdge(7, 8, 2);
-	myGraph.addEdge(8, 9, 5);/*
+	myGraph.addEdge(8, 9, 5);
 	myGraph.addEdge(9, 12, 5);
 	myGraph.addEdge(10, 11, 1);
 	myGraph.addEdge(6, 14, 3);
@@ -41,7 +41,7 @@ Graph<int> CreateTestGraph(){
 	myGraph.addEdge(17, 19, 2);
 	myGraph.addEdge(6, 10, 3);
 	myGraph.addEdge(12, 15, 4);
-	myGraph.addEdge(18, 3, 4);*/
+	myGraph.addEdge(18, 3, 4);
 
 	return myGraph;
 }
@@ -54,15 +54,11 @@ int main(){
 	/////////////////////////////////////////////
 	Graph<int> test = CreateTestGraph();
 
-	int ints[] = {3,5,7,8/*,12,14,15,17*/};
+	int ints[] = {3,5,7,8,12,14,15,17};
 	vector<int> vec (ints, ints + sizeof(ints) / sizeof(int) );
 
 	test.dijkstraShortestPath(0);
-	Graph<int> multPointsGraph = test.multiplePoints(test,0,9,vec);
-
-	test.dijkstraShortestPath(0);
-	//multPointsGraph.dijkstraShortestPath(0);
-
+	Graph<int> multPointsGraph = test.multiplePoints(test,0,19,vec);
 
 	GraphViewer * gv = new GraphViewer(800, 600, true);
 	gv->createWindow(800, 600);
@@ -72,7 +68,7 @@ int main(){
 	vector<Vertex<int>*> routes = multPointsGraph.getVertexSet();
 
 	// Create the nodes
-	for (unsigned int i = 0; i < routes.size(); i++){
+	/*for (unsigned int i = 0; i < routes.size(); i++){
 		gv->addNode(i);
 		gv->setVertexSize(i, 5);
 		routes[i]->gvNodeID = i;
@@ -89,18 +85,37 @@ int main(){
 			routes[i]->adj[j].setGvEdgeID(counter);
 			gv->setEdgeWeight(counter-1, routes[i]->adj[j].getWeigth());
 		}
+	}*/
+
+	for (unsigned int i = 0; i < routes.size(); i++){
+		gv->addNode(routes[i]->getInfo());
+		gv->setVertexSize(routes[i]->getInfo(), 5);
+		routes[i]->gvNodeID = routes[i]->getInfo();
 	}
+
+	unsigned int counter = 0;
+	for (unsigned int i = 0; i < routes.size(); i++){
+		for (int unsigned j = 0; j < routes[i]->adj.size(); j++){
+			gv->addEdge(counter++, routes[i]->gvNodeID,
+					routes[i]->adj[j].getDest()->gvNodeID,
+					EdgeType::DIRECTED);
+
+			routes[i]->adj[j].setGvEdgeID(counter);
+			gv->setEdgeWeight(counter-1, routes[i]->adj[j].getWeigth());
+		}
+	}
+
 
 
 	//////////////////////////////////////
 
-	Graph<int> test1 = CreateTestGraph();
+	/*Graph<int> test1 = CreateTestGraph();
 	test1.dijkstraShortestPath(3);
 	vector<Vertex<int>*> routes1 = test1.getVertexSet();
 
 	for (unsigned int i = 0; i <routes1.size(); i++){
 		cout << "node: "<<routes1[i]->getInfo() <<"   cost: " << routes1[i]->getDist() << endl;
-	}
+	}*/
 
 	//////////////////////////////////////////////////////////////
 
@@ -109,7 +124,6 @@ int main(){
 	schoolBus.menuStarting();
 
 	/*int tempID = 1;
-
 	GraphViewer *gv = graphCreator(txtAReader(),txtBReader() ,txtCReader(tempID));
 	gv->rearrange();
 	getchar();*/

@@ -2,12 +2,13 @@
 <section name="Workbench">
 	<section name="org.eclipse.ui.texteditor.FindReplaceDialog">
 		<item value="false" key="isRegEx"/>
-		<item value="addEdge" key="selection"/>
+		<item value="addVertex" key="selection"/>
 		<item value="false" key="casesensitive"/>
 		<item value="false" key="incremental"/>
 		<item value="true" key="wrap"/>
 		<item value="false" key="wholeword"/>
 		<list key="findhistory">
+			<item value="addvertex"/>
 			<item value="addedge"/>
 			<item value="dist"/>
 			<item value="10"/>
@@ -15,7 +16,6 @@
 			<item value="edgecost"/>
 			<item value="mult"/>
 			<item value="krus"/>
-			<item value="register"/>
 		</list>
 		<list key="replacehistory">
 			<item value="registered in"/>
