@@ -55,9 +55,9 @@ public:
 
 template <class T>
 struct vertex_greater_than {
-    bool operator()(Vertex<T> * a, Vertex<T> * b) const {
-        return a->getDist() > b->getDist();
-    }
+	bool operator()(Vertex<T> * a, Vertex<T> * b) const {
+		return a->getDist() > b->getDist();
+	}
 };
 
 template <class T>
@@ -255,9 +255,9 @@ bool Graph<T>::addEdge(const T &sourc, const T &dest, double w) {
 	Vertex<T> *vS, *vD;
 	while (found!=2 && it!=ite ) {
 		if ( (*it)->info == sourc )
-			{ vS=*it; found++;}
+		{ vS=*it; found++;}
 		if ( (*it)->info == dest )
-			{ vD=*it; found++;}
+		{ vD=*it; found++;}
 		it ++;
 	}
 	if (found!=2) return false;
@@ -275,9 +275,9 @@ bool Graph<T>::removeEdge(const T &sourc, const T &dest) {
 	Vertex<T> *vS, *vD;
 	while (found!=2 && it!=ite ) {
 		if ( (*it)->info == sourc )
-			{ vS=*it; found++;}
+		{ vS=*it; found++;}
 		if ( (*it)->info == dest )
-			{ vD=*it; found++;}
+		{ vD=*it; found++;}
 		it ++;
 	}
 	if (found!=2)
@@ -297,8 +297,8 @@ vector<T> Graph<T>::dfs() const {
 	vector<T> res;
 	it=vertexSet.begin();
 	for (; it !=ite; it++)
-	    if ( (*it)->visited==false )
-	    	dfs(*it,res);
+		if ( (*it)->visited==false )
+			dfs(*it,res);
 	return res;
 }
 
@@ -309,10 +309,10 @@ void Graph<T>::dfs(Vertex<T> *v,vector<T> &res) const {
 	typename vector<Edge<T> >::iterator it= (v->adj).begin();
 	typename vector<Edge<T> >::iterator ite= (v->adj).end();
 	for (; it !=ite; it++)
-	    if ( it->dest->visited == false ){
-	    	//cout << "ok ";
-	    	dfs(it->dest, res);
-	    }
+		if ( it->dest->visited == false ){
+			//cout << "ok ";
+			dfs(it->dest, res);
+		}
 }
 
 template <class T>
@@ -412,8 +412,8 @@ void Graph<T>::dfsVisit() {
 		(*it)->visited=false;
 	it=vertexSet.begin();
 	for (; it !=ite; it++)
-	    if ( (*it)->visited==false )
-	    	dfsVisit(*it);
+		if ( (*it)->visited==false )
+			dfsVisit(*it);
 }
 
 template <class T>
@@ -424,9 +424,9 @@ void Graph<T>::dfsVisit(Vertex<T> *v) {
 	typename vector<Edge<T> >::iterator ite= (v->adj).end();
 	for (; it !=ite; it++) {
 		if ( it->dest->processing == true) numCycles++;
-	    if ( it->dest->visited == false ){
-	    	dfsVisit(it->dest);
-	    }
+		if ( it->dest->visited == false ){
+			dfsVisit(it->dest);
+		}
 	}
 	v->processing = false;
 }
@@ -654,7 +654,8 @@ void Graph<T>::dijkstraShortestPath(const T &s) {
 	}
 }
 
-template<class T>
+// TODO REMOVER A VERSAO QUE NAO INTERESSE
+/*template<class T>
 Graph<T> Graph<T>::multiplePoints(Graph<T> graph, const T &start, const T &end, vector<T> toVisit) {
 	Graph<T> ret;
 
@@ -685,6 +686,49 @@ Graph<T> Graph<T>::multiplePoints(Graph<T> graph, const T &start, const T &end, 
 			}
 		}
 	}
+
+	return ret;
+}*/
+
+template<class T>
+Graph<T> Graph<T>::multiplePoints(Graph<T> graph, const T &start, const T &end, vector<T> toVisit) {
+	Graph<T> ret;
+	int newCost;
+
+	Graph<T> tempGraph = graph;
+
+	ret.addVertex(start);
+	for(size_t i = 0;i < toVisit.size();i++){
+		ret.addVertex(toVisit[i]);
+	}
+	ret.addVertex(end);
+
+	tempGraph.dijkstraShortestPath(start);
+	vector<Vertex<int>*> routes = tempGraph.getVertexSet();
+
+	for(int i = 0;i <= toVisit.size();i++){
+		if(i == toVisit.size()){
+			ret.addEdge(start,end,routes[end]->getDist());
+		}else{
+			newCost = routes[i]->getDist();
+			if (newCost < INT_INFINITY)
+				ret.addEdge(start,toVisit[i],newCost);
+		}
+	}
+
+	// TODO
+	/*for(int j = 0; j < toVisit.size();j++){
+		tempGraph.dijkstraShortestPath(toVisit[j]);
+		for(int i = 0;i <= toVisit.size();i++){
+			if(i == toVisit.size()){
+				ret.addEdge(toVisit[j],end,routes[end]->getDist());
+			}else if (i != j){
+				newCost = routes[i]->getDist();
+				if (newCost < INT_INFINITY)
+					ret.addEdge(toVisit[j],toVisit[i],newCost);
+			}
+		}
+	}*/
 
 	return ret;
 }

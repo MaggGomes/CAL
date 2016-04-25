@@ -12,7 +12,6 @@ Graph<int> CreateTestGraph(){
 		myGraph.addVertex(i);
 
 	myGraph.addEdge(0, 1, 2);
-	myGraph.addEdge(1, 0, 2);
 	myGraph.addEdge(0, 3, 7);
 	myGraph.addEdge(1, 3, 3);
 	myGraph.addEdge(1, 4, 5);
@@ -27,14 +26,17 @@ Graph<int> CreateTestGraph(){
 	myGraph.addEdge(5, 4, 2);
 	myGraph.addEdge(5, 3, 3);
 	myGraph.addEdge(6, 5, 4);
+	myGraph.addEdge(6, 7, 1);
 	myGraph.addEdge(7, 6, 1);
 	myGraph.addEdge(7, 8, 2);
+	myGraph.addEdge(8, 9, 5);
 	myGraph.addEdge(9, 12, 5);
 	myGraph.addEdge(10, 11, 1);
 	myGraph.addEdge(6, 14, 3);
 	myGraph.addEdge(13, 4, 1);
 	myGraph.addEdge(10, 17, 6);
 	myGraph.addEdge(15, 18, 4);
+	myGraph.addEdge(5, 16, 8);
 	myGraph.addEdge(16, 18, 2);
 	myGraph.addEdge(17, 19, 2);
 	myGraph.addEdge(6, 10, 3);
@@ -48,6 +50,59 @@ int main(){
 
 	// TODO - APAGAR -  código de teste
 
+
+	/////////////////////////////////////////////
+	Graph<int> test = CreateTestGraph();
+
+	int ints[] = {3,6,7,9,12,14,15,17};
+	vector<int> vec (ints, ints + sizeof(ints) / sizeof(int) );
+
+	Graph<int> multPointsGraph = test.multiplePoints(test,0,19,vec);
+
+	//test.dijkstraShortestPath(0);
+	//multPointsGraph.dijkstraShortestPath(0);
+
+
+	GraphViewer * gv = new GraphViewer(800, 600, true);
+	gv->createWindow(800, 600);
+	gv->defineVertexColor("blue");
+	gv->defineEdgeCurved(false);
+
+	vector<Vertex<int>*> routes = multPointsGraph.getVertexSet();
+
+	// Create the nodes
+	for (unsigned int i = 0; i < routes.size(); i++){
+		gv->addNode(i);
+		gv->setVertexSize(i, 5);
+		routes[i]->gvNodeID = i;
+	}
+
+	// Create the edges
+	unsigned int counter = 0;
+	for (unsigned int i = 0; i < routes.size(); i++){
+		for (int unsigned j = 0; j < routes[i]->adj.size(); j++){
+			gv->addEdge(counter++, routes[i]->gvNodeID,
+					routes[i]->adj[j].getDest()->gvNodeID,
+					EdgeType::DIRECTED);
+
+			routes[i]->adj[j].setGvEdgeID(counter);
+			gv->setEdgeWeight(counter-1, routes[i]->adj[j].getWeigth());
+		}
+	}
+
+
+	//////////////////////////////////////
+
+	Graph<int> test1 = CreateTestGraph();
+	test1.dijkstraShortestPath(0);
+	vector<Vertex<int>*> routes1 = test1.getVertexSet();
+
+	for (unsigned int i = 0; i <routes1.size(); i++){
+		cout << "node: "<<routes1[i]->getInfo() <<"   cost: " << routes1[i]->getDist() << endl;
+	}
+
+	//////////////////////////////////////////////////////////////
+
 	SchoolBus schoolBus(CreateTestGraph());
 	schoolBus.loadData();
 	schoolBus.menuStarting();
@@ -57,16 +112,8 @@ int main(){
 	GraphViewer *gv = graphCreator(txtAReader(),txtBReader() ,txtCReader(tempID));
 	gv->rearrange();
 	getchar();*/
-/*
-	Graph<int> test = CreateTestGraph();
 
-	int ints[] = {3,6,7,9,12,14,15,17};
-	vector<int> vec (ints, ints + sizeof(ints) / sizeof(int) );
 
-	Graph<int> multPointsGraph = test.multiplePoints(test,0,19,vec);
-
-	test.dijkstraShortestPath(0);
-	multPointsGraph.dijkstraShortestPath(0);*/
 
 	return 0;
 }

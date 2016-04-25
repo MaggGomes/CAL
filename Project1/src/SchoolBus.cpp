@@ -387,7 +387,7 @@ void SchoolBus::menuStarting(){
 					break;
 				case 3:
 					// TODO - APAGAR/MODIFICAR
-					showGraph(0, 6);
+					showGraph(0, 17);
 					break;
 				case 4:
 					saveData();
