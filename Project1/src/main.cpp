@@ -57,7 +57,16 @@ int main(){
 	GraphViewer *gv = graphCreator(txtAReader(),txtBReader() ,txtCReader(tempID));
 	gv->rearrange();
 	getchar();*/
+/*
+	Graph<int> test = CreateTestGraph();
 
+	int ints[] = {3,6,7,9,12,14,15,17};
+	vector<int> vec (ints, ints + sizeof(ints) / sizeof(int) );
+
+	Graph<int> multPointsGraph = test.multiplePoints(test,0,19,vec);
+
+	test.dijkstraShortestPath(0);
+	multPointsGraph.dijkstraShortestPath(0);*/
 
 	return 0;
 }
