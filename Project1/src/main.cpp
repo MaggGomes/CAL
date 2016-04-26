@@ -132,16 +132,21 @@ int main(){
 	int ints[] = {3, 6, 7, 10, 12, 17};
 	vector<int> vec (ints, ints + sizeof(ints) / sizeof(int) );
 	Graph<int> test = CreateTestGraph();
-	Graph<int> test2 = test.multiplePoints(test,0,19,vec);
-	int ints2[] = {0, 3, 6, 7, 10, 12, 17,19};
+	Graph<int> test2 = test.createSubGraph(test,0,19,vec);;
 	vector<int> vec2;
 	vec2.push_back(0);
 
 	vector<bool>vecB;
-	/*for(int i = 0; i < vec2.size(); i++)
-		vecB.push_back(false);
-*/
-	test2.testPoints(0,19,vec,vec2,vecB);
+
+	vector <vector <int> > routes = test2.getShortestPathAllPoints(0,19,vec,vec2,vecB);
+
+	for (unsigned int i = 0; i < routes.size(); i++){
+		for (unsigned int j = 0; j < routes[i].size(); j++){
+			cout << routes[i][j] << " ";
+		}
+
+		cout << endl;
+	}
 
 
 
