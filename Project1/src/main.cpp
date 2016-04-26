@@ -60,18 +60,26 @@ int main(){
 	test.dijkstraShortestPath(0);
 	Graph<int> multPointsGraph = test.multiplePoints(test,0,19,vec);
 
-	/*GraphViewer * gv = new GraphViewer(800, 600, true);
+	GraphViewer * gv = new GraphViewer(800, 600, true);
 	gv->createWindow(800, 600);
 	gv->defineVertexColor("blue");
-	gv->defineEdgeCurved(false);*/
+	gv->defineEdgeCurved(false);
 
 	vector<Vertex<int>*> routes = multPointsGraph.getVertexSet();
 	vector<vector<Vertex<int>*> > testeRotas = multPointsGraph.getShortestPathAllPoints(routes[0], routes[routes.size()-1]);
 
-	cout << testeRotas.size() << endl;
 
 
-	/*for (unsigned int i = 0; i < routes.size(); i++){
+	cout << "num rotas: " << testeRotas.size() << endl;
+	for (unsigned int i = 0; i < testeRotas.size(); i++)
+		for (unsigned int j = 0; j < testeRotas[i].size(); j++)
+			cout << "| ponto: " << testeRotas[i][j]->getInfo();
+
+
+	cout << "custo:" << multPointsGraph.edgeCost(3, 5);
+
+
+	for (unsigned int i = 0; i < routes.size(); i++){
 		gv->addNode(routes[i]->getInfo());
 		gv->setVertexSize(routes[i]->getInfo(), 5);
 		routes[i]->gvNodeID = routes[i]->getInfo();
@@ -87,7 +95,7 @@ int main(){
 			routes[i]->adj[j].setGvEdgeID(counter);
 			gv->setEdgeWeight(counter-1, routes[i]->adj[j].getWeigth());
 		}
-	}*/
+	}
 
 	//////////////////////////////////////////////////////////////
 

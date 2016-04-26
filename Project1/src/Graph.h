@@ -720,6 +720,7 @@ Graph<T> Graph<T>::multiplePoints(Graph<T> graph, const T &start, const T &end, 
 
 template<class T>
 int getBestpath(vector<vector<Vertex<T>*> > &paths, vector <Vertex<T>*> indNodes, Vertex<T>* vNode, vector<Vertex<T>*> vNodes, Vertex<T>* start, Vertex<T>*  end){
+	cout << indNodes.size() << endl;
 	if (indNodes[0]->getInfo() ==start->getInfo() && indNodes[indNodes.size()-1]->getInfo() == end->getInfo())
 		if (indNodes.size() == vNodes.size() || indNodes.size() <= 2*vNodes.size()){
 			paths.push_back(indNodes);
@@ -727,9 +728,13 @@ int getBestpath(vector<vector<Vertex<T>*> > &paths, vector <Vertex<T>*> indNodes
 		}
 
 	for (unsigned int i = 0; i < vNode->adj.size(); i++){
+		cout << indNodes.size() << endl;
 		if (!vNode->adj[i].getDest()->getDpProcessing()){
+
+			cout << "sim" << endl;
 			vNode->adj[i].getDest()->setDpProcessing(true);
 			indNodes.push_back(vNode->adj[i].getDest());
+			cout << indNodes.size() << endl;
 			getBestpath(paths, indNodes, vNode->adj[i].getDest(), vNodes, start, end);
 		}
 	}
@@ -744,7 +749,7 @@ vector<vector<Vertex<T>*> > Graph<T>::getShortestPathAllPoints(Vertex<T>*  start
 	vector <Vertex<T>*> indNodes;
 
 	for (unsigned int i= 0; i < getVertexSet().size(); i++){
-		getVertexSet()[i]->setDpProcessing(true);
+		getVertexSet()[i]->setDpProcessing(false);
 	}
 
 	indNodes.push_back(getVertexSet()[0]);
