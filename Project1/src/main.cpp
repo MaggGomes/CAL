@@ -46,19 +46,41 @@ Graph<int> CreateTestGraph(){
 	return myGraph;
 }
 
+Graph<int> CreateTestGraph2(){
+	Graph<int> myGraph;
+
+	for(int i = 0; i < 6; i++)
+		myGraph.addVertex(i);
+
+	myGraph.addEdge(0,1,3);
+	myGraph.addEdge(0,2,2);
+	myGraph.addEdge(1,2,1);
+	myGraph.addEdge(1,3,2);
+	myGraph.addEdge(2,1,3);
+	myGraph.addEdge(2,3,2);
+	myGraph.addEdge(2,4,4);
+	myGraph.addEdge(3,4,3);
+	myGraph.addEdge(3,5,1);
+	myGraph.addEdge(4,5,2);
+
+	return myGraph;
+}
+
+
+
 int main(){
 
 	// TODO - APAGAR -  código de teste
 
 
 	/////////////////////////////////////////////
-	Graph<int> test = CreateTestGraph();
-
-	int ints[] = {3,5,7,8,12,14,15,17};
-	vector<int> vec (ints, ints + sizeof(ints) / sizeof(int) );
-
+/*	Graph<int> test = CreateTestGraph2();
+ */
+	/*int ints[] = {3, 6, 7, 10, 12, 17};
+	vector<int> vec (ints, ints + sizeof(ints) / sizeof(int) );*/
+/*
 	test.dijkstraShortestPath(0);
-	Graph<int> multPointsGraph = test.multiplePoints(test,0,19,vec);
+	Graph<int> multPointsGraph = test.multiplePoints(test,0,5,vec);
 
 	GraphViewer * gv = new GraphViewer(800, 600, true);
 	gv->createWindow(800, 600);
@@ -102,11 +124,18 @@ int main(){
 	SchoolBus schoolBus(CreateTestGraph());
 	schoolBus.loadData();
 	schoolBus.menuStarting();
-
+ */
 	/*int tempID = 1;
 	GraphViewer *gv = graphCreator(txtAReader(),txtBReader() ,txtCReader(tempID));
 	gv->rearrange();
 	getchar();*/
+	int ints[] = {1,2,3,4,5};
+	vector<int> vec (ints, ints + sizeof(ints) / sizeof(int) );
+	Graph<int> test = CreateTestGraph2();
+	Graph<int> test2 = test.multiplePoints(test,0,5,vec);
+	vector<int> vec2;
+	vec2.push_back(0);
+	test2.testPoints(0,5,vec,vec2);
 
 
 
