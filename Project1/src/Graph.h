@@ -131,6 +131,9 @@ public:
 	unsigned int getGvEdgeID() const{
 		return gvEdgeID;
 	}
+	Vertex<T> * getDest(){
+		return dest;
+	}
 	friend class Graph<T>;
 	friend class Vertex<T>;
 };
@@ -182,6 +185,7 @@ public:
 	void bellmanFordShortestPath(const T &s);
 	void dijkstraShortestPath(const T &s);
 	Graph<T> multiplePoints(Graph<T> graph, const T &start, const T &end, vector<T> toVisit);
+	vector<vector<Vertex<T>*> > getShortestPathAllPoints(Vertex<T>*  start, Vertex<T>*  end);
 	void floydWarshallShortestPath();
 	int edgeCost(int vOrigIndex, int vDestIndex);
 	vector<T> getfloydWarshallPath(const T &origin, const T &dest);
@@ -654,7 +658,6 @@ void Graph<T>::dijkstraShortestPath(const T &s) {
 	}
 }
 
-
 template<class T>
 Graph<T> Graph<T>::multiplePoints(Graph<T> graph, const T &start, const T &end, vector<T> toVisit) {
 	Graph<T> ret;
@@ -706,6 +709,34 @@ Graph<T> Graph<T>::multiplePoints(Graph<T> graph, const T &start, const T &end, 
 	}
 
 	return ret;
+}
+
+template<class T>
+int getBestpath(vector<vector<Vertex<T>*> > &paths, vector <Vertex<T>*> &indNodes, Vertex<T>* vNode, vector<Vertex<T>*> vNodes, Vertex<T>* start, Vertex<T>*  end){
+	if (indNodes[0]->getInfo() ==start->getInfo() && indNodes[indNodes.size()-1]->getInfo() == end->getInfo())
+		if (indNodes.size() == vNodes.size() || indNodes.size() <= 2*vNodes.size()){
+			paths.push_back(indNodes);
+			return 0;
+		}
+
+
+	for (unsigned int i = 0; i < vNode->adj.size(); i++){
+		indNodes.push_back(vNode->adj[i].getDest());
+		getBestpath(paths, indNodes, vNode->adj[i].getDest(), vNodes, start, end);
+	}
+
+	return 0;
+}
+
+template<class T>
+vector<vector<Vertex<T>*> > Graph<T>::getShortestPathAllPoints(Vertex<T>*  start, Vertex<T>*  end){
+
+	vector<vector<Vertex<T>*> > paths;
+	vector <Vertex<T>*> indNodes;
+	indNodes.push_back(getVertexSet()[0]);
+	getBestpath(paths, indNodes, getVertexSet()[0], getVertexSet(), start, end);
+
+	return paths;
 }
 
 template<class T>
