@@ -745,11 +745,6 @@ vector<vector<Vertex<T>*> > Graph<T>::getShortestPathAllPoints(Vertex<T>*  start
 
 	vector<vector<Vertex<T>*> > paths;
 	vector <Vertex<T>*> indNodes;
-
-	for (unsigned int i= 0; i < getVertexSet().size(); i++){
-		getVertexSet()[i]->setDpProcessing(true);
-	}
-
 	indNodes.push_back(getVertexSet()[0]);
 	getBestpath(paths, indNodes, getVertexSet()[0], getVertexSet(), start, end);
 

@@ -60,10 +60,10 @@ int main(){
 	test.dijkstraShortestPath(0);
 	Graph<int> multPointsGraph = test.multiplePoints(test,0,19,vec);
 
-	/*GraphViewer * gv = new GraphViewer(800, 600, true);
+	GraphViewer * gv = new GraphViewer(800, 600, true);
 	gv->createWindow(800, 600);
 	gv->defineVertexColor("blue");
-	gv->defineEdgeCurved(false);*/
+	gv->defineEdgeCurved(false);
 
 	vector<Vertex<int>*> routes = multPointsGraph.getVertexSet();
 	vector<vector<Vertex<int>*> > testeRotas = multPointsGraph.getShortestPathAllPoints(routes[0], routes[routes.size()-1]);

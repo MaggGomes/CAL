@@ -30,7 +30,6 @@ class Vertex {
 	T info;
 	bool visited;
 	bool processing;
-	bool dpProcessing;
 	int indegree;
 	double dist;
 public:
@@ -46,12 +45,6 @@ public:
 
 	int getDist() const;
 	int getIndegree() const;
-	void setDpProcessing(bool dp){
-		this->dpProcessing = dp;
-	}
-	bool getDpProcessing() const {
-		return dpProcessing;
-	}
 
 	bool operator<(const Vertex<T> vertex);
 
@@ -84,7 +77,7 @@ bool Vertex<T>::removeEdgeTo(Vertex<T> *d) {
 
 //atualizado pelo exercício 5
 template <class T>
-Vertex<T>::Vertex(T in): info(in), visited(false), processing(false), dpProcessing(false), indegree(0), dist(0) {
+Vertex<T>::Vertex(T in): info(in), visited(false), processing(false), indegree(0), dist(0) {
 	path = NULL;
 }
 
@@ -719,22 +712,17 @@ Graph<T> Graph<T>::multiplePoints(Graph<T> graph, const T &start, const T &end, 
 }
 
 template<class T>
-int getBestpath(vector<vector<Vertex<T>*> > &paths, vector <Vertex<T>*> indNodes, Vertex<T>* vNode, vector<Vertex<T>*> vNodes, Vertex<T>* start, Vertex<T>*  end){
+int getBestpath(vector<vector<Vertex<T>*> > &paths, vector <Vertex<T>*> &indNodes, Vertex<T>* vNode, vector<Vertex<T>*> vNodes, Vertex<T>* start, Vertex<T>*  end){
 	if (indNodes[0]->getInfo() ==start->getInfo() && indNodes[indNodes.size()-1]->getInfo() == end->getInfo())
 		if (indNodes.size() == vNodes.size() || indNodes.size() <= 2*vNodes.size()){
 			paths.push_back(indNodes);
 			return 0;
 		}
-	cout << "dashjdaskdsa" << endl;
-	cout << "no: " << vNode->getInfo() << endl;
+
 
 	for (unsigned int i = 0; i < vNode->adj.size(); i++){
-		cout << vNode->adj[i].getDest()->getInfo() << endl;
-		if (!vNode->adj[i].getDest()->getDpProcessing()){
-			vNode->adj[i].getDest()->setDpProcessing(true);
-			indNodes.push_back(vNode->adj[i].getDest());
-			getBestpath(paths, indNodes, vNode->adj[i].getDest(), vNodes, start, end);
-		}
+		indNodes.push_back(vNode->adj[i].getDest());
+		getBestpath(paths, indNodes, vNode->adj[i].getDest(), vNodes, start, end);
 	}
 
 	return 0;
@@ -745,11 +733,6 @@ vector<vector<Vertex<T>*> > Graph<T>::getShortestPathAllPoints(Vertex<T>*  start
 
 	vector<vector<Vertex<T>*> > paths;
 	vector <Vertex<T>*> indNodes;
-
-	for (unsigned int i= 0; i < getVertexSet().size(); i++){
-		getVertexSet()[i]->setDpProcessing(true);
-	}
-
 	indNodes.push_back(getVertexSet()[0]);
 	getBestpath(paths, indNodes, getVertexSet()[0], getVertexSet(), start, end);
 

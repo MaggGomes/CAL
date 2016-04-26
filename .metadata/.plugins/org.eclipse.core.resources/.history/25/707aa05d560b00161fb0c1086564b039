@@ -46,12 +46,6 @@ public:
 
 	int getDist() const;
 	int getIndegree() const;
-	void setDpProcessing(bool dp){
-		this->dpProcessing = dp;
-	}
-	bool getDpProcessing() const {
-		return dpProcessing;
-	}
 
 	bool operator<(const Vertex<T> vertex);
 
@@ -730,11 +724,8 @@ int getBestpath(vector<vector<Vertex<T>*> > &paths, vector <Vertex<T>*> indNodes
 
 	for (unsigned int i = 0; i < vNode->adj.size(); i++){
 		cout << vNode->adj[i].getDest()->getInfo() << endl;
-		if (!vNode->adj[i].getDest()->getDpProcessing()){
-			vNode->adj[i].getDest()->setDpProcessing(true);
-			indNodes.push_back(vNode->adj[i].getDest());
-			getBestpath(paths, indNodes, vNode->adj[i].getDest(), vNodes, start, end);
-		}
+		indNodes.push_back(vNode->adj[i].getDest());
+		getBestpath(paths, indNodes, vNode->adj[i].getDest(), vNodes, start, end);
 	}
 
 	return 0;
@@ -745,11 +736,6 @@ vector<vector<Vertex<T>*> > Graph<T>::getShortestPathAllPoints(Vertex<T>*  start
 
 	vector<vector<Vertex<T>*> > paths;
 	vector <Vertex<T>*> indNodes;
-
-	for (unsigned int i= 0; i < getVertexSet().size(); i++){
-		getVertexSet()[i]->setDpProcessing(true);
-	}
-
 	indNodes.push_back(getVertexSet()[0]);
 	getBestpath(paths, indNodes, getVertexSet()[0], getVertexSet(), start, end);
 
