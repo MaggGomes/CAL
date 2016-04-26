@@ -197,7 +197,8 @@ public:
 	int edgeCost(int vOrigIndex, int vDestIndex);
 	vector<T> getfloydWarshallPath(const T &origin, const T &dest);
 	void getfloydWarshallPathAux(int index1, int index2, vector<T> & res);
-	vector<int> testPoints(int start, int end, vector<int> toPass, vector<int> path);
+	vector<int> testPoints(int start,int end,vector<int> toPass, vector<int> path,vector<bool>vecB);
+	bool allTrue(vector<bool>vecB);
 };
 
 template <class T>
@@ -836,11 +837,26 @@ void Graph<T>::floydWarshallShortestPath() {
 
 }
 
-
+template<class T>
+bool Graph<T>::allTrue(vector<bool> vecB){
+	for(int i = 0; i < vecB.size(); i++)
+		if(!vecB[i])
+			return false;
+	return true;
+}
 
 template<class T>
-vector<int> Graph<T>::testPoints(int start, int end, vector<int> toPass, vector<int> path){
-	cout << start << " " << end << endl;
+vector<int> Graph<T>::testPoints(int start,int end,vector<int> toPass, vector<int> path,vector<bool>vecB){
+	//cout << start << " " << end << " " << toPass.size() <<endl;
+
+	if(toPass.size()==0){
+		path.push_back(end);
+		for (int i = 0; i < path.size(); ++i) {
+			cout << path[i] << " ";
+		}
+		cout << endl;
+	}
+
 	if(start == end && toPass.size() == 0)
 		return path;
 	else if(start == end && toPass.size() != 0)
@@ -849,22 +865,19 @@ vector<int> Graph<T>::testPoints(int start, int end, vector<int> toPass, vector<
 	Graph<T>* tempGraph = this;
 	vector<Vertex<T>*> vert = tempGraph->getVertexSet();
 
-
-	tempGraph->dijkstraShortestPath(start);
-
-	int ret = -1;
-
 	for (int i = 0; i < toPass.size(); i++) {
 		vector<int> tempPass;
 		vector<int> tempPath = path;
 		tempPath.push_back(toPass[i]);
+
 		for(int j = 0; j < toPass.size(); j++){
 			if(toPass[j] != toPass[i]){
 				tempPass.push_back(toPass[j]);
 			}
 		}
-		this->testPoints(toPass[i],end, tempPass,tempPath);
+		this->testPoints(toPass[i],end, tempPass,tempPath,vecB);
 	}
+	/*
 	if(toPass.size() == 1){
 		tempGraph->dijkstraShortestPath(path[path.size()-1]);
 		if(tempGraph->edgeCost(path[path.size()-1],end) != INT_INFINITY){
@@ -875,10 +888,8 @@ vector<int> Graph<T>::testPoints(int start, int end, vector<int> toPass, vector<
 			cout << end;
 			cout << "\n";
 		}
-	}
+	}*/
 	return path;
-
-
 }
 
 #endif /* GRAPH_H_ */

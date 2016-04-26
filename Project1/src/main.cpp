@@ -129,13 +129,19 @@ int main(){
 	GraphViewer *gv = graphCreator(txtAReader(),txtBReader() ,txtCReader(tempID));
 	gv->rearrange();
 	getchar();*/
-	int ints[] = {1,2,3,4,5};
+	int ints[] = {3, 6, 7, 10, 12, 17};
 	vector<int> vec (ints, ints + sizeof(ints) / sizeof(int) );
 	Graph<int> test = CreateTestGraph();
 	Graph<int> test2 = test.multiplePoints(test,0,19,vec);
+	int ints2[] = {0, 3, 6, 7, 10, 12, 17,19};
 	vector<int> vec2;
 	vec2.push_back(0);
-	test2.testPoints(0,19,vec,vec2);
+
+	vector<bool>vecB;
+	/*for(int i = 0; i < vec2.size(); i++)
+		vecB.push_back(false);
+*/
+	test2.testPoints(0,19,vec,vec2,vecB);
 
 
 
