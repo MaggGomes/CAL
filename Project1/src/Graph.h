@@ -725,11 +725,8 @@ int getBestpath(vector<vector<Vertex<T>*> > &paths, vector <Vertex<T>*> indNodes
 			paths.push_back(indNodes);
 			return 0;
 		}
-	cout << "dashjdaskdsa" << endl;
-	cout << "no: " << vNode->getInfo() << endl;
 
 	for (unsigned int i = 0; i < vNode->adj.size(); i++){
-		cout << vNode->adj[i].getDest()->getInfo() << endl;
 		if (!vNode->adj[i].getDest()->getDpProcessing()){
 			vNode->adj[i].getDest()->setDpProcessing(true);
 			indNodes.push_back(vNode->adj[i].getDest());

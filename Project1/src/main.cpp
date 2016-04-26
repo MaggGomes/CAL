@@ -68,7 +68,7 @@ int main(){
 	vector<Vertex<int>*> routes = multPointsGraph.getVertexSet();
 	vector<vector<Vertex<int>*> > testeRotas = multPointsGraph.getShortestPathAllPoints(routes[0], routes[routes.size()-1]);
 
-	//cout << testeRotas.size << endl;
+	cout << testeRotas.size() << endl;
 
 
 	/*for (unsigned int i = 0; i < routes.size(); i++){
