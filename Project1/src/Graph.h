@@ -840,6 +840,7 @@ void Graph<T>::floydWarshallShortestPath() {
 
 template<class T>
 vector<int> Graph<T>::testPoints(int start, int end, vector<int> toPass, vector<int> path){
+	cout << start << " " << end << endl;
 	if(start == end && toPass.size() == 0)
 		return path;
 	else if(start == end && toPass.size() != 0)

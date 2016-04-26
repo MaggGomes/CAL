@@ -131,11 +131,11 @@ int main(){
 	getchar();*/
 	int ints[] = {1,2,3,4,5};
 	vector<int> vec (ints, ints + sizeof(ints) / sizeof(int) );
-	Graph<int> test = CreateTestGraph2();
-	Graph<int> test2 = test.multiplePoints(test,0,5,vec);
+	Graph<int> test = CreateTestGraph();
+	Graph<int> test2 = test.multiplePoints(test,0,19,vec);
 	vector<int> vec2;
 	vec2.push_back(0);
-	test2.testPoints(0,5,vec,vec2);
+	test2.testPoints(0,19,vec,vec2);
 
 
 
