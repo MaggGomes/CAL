@@ -147,8 +147,8 @@ vector<typeC> txtCReader(int &tempID){
 	return ret;
 }
 
-int deg_to_cartLat(double coord){
-	int ret = 0, maxWin=WINDOW_SIZE;
+double deg_to_cartLat(double coord){
+	double ret = 0, maxWin=WINDOW_SIZE;
 
 	double lat_min = 41.1890;
 	double lat_max = 41.1686;
@@ -160,8 +160,8 @@ int deg_to_cartLat(double coord){
 	return ret;
 }
 
-int deg_to_cartLong(double coord){
-	int ret = 0, maxWin=WINDOW_SIZE;
+double deg_to_cartLong(double coord){
+	double ret = 0, maxWin=WINDOW_SIZE;
 
 	double long_min = -8.6225;
 	double long_max = -8.5843;
@@ -216,7 +216,7 @@ double distance(double alat,double along,double blat,double blong){
 Graph<int> graphCreator(vector<typeA> vecA, vector<typeB> vecB, vector<typeC> vecC){
 	Graph<int> ret;
 	for (unsigned int i = 0; i < vecA.size(); ++i) {
-		ret.addVertex(vecA[i].node_id);
+		ret.addVertex(vecA[i].node_id, deg_to_cartLong(vecA[i].long_deg), deg_to_cartLat(vecA[i].lat_deg));
 	}
 	for(unsigned int i = 0;i<vecC.size();i++){
 		typeB temp;

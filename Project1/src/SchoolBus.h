@@ -2,9 +2,9 @@
 #define SCHOOLBUS_H
 
 #include "Graph.h"
-#include "Graphviewer.h"
 #include "Bus.h"
 #include "Utilities.h"
+#include "Graphviewer.h"
 #include <vector>
 #include <string>
 #include <sstream>
@@ -25,7 +25,9 @@ public:
 	void addSchool(School * school);
 	vector <School *> getSchools() const;
 	Graph <int> getRoutesGraph() const;
-	void showGraph(unsigned int srcNode, unsigned int destNod);
+	vector<Vertex<int>*> getInttoVertex(vector <int> &vec);
+	void showGraph(int srcNode, int destNod);
+	void generateRoute(int srcNode, int destNod, vector<int> stops);
 	void saveBus();
 	void saveSchools();
 	void saveStudents();

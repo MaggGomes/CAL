@@ -30,9 +30,10 @@ class Vertex {
 	T info;
 	bool visited;
 	bool processing;
-	bool dpProcessing;
 	int indegree;
 	double dist;
+	double x;
+	double y;
 public:
 
 	Vertex(T in);
@@ -40,18 +41,12 @@ public:
 
 	void addEdge(Vertex<T> *dest, double w);
 	bool removeEdgeTo(Vertex<T> *d);
-
+	void setCoords(double x, double y);
 	T getInfo() const;
 	void setInfo(T info);
 
 	int getDist() const;
 	int getIndegree() const;
-	void setDpProcessing(bool dp){
-		this->dpProcessing = dp;
-	}
-	bool getDpProcessing() const {
-		return dpProcessing;
-	}
 
 	bool operator<(const Vertex<T> vertex);
 
@@ -66,6 +61,12 @@ struct vertex_greater_than {
 		return a->getDist() > b->getDist();
 	}
 };
+
+template <class T>
+void Vertex<T>::setCoords(double x, double y){
+	this->x = x;
+	this->y = y;
+}
 
 template <class T>
 bool Vertex<T>::removeEdgeTo(Vertex<T> *d) {
@@ -84,7 +85,7 @@ bool Vertex<T>::removeEdgeTo(Vertex<T> *d) {
 
 //atualizado pelo exercício 5
 template <class T>
-Vertex<T>::Vertex(T in): info(in), visited(false), processing(false), dpProcessing(false), indegree(0), dist(0) {
+Vertex<T>::Vertex(T in): info(in), visited(false), processing(false), indegree(0), dist(0) {
 	path = NULL;
 }
 
@@ -168,6 +169,7 @@ class Graph {
 	int ** P;   //path
 
 public:
+	bool addVertex(const T &in, double x, double y);
 	bool addVertex(const T &in);
 	bool addEdge(const T &sourc, const T &dest, double w);
 	bool removeVertex(const T &in);
@@ -177,6 +179,7 @@ public:
 	int maxNewChildren(Vertex<T> *v, T &inf) const;
 	vector<Vertex<T> * > getVertexSet() const;
 	int getNumVertex() const;
+	int calculateDist(vector<int> &vec, int ** we);
 
 	//exercicio 5
 	Vertex<T>* getVertex(const T &v) const;
@@ -192,8 +195,8 @@ public:
 	void bellmanFordShortestPath(const T &s);
 	void dijkstraShortestPath(const T &s);
 	Graph<T> createSubGraph(Graph<T> graph, const T &start, const T &end, vector<T> toVisit);
-	vector<vector<int> > getShortestPathAllPoints(int start,int end,vector<int> toPass, vector<int> path,vector<bool>vecB, int ** we);
-	int getBestpath(vector<vector<int> > &paths, int start,int end,vector<int> toPass, vector<int> path,vector<bool>vecB, int ** we);
+	vector<int> getShortestPathAllPoints(int start,int end,vector<int> toPass,int ** we);
+	int getBestpath(vector<int> &finalPath, int start,int end,vector<int> toPass, vector<int> path,int ** we);
 	void floydWarshallShortestPath();
 	int edgeCost(int vOrigIndex, int vDestIndex);
 	vector<T> getfloydWarshallPath(const T &origin, const T &dest);
@@ -207,6 +210,18 @@ public:
 template <class T>
 int Graph<T>::getNumVertex() const {
 	return vertexSet.size();
+}
+
+template <class T>
+bool Graph<T>::addVertex(const T &in, double x, double y) {
+	typename vector<Vertex<T>*>::iterator it= vertexSet.begin();
+	typename vector<Vertex<T>*>::iterator ite= vertexSet.end();
+	for (; it!=ite; it++)
+		if ((*it)->info == in) return false;
+	Vertex<T> *v1 = new Vertex<T>(in);
+	v1->setCoords(x,y);
+	vertexSet.push_back(v1);
+	return true;
 }
 
 template <class T>
@@ -721,10 +736,25 @@ Graph<T> Graph<T>::createSubGraph(Graph<T> graph, const T &start, const T &end, 
 }
 
 template<class T>
-int Graph<T>::getBestpath(vector<vector<int> > &paths, int start,int end,vector<int> toPass, vector<int> path,vector<bool>vecB, int ** we){
+int Graph<T>::calculateDist(vector<int> &vec, int ** we){
+	int sum = 0;
+
+	for (unsigned int i = 0; i < vec.size()-1; i++){
+		sum += we[vec[i]][vec[i+1]];
+	}
+
+	return sum;
+}
+
+template<class T>
+int Graph<T>::getBestpath(vector<int> &finalPath, int start,int end,vector<int> toPass, vector<int> path, int ** we){
 	if(toPass.size()==0){
 		path.push_back(end);
-		paths.push_back(path);
+		if (finalPath.size() == 0)
+			finalPath = path;
+		else if (calculateDist(finalPath, we)<calculateDist(path, we)){
+			finalPath = path;
+		}
 
 		return 0;
 	}
@@ -745,66 +775,23 @@ int Graph<T>::getBestpath(vector<vector<int> > &paths, int start,int end,vector<
 				}
 			}
 
-			this->getBestpath(paths, toPass[i],end, tempPass,tempPath,vecB, we);
+			this->getBestpath(finalPath, toPass[i],end, tempPass,tempPath,we);
 		}
-
-
-
 	}
 
 	return 0;
 }
 
-
-/*template<class T>
-int Graph<T>::getBestpath(int weight, vector <int> &paths, int start,int end,vector<int> toPass, vector<int> path,vector<bool>vecB){
-	if(toPass.size()==0){
-		path.push_back(end);
-		paths.push_back(path);
-
-		return 0;
-	}
-
-	Graph<T>* tempGraph = this;
-	vector<Vertex<T>*> vert = tempGraph->getVertexSet();
-
-	for (int i = 0; i < toPass.size(); i++) {
-		vector<int> tempPass;
-		vector<int> tempPath = path;
-		tempPath.push_back(toPass[i]);
-
-		for(int j = 0; j < toPass.size(); j++){
-			if(toPass[j] != toPass[i]){
-				tempPass.push_back(toPass[j]);
-			}
-		}
-		this->getBestpath(weight, paths, toPass[i],end, tempPass,tempPath,vecB);
-	}
-
-	return 0;
-}*/
-
-/*template<class T>
-vector<vector<int> > Graph<T>::getShortestPathAllPoints(int start,int end,vector<int> toPass, vector<int> path,vector<bool>vecB){
-
-	vector<vector<int> > paths;
-	vector<int > paths1;
-
-	int weight = 0;
-	getBestpath(weight, paths1, start,end,toPass, path,vecB);
-
-	return paths;
-}*/
-
-
 template<class T>
-vector<vector<int> > Graph<T>::getShortestPathAllPoints(int start,int end,vector<int> toPass, vector<int> path,vector<bool>vecB, int ** we){
+vector<int> Graph<T>::getShortestPathAllPoints(int start,int end,vector<int> toPass, int ** we){
 
-	vector<vector<int> > paths;
+	vector<int> finalPath;
+	vector<int> path;
+	path.push_back(start);
 
-	getBestpath(paths, start,end,toPass, path,vecB, we);
+	getBestpath(finalPath, start,end,toPass, path, we);
 
-	return paths;
+	return finalPath;
 }
 
 template<class T>

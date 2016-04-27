@@ -6,6 +6,7 @@ SchoolBus::SchoolBus(){};
 
 SchoolBus::SchoolBus(const Graph<int> &graph){
 	this->routesGraph = graph;
+	this->routesGraph.floydWarshallShortestPath();
 }
 
 void SchoolBus::addBus(const Bus &bus){
@@ -30,7 +31,7 @@ Graph <int> SchoolBus::getRoutesGraph() const{
 
 // TODO - ADAPTAR CODIGO PARA O QUE FOR NECESSÁRIO - MÉTODO MOSTRA TODO O GRAFO E A ROTA ENTRE 2 PONTOS COM
 // COR A VERDE
-void SchoolBus::showGraph(unsigned int srcNode, unsigned int destNode){
+void SchoolBus::showGraph(int srcNode, int destNode){
 	unsigned int width = 800;
 	unsigned int height = 600;
 
@@ -43,14 +44,14 @@ void SchoolBus::showGraph(unsigned int srcNode, unsigned int destNode){
 	// Get network of nodes
 	vector<Vertex<int>*> routes = routesGraph.getVertexSet();
 
-	// Create the nodes
+	// Creating the nodes
 	for (unsigned int i = 0; i < routes.size(); i++){
-		gv->addNode(i);
-		gv->setVertexSize(i, 5);
-		routes[i]->gvNodeID = i;
+		gv->addNode(routes[i]->getInfo());
+		gv->setVertexSize(routes[i]->getInfo(), 5);
+		routes[i]->gvNodeID = routes[i]->getInfo();
 	}
 
-	// Create the edges
+	// Creating the edges
 	unsigned int counter = 0;
 	for (unsigned int i = 0; i < routes.size(); i++){
 		for (int unsigned j = 0; j < routes[i]->adj.size(); j++){
@@ -63,7 +64,7 @@ void SchoolBus::showGraph(unsigned int srcNode, unsigned int destNode){
 		}
 	}
 
-	unsigned int i  = destNode;
+	/*unsigned int i  = destNode;
 	while (routes[i]->path != NULL){
 		for (int unsigned j = 0; j < routes[i]->path->adj.size(); j++){
 			if (routes[i]->path->adj[j].getDest()->getInfo() == routes[i]->getInfo()){
@@ -77,9 +78,86 @@ void SchoolBus::showGraph(unsigned int srcNode, unsigned int destNode){
 				break;
 			}
 		}
-	}
+	}*/
 
 	gv->rearrange();
+}
+
+vector<Vertex<int>*>  SchoolBus::getInttoVertex(vector <int> &vec){
+	vector<Vertex<int>*> temp;
+	vector<Vertex<int>*> routes = this->routesGraph.getVertexSet();
+
+	for (unsigned int i = 0; i < vec.size(); i++){
+		for (unsigned int j = 0; j < routes.size(); j++){
+			if (routes[j]->getInfo() == vec[i]){
+				temp.push_back(routes[j]);
+				break;
+			}
+		}
+	}
+
+	return temp;
+}
+
+void SchoolBus::generateRoute(int srcNode, int destNod, vector<int> stops){
+
+	Graph<int> subGraph = routesGraph.createSubGraph(routesGraph,srcNode,destNod,stops);
+
+	vector <int> subRoutes = subGraph.getShortestPathAllPoints(srcNode,destNod,stops,routesGraph.getW());
+	vector <int> finalPath;
+
+	for (unsigned int i = 0; i < subRoutes.size()-1; i++){
+		vector <int> temp = this->routesGraph.getfloydWarshallPath(subRoutes[i], subRoutes[i+1]);
+		finalPath.insert(finalPath.end(), temp.begin(), temp.end());
+	}
+
+	for (unsigned int i = 0; i < finalPath.size(); i++){
+		cout << finalPath[i] << "   ";
+	}
+
+	vector<Vertex<int>*> path = getInttoVertex(finalPath);
+
+	unsigned int width = 800;
+	unsigned int height = 600;
+
+	routesGraph.dijkstraShortestPath(srcNode);
+	gv = new GraphViewer(width, height, true);
+	gv->createWindow(width, height);
+	gv->defineVertexColor("blue");
+	gv->defineEdgeCurved(false);
+
+	// Get network of nodes
+	vector<Vertex<int>*> routes = routesGraph.getVertexSet();
+
+	// Creating the nodes
+	for (unsigned int i = 0; i < routes.size(); i++){
+		gv->addNode(routes[i]->getInfo());
+		gv->setVertexSize(routes[i]->getInfo(), 5);
+		routes[i]->gvNodeID = routes[i]->getInfo();
+	}
+
+	// Creating the edges
+	/*unsigned int counter = 0;
+	for (unsigned int i = 0; i < routes.size(); i++){
+		for (int unsigned j = 0; j < routes[i]->adj.size(); j++){
+			gv->addEdge(counter++, routes[i]->gvNodeID,
+					routes[i]->adj[j].getDest()->gvNodeID,
+					EdgeType::DIRECTED);
+
+			routes[i]->adj[j].setGvEdgeID(counter);
+			gv->setEdgeWeight(counter-1, routes[i]->adj[j].getWeigth());
+		}
+	}*/
+
+	unsigned int j = 0;
+	for (unsigned int i = 0; i < path.size()-1; i++){
+		if (path[i]->getInfo()!= path[i+1]->getInfo()){
+			gv->addEdge(j, path[i]->gvNodeID, path[i+1]->gvNodeID, EdgeType::DIRECTED);
+			gv->setEdgeColor(j, "GREEN");
+			gv->setEdgeThickness(j, 3);
+			j++;
+		}
+	}
 }
 
 void SchoolBus::saveBus(){
@@ -113,7 +191,7 @@ void SchoolBus::saveSchools(){
 
 	file.close();
 }
-// TODO - not tested
+
 void SchoolBus::saveStudents(){
 
 	ofstream file;
@@ -133,7 +211,6 @@ void SchoolBus::saveStudents(){
 	file.close();
 }
 
-// TODO - falta implementar save e load data
 void SchoolBus::saveData(){
 	saveSchools();
 	saveBus();
@@ -212,7 +289,6 @@ void SchoolBus::loadSchools(){
 	file.close();
 }
 
-// TODO - not tested
 void SchoolBus::loadStudents(){
 	ifstream file;
 	string line;
@@ -629,9 +705,9 @@ bool SchoolBus::validNodeID(int nodeID){
 	}
 
 	for (unsigned int i = 0; i < routesGraph.getVertexSet().size(); i++){
-			if (routesGraph.getVertexSet()[i]->getInfo() == nodeID)
-				return true;
-		}
+		if (routesGraph.getVertexSet()[i]->getInfo() == nodeID)
+			return true;
+	}
 
 	return false;
 }
@@ -1259,11 +1335,10 @@ int SchoolBus::registerStudentSchool(){
 	return stuSchool;
 }
 
-
 int SchoolBus::resgisterStudentBus(int schoolID){
 	int stuBus = 0;
 
-	for(int i = 0;i < bus.size();i++){
+	for(unsigned int i = 0;i < bus.size();i++){
 		if((bus[i].getSchool()->getID() == schoolID) && ((bus[i].getCapacity() - 1) > bus[i].getStudents().size())){
 			stuBus = bus[i].getID();
 			break;
@@ -1277,29 +1352,28 @@ int SchoolBus::resgisterStudentBus(int schoolID){
 int SchoolBus::registerStudentNode(){
 	int nodeID;
 
+	clrscr();
+	printAppName();
+
+	cout << ">> STUDENT NODE ID (localization in the graph): ";
+	cin >> nodeID;
+
+	while(cin.fail()){
+		cleanBuffer();
+		setColor(4, 0);
+		cout << ":: ERROR: Invalid student localization! Please try again." << endl << endl;
+		Sleep(1000);
+		setColor(7, 0);
 		clrscr();
 		printAppName();
-
 		cout << ">> STUDENT NODE ID (localization in the graph): ";
 		cin >> nodeID;
+	}
 
-		while(cin.fail()){
-			cleanBuffer();
-			setColor(4, 0);
-			cout << ":: ERROR: Invalid student localization! Please try again." << endl << endl;
-			Sleep(1000);
-			setColor(7, 0);
-			clrscr();
-			printAppName();
-			cout << ">> STUDENT NODE ID (localization in the graph): ";
-			cin >> nodeID;
-		}
+	cleanBuffer();
 
-		cleanBuffer();
-
-		return nodeID;
+	return nodeID;
 }
-
 
 void SchoolBus::registerNewClient(){
 
