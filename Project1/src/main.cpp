@@ -43,7 +43,6 @@ Graph<int> CreateTestGraph(){
 	myGraph.addEdge(18, 19, 2);
 	myGraph.addEdge(17, 19, 2);
 	myGraph.addEdge(6, 10, 3);
-	myGraph.addEdge(12, 15, 4);
 
 	return myGraph;
 }
@@ -128,9 +127,7 @@ int main(){
 
 	cout << routes1.size()<< endl;
 
-	cout << "w : " << test.getW()[6][1] << endl;
 
-	cout << "w : " << test.getW()[0][3] << "  w: " << test.getW()[3][6] << "  w: " << test.getW()[6][9] << "  w: " << test.getW()[6][9] <<"  w: " << test.getW()[9][12] << "  w: " << test.getW()[12][15] << "  w: " << test.getW()[15][18] << "  w: " << test.getW()[18][19]<< endl;
 
 	SchoolBus schoolBus(CreateTestGraph());
 	schoolBus.loadData();

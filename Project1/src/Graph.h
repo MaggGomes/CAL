@@ -744,10 +744,12 @@ int Graph<T>::getBestpath(vector<vector<int> > &paths, int start,int end,vector<
 					tempPass.push_back(toPass[j]);
 				}
 			}
+
+			this->getBestpath(paths, toPass[i],end, tempPass,tempPath,vecB, we);
 		}
 
 
-		this->getBestpath(paths, toPass[i],end, tempPass,tempPath,vecB, we);
+
 	}
 
 	return 0;
