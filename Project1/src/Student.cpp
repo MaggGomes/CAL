@@ -56,7 +56,6 @@ bool Student::operator==(Student * student) const{
 		return false;
 }
 
-// TODO - MOSTRAR COORDENADAS GPS DA MORADA PARA CADA ALUNO E RESPETIVO NODEID ASSOCIADO
 ostream& operator<<(ostream& os, Student * student){
 	os << "> ID: ";
 	os << student->getID();

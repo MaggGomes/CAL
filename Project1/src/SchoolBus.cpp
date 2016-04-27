@@ -29,8 +29,6 @@ Graph <int> SchoolBus::getRoutesGraph() const{
 	return routesGraph;
 }
 
-// TODO - ADAPTAR CODIGO PARA O QUE FOR NECESSÁRIO - MÉTODO MOSTRA TODO O GRAFO E A ROTA ENTRE 2 PONTOS COM
-// COR A VERDE
 void SchoolBus::showGraph(int srcNode, int destNode){
 	unsigned int width = 800;
 	unsigned int height = 600;
@@ -1335,7 +1333,7 @@ int SchoolBus::registerStudentSchool(){
 	return stuSchool;
 }
 
-int SchoolBus::resgisterStudentBus(int schoolID){
+int SchoolBus::registerStudentBus(int schoolID){
 	int stuBus = 0;
 
 	for(unsigned int i = 0;i < bus.size();i++){
@@ -1388,7 +1386,7 @@ void SchoolBus::registerNewClient(){
 	else {
 		string name = registerStudentName();
 		int schoolID = registerStudentSchool();
-		int busID = resgisterStudentBus(schoolID);
+		int busID = registerStudentBus(schoolID);
 		int nodeID = registerStudentNode();
 
 		Student tempStudent(name, nodeID);

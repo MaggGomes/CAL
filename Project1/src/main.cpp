@@ -4,7 +4,6 @@
 
 using namespace std;
 
-// TODO - APAGAR - grafo de testes
 Graph<int> CreateTestGraph(){
 	Graph<int> myGraph;
 
@@ -48,12 +47,6 @@ Graph<int> CreateTestGraph(){
 }
 
 int main(){
-
-	// TODO - APAGAR -  código de teste
-
-
-	/////////////////////////////////////////////
-
 
 	int ints[] = {3, 6, 9, 12, 15, 18};
 	vector<int> vec (ints, ints + sizeof(ints) / sizeof(int) );

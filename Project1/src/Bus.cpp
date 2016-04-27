@@ -8,6 +8,7 @@ Bus::Bus(int buildYear, string registration, int capacity){
 	this->registration = registration;
 	this->capacity = capacity;
 	this->lastID++;
+	this->school = NULL;
 }
 
 void Bus::setBuildYear(int year){

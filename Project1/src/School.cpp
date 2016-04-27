@@ -37,8 +37,8 @@ int School::getNodeID() const{
 	return nodeID;
 }
 
-void School::setID(int id){
-	this->ID = id;
+void School::setID(int ID){
+	this->ID = ID;
 }
 
 int School::getID() const{
