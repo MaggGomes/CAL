@@ -6,8 +6,12 @@
 #include <string>
 #include <vector>
 #include <cstdlib>
+#include "Graph.h"
+#include "math.h"
 
 using namespace std;
+
+#define WINDOW_SIZE 600
 
 struct typeA{
 	int node_id;
@@ -40,7 +44,7 @@ vector<typeA> txtAReader(){
 		for(unsigned int i = 0; i<line.size(); i++){
 			if(line[i]==';'){
 				if(var == 0){
-					temp.node_id = atoi((line.substr(in,comp)).c_str());
+					temp.node_id = abs(atoi((line.substr(in,comp)).c_str()));
 					in = i+1;
 					comp = 0;
 					var++;
@@ -83,7 +87,7 @@ vector<typeB> txtBReader(){
 		for(unsigned int i = 0;i<line.size();i++){
 			if(line[i]==';'){
 				if(var == 0){
-					temp.road_id = atoi((line.substr(in,comp)).c_str());
+					temp.road_id = abs(atoi((line.substr(in,comp)).c_str()));
 					in = i+1;
 					comp = 0;
 					var++;
@@ -102,8 +106,6 @@ vector<typeB> txtBReader(){
 			}else
 				comp++;
 		}
-
-		cout << temp.road_id << endl;
 	}
 	return ret;
 }
@@ -122,18 +124,18 @@ vector<typeC> txtCReader(int &tempID){
 		for(unsigned int i = 0;i < line.size();i++){
 			if(line[i]==';'){
 				if(var == 0){
-					temp.def_id = atoi((line.substr(in,comp)).c_str());
+					temp.def_id = abs(atoi((line.substr(in,comp)).c_str()));
 					in = i+1;
 					comp = 0;
 					var++;
 				}else if(var == 1){
-					temp.node1 = atoi((line.substr(in,comp)).c_str());
+					temp.node1 = abs(atoi((line.substr(in,comp)).c_str()));
 					in = i+1;
 					comp = 0;
 					var++;
 				}
 			}else if(var == 2){
-				temp.node2 = atoi((line.substr(in,line.size()-1)).c_str());
+				temp.node2 = abs(atoi((line.substr(in,line.size()-1)).c_str()));
 				break;
 			}else
 				comp++;
@@ -141,14 +143,12 @@ vector<typeC> txtCReader(int &tempID){
 		temp.road_id = tempID;
 		tempID++;
 		ret.push_back(temp);
-
-		cout << temp.road_id << " - " << temp.def_id << endl;
 	}
 	return ret;
 }
 
 int deg_to_cartLat(double coord){
-	int ret = 0, maxWin=600;
+	int ret = 0, maxWin=WINDOW_SIZE;
 
 	double lat_min = 41.1890;
 	double lat_max = 41.1686;
@@ -161,7 +161,7 @@ int deg_to_cartLat(double coord){
 }
 
 int deg_to_cartLong(double coord){
-	int ret = 0, maxWin=600;
+	int ret = 0, maxWin=WINDOW_SIZE;
 
 	double long_min = -8.6225;
 	double long_max = -8.5843;
@@ -174,8 +174,8 @@ int deg_to_cartLong(double coord){
 }
 
 GraphViewer * graphViewerCreator(vector<typeA> vecA, vector<typeB> vecB, vector<typeC> vecC){
-	GraphViewer *gv = new GraphViewer(600,600,false);
-	gv->createWindow(600,600);
+	GraphViewer *gv = new GraphViewer(WINDOW_SIZE,WINDOW_SIZE,false);
+	gv->createWindow(WINDOW_SIZE,WINDOW_SIZE);
 	gv->defineVertexColor("blue");
 	gv->defineEdgeColor("black");
 	gv->defineEdgeCurved(false);
@@ -202,4 +202,54 @@ GraphViewer * graphViewerCreator(vector<typeA> vecA, vector<typeB> vecB, vector<
 	}
 
 	return gv;
+}
+
+double distance(double alat,double along,double blat,double blong){
+	double ax = deg_to_cartLat(along);
+	double ay = deg_to_cartLat(alat);
+	double bx = deg_to_cartLat(blong);
+	double by = deg_to_cartLat(blat);
+
+	return sqrt( pow((bx-ax),2) + pow((by-ay),2));
+}
+
+Graph<int> graphCreator(vector<typeA> vecA, vector<typeB> vecB, vector<typeC> vecC){
+	Graph<int> ret;
+	for (unsigned int i = 0; i < vecA.size(); ++i) {
+		ret.addVertex(vecA[i].node_id);
+	}
+	for(unsigned int i = 0;i<vecC.size();i++){
+		typeB temp;
+		typeA nd1;
+		typeA nd2;
+		for (unsigned int j = 0; j < vecB.size(); j++) {
+			if (vecC[i].def_id == vecB[j].road_id) {
+				temp = vecB[j];
+				break;
+			}
+		}
+
+		for (unsigned int j = 0; j < vecA.size(); j++) {
+			if (vecC[i].node1 == vecA[j].node_id) {
+				nd1 = vecA[j];
+				break;
+			}
+		}
+
+		for (unsigned int j = 0; j < vecA.size(); j++) {
+			if (vecC[i].node2 == vecA[j].node_id) {
+				nd2 = vecA[j];
+				break;
+			}
+		}
+
+		if(temp.is_two_way){
+			ret.addEdge(vecC[i].node1,vecC[i].node2,distance(nd1.lat_deg,nd1.long_deg,nd2.lat_deg,nd2.long_deg));
+			ret.addEdge(vecC[i].node2,vecC[i].node1,distance(nd1.lat_deg,nd1.long_deg,nd2.lat_deg,nd2.long_deg));
+		}else
+			ret.addEdge(vecC[i].node1,vecC[i].node2,distance(nd1.lat_deg,nd1.long_deg,nd2.lat_deg,nd2.long_deg));
+		cout << distance(nd1.lat_deg,nd1.long_deg,nd2.lat_deg,nd2.long_deg) << endl;
+	}
+
+	return ret;
 }
