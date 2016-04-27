@@ -1,123 +1,29 @@
-4257028;;False
-4259343;;False
-4259345;;False
-4259344;;False
-4306661;;False
-13798046;;False
+13798158;;False
 13798089;Rua da Igreja de Paranhos;False
 13798291;;False
-41380173;;False
 13798272;;False
 13798575;;False
 34798406;Rua da Igreja de Paranhos;False
 35078499;Largo da Igreja de Paranhos;False
+13798541;Rua da Igreja de Paranhos;True
 35078680;Largo da Igreja de Paranhos;False
-35105022;Rua Actor Ferreira da Silva;False
-26248565;Rua de Delfim Maia;False
-26248564;Rua de Dionísio Santos Silva;False
-35104970;Rua de Leonardo Coimbra;False
-35145153;Rua Alfredo Allen;False
 35078500;Rua Doutor Manuel Pereira da Silva;True
-35078501;Rua do Doutor Manuel Laranjeira;True
 35105021;Rua do Guadiana;True
-35727408;Rua de Delfim Maia;False
-35727410;Rua de Delfim Maia;False
-35997763;Rua do Bairro da Areosa;False
-37142500;Autoestrada de Entre-Douro-e-Minho;False
-37141974;;False
-37141984;Rua do Vouga;False
-37141983;Rua Actor Eduardo Brazão;False
-37141982;;False
-37141985;Rua do Corgo;False
-37141968;;False
-37143414;;False
-37338732;;False
-37338733;;False
-37855531;Rua Agra do Amial;False
-37856823;;False
-37856824;;False
-37937531;;False
-37937532;;False
-37937530;Rua do Tâmega;False
-51228960;;False
-63192525;Rua Henrique de Sousa Reis;False
-35145522;Rua Alfredo Allen;False
-37856053;;False
-37143412;Rua Conde de Avranches;False
-141476899;Rua Doutor António Bernardino de Almeida;False
-35997812;Rua do Mondego;False
-13798242;;False
-37856049;Rua Doutor António Bernardino de Almeida;False
-141476900;Rua Doutor António Bernardino de Almeida;False
-141476901;Rua Doutor António Bernardino de Almeida;False
-26248559;Rua Doutor António Bernardino de Almeida;False
+34777927;;False
 35145272;Rua Júlio Amaral de Carvalho;False
 35145152;;True
-35145521;Rua Doutor Roberto Frias;True
 106334856;;True
-106334860;;True
-106334866;;True
-37937529;;True
-37141967;Rua Dom Frei Vicente da Soledade e Castro;True
-219537531;Rua da Igreja de Paranhos;True
-34774629;Rua da Igreja de Paranhos;True
-220234012;Autoestrada de Entre-Douro-e-Minho;False
-13797988;;False
-37141975;;False
-37141973;;False
+34777947;;False
 196972618;;False
 196972619;;False
 196972617;;False
-197100020;Rua do Tua;False
 198248589;;False
 198248591;;False
-198248722;;False
-198248726;;False
-198248910;;False
-205638146;;False
-205638142;Acesso consultas externas;False
-205638147;;True
-205638144;;False
-208263088;;True
-208262837;;True
-208265320;;True
-208272059;;True
-37143413;Rua Coronel Almeida Valente;True
-195652234;Rua da Ilha Terceira;True
-238249552;;True
-238249553;;True
-238249554;;True
-238249556;;True
-238249557;;True
-35997529;Rua de São Tomé;True
 241364281;Rua da Igreja de Paranhos;False
-241364282;Rua da Igreja de Paranhos;True
-280570948;Rua Conde de Avranches;True
-256605511;Rua Conde de Avranches;True
-29036509;;False
-349643887;Rua Doutor Plácido da Costa;False
-349643889;Rua Doutor Plácido da Costa;False
+13798192;;False
 349643961;;False
 349643964;;False
-36979228;Rua Doutor Plácido da Costa;False
 106334867;;False
 106334864;;False
-316459169;Rua Doutor Roberto Frias;False
-351525693;;False
-351525729;;False
-351525764;;False
-351525773;;False
-41380172;;True
-367461723;Autoestrada de Entre-Douro-e-Minho;False
-367464148;Autoestrada de Entre-Douro-e-Minho;False
-367461722;Autoestrada de Entre-Douro-e-Minho;False
-367477467;Autoestrada de Entre-Douro-e-Minho;False
-367477465;Autoestrada de Entre-Douro-e-Minho;False
-367477469;Autoestrada de Entre-Douro-e-Minho;False
-367477470;Autoestrada de Entre-Douro-e-Minho;False
-367477475;Autoestrada de Entre-Douro-e-Minho;False
-367477476;Autoestrada de Entre-Douro-e-Minho;False
-4306660;;False
-367461726;;False
 406682433;;False
 411775062;;False
