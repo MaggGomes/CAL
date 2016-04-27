@@ -74,32 +74,25 @@ int main(){
 
 
 	/////////////////////////////////////////////
-/*	Graph<int> test = CreateTestGraph2();
- */
-	/*int ints[] = {3, 6, 7, 10, 12, 17};
-	vector<int> vec (ints, ints + sizeof(ints) / sizeof(int) );*/
-/*
-	test.dijkstraShortestPath(0);
-	Graph<int> multPointsGraph = test.multiplePoints(test,0,5,vec);
 
 	GraphViewer * gv = new GraphViewer(800, 600, true);
 	gv->createWindow(800, 600);
 	gv->defineVertexColor("blue");
 	gv->defineEdgeCurved(false);
 
-	vector<Vertex<int>*> routes = multPointsGraph.getVertexSet();
-	vector<vector<Vertex<int>*> > testeRotas = multPointsGraph.getShortestPathAllPoints(routes[0], routes[routes.size()-1]);
 
+	int ints[] = {3, 6, 7, 10, 12, 17};
+	vector<int> vec (ints, ints + sizeof(ints) / sizeof(int) );
+	Graph<int> test = CreateTestGraph();
+	Graph<int> test2 = test.createSubGraph(test,0,19,vec);
+	vector<int> vec2;
+	vec2.push_back(0);
 
+	vector<bool>vecB;
 
-	cout << "num rotas: " << testeRotas.size() << endl;
-	for (unsigned int i = 0; i < testeRotas.size(); i++)
-		for (unsigned int j = 0; j < testeRotas[i].size(); j++)
-			cout << "| ponto: " << testeRotas[i][j]->getInfo();
+	vector <vector <int> > routes1 = test2.getShortestPathAllPoints(0,19,vec,vec2,vecB);
 
-
-	cout << "custo:" << multPointsGraph.edgeCost(3, 5);
-
+	vector<Vertex<int>*> routes = test2.getVertexSet();
 
 	for (unsigned int i = 0; i < routes.size(); i++){
 		gv->addNode(routes[i]->getInfo());
@@ -119,34 +112,19 @@ int main(){
 		}
 	}
 
-	//////////////////////////////////////////////////////////////
 
-	SchoolBus schoolBus(CreateTestGraph());
-	schoolBus.loadData();
-	schoolBus.menuStarting();
- */
-	/*int tempID = 1;
-	GraphViewer *gv = graphCreator(txtAReader(),txtBReader() ,txtCReader(tempID));
-	gv->rearrange();
-	getchar();*/
-	int ints[] = {3, 6, 7, 10, 12, 17};
-	vector<int> vec (ints, ints + sizeof(ints) / sizeof(int) );
-	Graph<int> test = CreateTestGraph();
-	Graph<int> test2 = test.createSubGraph(test,0,19,vec);;
-	vector<int> vec2;
-	vec2.push_back(0);
-
-	vector<bool>vecB;
-
-	vector <vector <int> > routes = test2.getShortestPathAllPoints(0,19,vec,vec2,vecB);
-
-	for (unsigned int i = 0; i < routes.size(); i++){
-		for (unsigned int j = 0; j < routes[i].size(); j++){
-			cout << routes[i][j] << " ";
+	for (unsigned int i = 0; i < routes1.size(); i++){
+		for (unsigned int j = 0; j < routes1[i].size(); j++){
+			cout << routes1[i][j] << " ";
 		}
 
 		cout << endl;
 	}
+
+
+	SchoolBus schoolBus(CreateTestGraph());
+	schoolBus.loadData();
+	schoolBus.menuStarting();
 
 
 

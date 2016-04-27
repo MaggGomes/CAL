@@ -673,6 +673,8 @@ Graph<T> Graph<T>::createSubGraph(Graph<T> graph, const T &start, const T &end, 
 	Graph<T> ret;
 	int newCost;
 
+	this->floydWarshallShortestPath();
+
 	Graph<T> tempGraph = graph;
 
 	ret.addVertex(start);
@@ -681,37 +683,34 @@ Graph<T> Graph<T>::createSubGraph(Graph<T> graph, const T &start, const T &end, 
 	}
 	ret.addVertex(end);
 
-	tempGraph.dijkstraShortestPath(start);
 	vector<Vertex<int>*> routes = tempGraph.getVertexSet();
 
 	for(int i = 0;i <= toVisit.size();i++){
 		if(i == toVisit.size()){
-			newCost = routes[end]->getDist();
+			newCost = W[start][end];
 			if (newCost < INT_INFINITY)
-				ret.addEdge(start,end,routes[end]->getDist());
+				ret.addEdge(start,end,newCost);
 		}else{
-			newCost = routes[toVisit[i]]->getDist();
+			newCost = W[start][toVisit[i]];
 			if (newCost < INT_INFINITY)
 				ret.addEdge(start,toVisit[i],newCost);
 		}
 	}
 
 	for(int i = 0;i < toVisit.size();i++){
-		tempGraph.dijkstraShortestPath(toVisit[i]);
-		newCost = routes[start]->getDist();
+		newCost = W[toVisit[i]][start];
 		if (newCost < INT_INFINITY)
 			ret.addEdge(toVisit[i],start,newCost);
 	}
 
 	for(int j = 0; j < toVisit.size();j++){
-		tempGraph.dijkstraShortestPath(toVisit[j]);
 		for(int i = 0;i <= toVisit.size();i++){
 			if(i == toVisit.size()){
-				newCost = routes[end]->getDist();
+				newCost = W[toVisit[j]][end];
 				if (newCost < INT_INFINITY)
-					ret.addEdge(toVisit[j],end,routes[end]->getDist());
+					ret.addEdge(toVisit[j],end,newCost);
 			}else if (i != j){
-				newCost = routes[toVisit[i]]->getDist();
+				newCost = W[toVisit[j]][toVisit[i]];
 				if (newCost < INT_INFINITY)
 					ret.addEdge(toVisit[j],toVisit[i],newCost);
 			}
@@ -836,7 +835,6 @@ void Graph<T>::floydWarshallShortestPath() {
 					P[i][j] = k;
 				}
 			}
-
 }
 
 template<class T>

@@ -173,7 +173,7 @@ int deg_to_cartLong(double coord){
 	return ret;
 }
 
-GraphViewer * graphCreator(vector<typeA> vecA, vector<typeB> vecB, vector<typeC> vecC){
+GraphViewer * graphViewerCreator(vector<typeA> vecA, vector<typeB> vecB, vector<typeC> vecC){
 	GraphViewer *gv = new GraphViewer(600,600,false);
 	gv->createWindow(600,600);
 	gv->defineVertexColor("blue");
