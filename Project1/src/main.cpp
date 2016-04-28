@@ -55,7 +55,6 @@ int main(){
 	schoolBus.menuStarting();*/
 
 	SchoolBus schoolBus;
-	schoolBus.loadData();
 	schoolBus.menuStarting();
 
 

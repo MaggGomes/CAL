@@ -10,12 +10,13 @@
 #include "Utilities.h"
 #include "Graph.h"
 
-#define WINDOW_SIZE 800
+#define WIDTH_SIZE 600
+#define HEIGHT_SIZE 600
 
 using namespace std;
 
 struct Node{
-	unsigned long node_id;
+	int node_id;
 	double lat_deg;
 	double  long_deg;
 	double  long_rad;

@@ -9,7 +9,7 @@ Graph<int> LoadGraph::createGraph(const string &nodes, const string &roads, cons
 
 
 	for (unsigned int i = 0; i < vecNodes.size(); ++i) {
-		graph.addVertex(vecNodes[i].node_id, degToCartLong(vecNodes[i].long_deg), degToCartLat(vecNodes[i].lat_deg));
+		graph.addVertex(vecNodes[i].node_id, degToCartLat(vecNodes[i].lat_deg),degToCartLong(vecNodes[i].long_deg));
 	}
 
 	for(unsigned int i = 0;i<vecConnections.size();i++){
@@ -51,9 +51,6 @@ vector <Node> LoadGraph::loadNodes(const string &nodes){
 	vector<Node> ret;
 	ifstream input(nodes.c_str());
 
-	cout << "start" << endl;
-	int pos = 1;
-
 	for( string line; getline( input, line ); ){
 		int in = 0,comp = 0,var = 0;
 		Node temp;
@@ -88,13 +85,9 @@ vector <Node> LoadGraph::loadNodes(const string &nodes){
 				comp++;
 		}
 
-		// TODO - REMOVER - DEBUGGING
-		cout << "i: " << pos << "    node: " << temp.node_id <<endl;
-		pos++;
 		ret.push_back(temp);
 	}
 
-	pressKeyToContinue();
 	return ret;
 }
 
@@ -177,10 +170,10 @@ vector <Connect> LoadGraph::loadConnections(const string &connections){
 }
 
 double LoadGraph::degToCartLat(double coord){
-	double ret = 0, maxWin=WINDOW_SIZE;
+	double ret = 0, maxWin=WIDTH_SIZE;
 
-	double lat_min = 41.1890;
-	double lat_max = 41.1686;
+	double lat_min = 41.40894;
+	double lat_max = 41.33658;
 
 	double dLat = lat_max - lat_min;
 
@@ -190,10 +183,10 @@ double LoadGraph::degToCartLat(double coord){
 }
 
 double LoadGraph::degToCartLong(double coord){
-	double ret = 0, maxWin=WINDOW_SIZE;
+	double ret = 0, maxWin=HEIGHT_SIZE;
 
-	double long_min = -8.6225;
-	double long_max = -8.5843;
+	double long_min = -8.780089;
+	double long_max = -8.738492;
 
 	double dLong = long_max - long_min;
 

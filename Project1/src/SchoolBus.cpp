@@ -5,6 +5,7 @@ using namespace std;
 SchoolBus::SchoolBus(){
 	loadData();
 	this->routesGraph.floydWarshallShortestPath();
+	pressKeyToContinue();
 };
 
 SchoolBus::SchoolBus(const Graph<int> &graph){
@@ -34,12 +35,13 @@ Graph <int> SchoolBus::getRoutesGraph() const{
 }
 
 void SchoolBus::showGraph(){
-	unsigned int width = 800;
-	unsigned int height = 800;
+	unsigned int width = 600;
+	unsigned int height = 600;
 
 	gv = new GraphViewer(width, height, false);
 	gv->createWindow(width, height);
-	gv->defineVertexColor("blue");
+	gv->defineVertexColor("CYAN");
+	gv->defineEdgeColor("LIGHT_GRAY");
 	gv->defineEdgeCurved(false);
 
 	// Get network of nodes
@@ -48,7 +50,7 @@ void SchoolBus::showGraph(){
 	// Creating the nodes
 	for (unsigned int i = 0; i < routes.size(); i++){
 		gv->addNode(routes[i]->getInfo(), routes[i]->getY(), routes[i]->getX());
-		gv->setVertexSize(routes[i]->getInfo(), 5);
+		gv->setVertexSize(routes[i]->getInfo(), 8);
 		routes[i]->gvNodeID = routes[i]->getInfo();
 	}
 
@@ -59,7 +61,8 @@ void SchoolBus::showGraph(){
 			gv->addEdge(counter++, routes[i]->gvNodeID,
 					routes[i]->adj[j].getDest()->gvNodeID,
 					EdgeType::DIRECTED);
-
+			gv->setEdgeThickness(counter, 2);
+			gv->setEdgeColor(counter, "LIGHT_GRAY");
 			routes[i]->adj[j].setGvEdgeID(counter);
 		}
 	}
@@ -331,8 +334,6 @@ void SchoolBus::loadStudents(){
 				break;
 			}
 		}
-
-
 	}
 
 	file.close();
@@ -343,7 +344,6 @@ void SchoolBus::loadData(){
 	loadSchools();
 	loadBus();
 	loadStudents();
-	//pressKeyToContinue();
 };
 
 void SchoolBus::menuShowBus(){
