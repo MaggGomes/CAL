@@ -749,10 +749,18 @@ int Graph<T>::calculateDist(vector<int> &vec, int ** we){
 template<class T>
 int Graph<T>::getBestpath(vector<int> &finalPath, int start,int end,vector<int> toPass, vector<int> path, int ** we){
 	if(toPass.size()==0){
+
 		path.push_back(end);
+
+		for (unsigned int i = 0; i < path.size(); i++){
+			cout << path[i] << "   ";
+		}
+
+		cout << endl;
+
 		if (finalPath.size() == 0)
 			finalPath = path;
-		else if (calculateDist(finalPath, we)>calculateDist(path, we)){
+		else if (calculateDist(finalPath, we)<calculateDist(path, we)){
 			finalPath = path;
 		}
 

@@ -752,7 +752,7 @@ int Graph<T>::getBestpath(vector<int> &finalPath, int start,int end,vector<int> 
 		path.push_back(end);
 		if (finalPath.size() == 0)
 			finalPath = path;
-		else if (calculateDist(finalPath, we)>calculateDist(path, we)){
+		else if (calculateDist(finalPath, we)<calculateDist(path, we)){
 			finalPath = path;
 		}
 
