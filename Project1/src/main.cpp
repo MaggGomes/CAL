@@ -48,13 +48,15 @@ Graph<int> CreateTestGraph(){
 
 int main(){
 
-	int ints[] = {3, 6, 9, 12, 15, 18};
-	vector<int> vec (ints, ints + sizeof(ints) / sizeof(int) );
-
-
-	SchoolBus schoolBus(CreateTestGraph());
+	//int ints[] = {3, 6, 9, 12, 15, 18};
+	//vector<int> vec (ints, ints + sizeof(ints) / sizeof(int) );
+	/*SchoolBus schoolBus(CreateTestGraph());
 	schoolBus.loadData();
-	schoolBus.generateRoute(0, 19, vec);
+	//schoolBus.generateRoute(0, 19, vec);
+	schoolBus.menuStarting();*/
+
+	SchoolBus schoolBus;
+	schoolBus.loadData();
 	schoolBus.menuStarting();
 
 

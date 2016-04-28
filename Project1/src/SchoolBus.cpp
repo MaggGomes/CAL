@@ -2,9 +2,13 @@
 
 using namespace std;
 
-SchoolBus::SchoolBus(){};
+SchoolBus::SchoolBus(){
+	loadData();
+	this->routesGraph.floydWarshallShortestPath();
+};
 
 SchoolBus::SchoolBus(const Graph<int> &graph){
+	loadData();
 	this->routesGraph = graph;
 	this->routesGraph.floydWarshallShortestPath();
 }
@@ -29,18 +33,25 @@ Graph <int> SchoolBus::getRoutesGraph() const{
 	return routesGraph;
 }
 
-void SchoolBus::showGraph(int srcNode, int destNode){
+void SchoolBus::showGraph(int a, int b){
 	unsigned int width = 800;
 	unsigned int height = 600;
 
-	routesGraph.dijkstraShortestPath(srcNode);
 	gv = new GraphViewer(width, height, true);
 	gv->createWindow(width, height);
 	gv->defineVertexColor("blue");
 	gv->defineEdgeCurved(false);
 
 	// Get network of nodes
+
+
 	vector<Vertex<int>*> routes = routesGraph.getVertexSet();
+
+	cout << "size: " << routes.size();
+	cout << endl;
+	for (unsigned int i = 0; i < routes.size(); i++){
+		cout << routes[i]->getInfo() <<"   ";
+	}
 
 	// Creating the nodes
 	for (unsigned int i = 0; i < routes.size(); i++){
@@ -107,10 +118,6 @@ void SchoolBus::generateRoute(int srcNode, int destNod, vector<int> stops){
 	for (unsigned int i = 0; i < subRoutes.size()-1; i++){
 		vector <int> temp = this->routesGraph.getfloydWarshallPath(subRoutes[i], subRoutes[i+1]);
 		finalPath.insert(finalPath.end(), temp.begin(), temp.end());
-	}
-
-	for (unsigned int i = 0; i < finalPath.size(); i++){
-		cout << finalPath[i] << "   ";
 	}
 
 	vector<Vertex<int>*> path = getInttoVertex(finalPath);
@@ -225,7 +232,7 @@ void SchoolBus::loadBus(){
 	int capacity;
 	int schoolID;
 
-	file.open("bus.csv");
+	file.open("res/bus.csv");
 
 	while(getline(file, line)){
 		istringstream ss(line);
@@ -266,7 +273,7 @@ void SchoolBus::loadSchools(){
 	int ID;
 	int nodeID;
 
-	file.open("schools.csv");
+	file.open("res/schools.csv");
 
 	while(getline(file, line)){
 		istringstream ss(line);
@@ -297,7 +304,7 @@ void SchoolBus::loadStudents(){
 	int schoolID;
 	int busID;
 
-	file.open("students.csv");
+	file.open("res/students.csv");
 
 	while(getline(file, line)){
 		istringstream ss(line);
@@ -341,6 +348,7 @@ void SchoolBus::loadStudents(){
 }
 
 void SchoolBus::loadData(){
+	routesGraph = LoadGraph::createGraph("res/nos.txt", "res/arestas.txt", "res/ligacoes.txt");
 	loadSchools();
 	loadBus();
 	loadStudents();

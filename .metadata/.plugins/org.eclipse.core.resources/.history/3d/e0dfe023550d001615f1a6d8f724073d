@@ -1,0 +1,18 @@
+#include "LoadGraph.h"
+
+Graph<int> LoadGraph::createGraph(const string &nodes, const string &edges, const string &connections){
+	Graph <int>  a;
+
+
+	return a;
+}
+
+vector <Node> LoadGraph::loadNodes(const string &nodes){
+
+}
+
+vector <Road> LoadGraph::loadRoads(const string &roads);
+
+vector <Connect> LoadGraph::loadConnections(const string &connections){
+
+}
