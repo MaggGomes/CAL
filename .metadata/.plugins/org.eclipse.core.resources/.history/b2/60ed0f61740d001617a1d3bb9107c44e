@@ -15,7 +15,7 @@
 using namespace std;
 
 struct Node{
-	unsigned long node_id;
+	int node_id;
 	double lat_deg;
 	double  long_deg;
 	double  long_rad;
@@ -23,7 +23,7 @@ struct Node{
 };
 
 struct Road{
-	int road_id;
+	long int road_id;
 	string road_name;
 	bool is_two_way;
 };

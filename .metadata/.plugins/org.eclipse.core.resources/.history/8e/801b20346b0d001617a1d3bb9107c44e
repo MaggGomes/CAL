@@ -15,7 +15,7 @@ class SchoolBus {
 	Graph <int> routesGraph;
 	vector <Bus> bus;
 	vector <School *> schools;
-	int nodeID;
+	int nodeID = 0;
 public:
 	/**
 	 * @brief SchooBus's default constructor
@@ -75,7 +75,7 @@ public:
 	/**
 	 * @brief Shows the graph
 	 */
-	void showGraph();
+	void showGraph(int srcNode, int destNod);
 
 	/**
 	 * @brief Generate the best route between 2 nodes and passing in some mandatory nodes

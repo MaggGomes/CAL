@@ -44,13 +44,6 @@ public:
 	void setCoords(double x, double y);
 	T getInfo() const;
 	void setInfo(T info);
-	double getX() const {
-		return x;
-	}
-
-	double getY() const {
-		return y;
-	}
 
 	int getDist() const;
 	int getIndegree() const;

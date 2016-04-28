@@ -33,21 +33,29 @@ Graph <int> SchoolBus::getRoutesGraph() const{
 	return routesGraph;
 }
 
-void SchoolBus::showGraph(){
+void SchoolBus::showGraph(int a, int b){
 	unsigned int width = 800;
-	unsigned int height = 800;
+	unsigned int height = 600;
 
-	gv = new GraphViewer(width, height, false);
+	gv = new GraphViewer(width, height, true);
 	gv->createWindow(width, height);
 	gv->defineVertexColor("blue");
 	gv->defineEdgeCurved(false);
 
 	// Get network of nodes
+
+
 	vector<Vertex<int>*> routes = routesGraph.getVertexSet();
+
+	cout << "size: " << routes.size();
+	cout << endl;
+	for (unsigned int i = 0; i < routes.size(); i++){
+		cout << routes[i]->getInfo() <<"   ";
+	}
 
 	// Creating the nodes
 	for (unsigned int i = 0; i < routes.size(); i++){
-		gv->addNode(routes[i]->getInfo(), routes[i]->getY(), routes[i]->getX());
+		gv->addNode(routes[i]->getInfo());
 		gv->setVertexSize(routes[i]->getInfo(), 5);
 		routes[i]->gvNodeID = routes[i]->getInfo();
 	}
@@ -61,6 +69,7 @@ void SchoolBus::showGraph(){
 					EdgeType::DIRECTED);
 
 			routes[i]->adj[j].setGvEdgeID(counter);
+			gv->setEdgeWeight(counter-1, routes[i]->adj[j].getWeigth());
 		}
 	}
 
@@ -343,7 +352,6 @@ void SchoolBus::loadData(){
 	loadSchools();
 	loadBus();
 	loadStudents();
-	//pressKeyToContinue();
 };
 
 void SchoolBus::menuShowBus(){
@@ -461,7 +469,7 @@ void SchoolBus::menuStarting(){
 					break;
 				case 3:
 					// TODO - APAGAR/MODIFICAR
-					showGraph();
+					showGraph(0, 17);
 					break;
 				case 4:
 					saveData();
@@ -491,7 +499,7 @@ void SchoolBus::searchSchoolID(int schoolID){
 		cin >> input;
 		if (input == 'y' || input == 'Y'){
 			cout << "\n> Please wait a moment while the map loads.\n";
-			showGraph(); // TODO - IMPRIMIR ROTA - alterar para valores corretos (valor 6 aqui colocado é random - deve ser mudado apra o nodeID da escola)
+			showGraph(this->nodeID, 6); // TODO - IMPRIMIR ROTA - alterar para valores corretos (valor 6 aqui colocado é random - deve ser mudado apra o nodeID da escola)
 		}
 
 		pressKeyToContinue();
@@ -526,7 +534,7 @@ void SchoolBus::searchSchoolName(string schoolName){
 		cin >> input;
 		if (input == 'y' || input == 'Y'){
 			cout << "\n> Please wait a moment while the map loads.\n";
-			showGraph(); // TODO - IMPRIMIR ROTA - alterar para valores corretos (valor 6 aqui colocado é random - deve ser mudado apra o nodeID da escola)
+			showGraph(this->nodeID, 6); // TODO - IMPRIMIR ROTA - alterar para valores corretos (valor 6 aqui colocado é random - deve ser mudado apra o nodeID da escola)
 		}
 		pressKeyToContinue();
 		menuSearchBus();
@@ -951,7 +959,7 @@ void SchoolBus::searchBusID(int busID){
 		cin >> input;
 		if (input == 'y' || input == 'Y'){
 			cout << "\n> Please wait a moment while the map loads.\n";
-			showGraph(); // TODO - IMPRIMIR ROTA - alterar para valores corretos (valor 6 aqui colocado é random - deve ser mudado apra o nodeID da escola)
+			showGraph(this->nodeID, 6); // TODO - IMPRIMIR ROTA - alterar para valores corretos (valor 6 aqui colocado é random - deve ser mudado apra o nodeID da escola)
 		}
 
 		pressKeyToContinue();
@@ -986,7 +994,7 @@ void SchoolBus::searchBusReg(string busReg){
 		cin >> input;
 		if (input == 'y' || input == 'Y'){
 			cout << "\n> Please wait a moment while the map loads.\n";
-			showGraph(); // TODO - IMPRIMIR ROTA - alterar para valores corretos (valor 6 aqui colocado é random - deve ser mudado apra o nodeID da escola)
+			showGraph(this->nodeID, 6); // TODO - IMPRIMIR ROTA - alterar para valores corretos (valor 6 aqui colocado é random - deve ser mudado apra o nodeID da escola)
 		}
 
 		pressKeyToContinue();

@@ -35,9 +35,9 @@ Graph <int> SchoolBus::getRoutesGraph() const{
 
 void SchoolBus::showGraph(){
 	unsigned int width = 800;
-	unsigned int height = 800;
+	unsigned int height = 600;
 
-	gv = new GraphViewer(width, height, false);
+	gv = new GraphViewer(width, height, true);
 	gv->createWindow(width, height);
 	gv->defineVertexColor("blue");
 	gv->defineEdgeCurved(false);
@@ -47,7 +47,7 @@ void SchoolBus::showGraph(){
 
 	// Creating the nodes
 	for (unsigned int i = 0; i < routes.size(); i++){
-		gv->addNode(routes[i]->getInfo(), routes[i]->getY(), routes[i]->getX());
+		gv->addNode(routes[i]->getInfo(), routes[i]->getX(), routes[i]->getY());
 		gv->setVertexSize(routes[i]->getInfo(), 5);
 		routes[i]->gvNodeID = routes[i]->getInfo();
 	}
@@ -61,6 +61,7 @@ void SchoolBus::showGraph(){
 					EdgeType::DIRECTED);
 
 			routes[i]->adj[j].setGvEdgeID(counter);
+			gv->setEdgeWeight(counter-1, routes[i]->adj[j].getWeigth());
 		}
 	}
 

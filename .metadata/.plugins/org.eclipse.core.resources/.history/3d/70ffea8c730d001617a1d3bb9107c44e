@@ -51,9 +51,6 @@ vector <Node> LoadGraph::loadNodes(const string &nodes){
 	vector<Node> ret;
 	ifstream input(nodes.c_str());
 
-	cout << "start" << endl;
-	int pos = 1;
-
 	for( string line; getline( input, line ); ){
 		int in = 0,comp = 0,var = 0;
 		Node temp;
@@ -87,14 +84,9 @@ vector <Node> LoadGraph::loadNodes(const string &nodes){
 			}else
 				comp++;
 		}
-
-		// TODO - REMOVER - DEBUGGING
-		cout << "i: " << pos << "    node: " << temp.node_id <<endl;
-		pos++;
 		ret.push_back(temp);
 	}
 
-	pressKeyToContinue();
 	return ret;
 }
 

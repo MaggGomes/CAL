@@ -88,7 +88,6 @@ vector <Node> LoadGraph::loadNodes(const string &nodes){
 				comp++;
 		}
 
-		// TODO - REMOVER - DEBUGGING
 		cout << "i: " << pos << "    node: " << temp.node_id <<endl;
 		pos++;
 		ret.push_back(temp);

@@ -61,6 +61,7 @@ void SchoolBus::showGraph(){
 					EdgeType::DIRECTED);
 
 			routes[i]->adj[j].setGvEdgeID(counter);
+			gv->setEdgeWeight(counter-1, routes[i]->adj[j].getWeigth());
 		}
 	}
 

@@ -34,8 +34,8 @@ Graph <int> SchoolBus::getRoutesGraph() const{
 }
 
 void SchoolBus::showGraph(){
-	unsigned int width = 800;
-	unsigned int height = 800;
+	unsigned int width = 600;
+	unsigned int height = 600;
 
 	gv = new GraphViewer(width, height, false);
 	gv->createWindow(width, height);
@@ -61,6 +61,7 @@ void SchoolBus::showGraph(){
 					EdgeType::DIRECTED);
 
 			routes[i]->adj[j].setGvEdgeID(counter);
+			gv->setEdgeWeight(counter-1, routes[i]->adj[j].getWeigth());
 		}
 	}
 

@@ -2,16 +2,21 @@
 
 Graph<int> LoadGraph::createGraph(const string &nodes, const string &roads, const string &connections){
 
+
 	Graph <int>  graph;
 	vector<Node> vecNodes = loadNodes(nodes);
+
+	// TODO - APAGAR - DEBUG
 	vector<Road> vecRoads = loadRoads(roads);
+
+	cout << vecRoads.size() << endl;
 	vector<Connect> vecConnections = loadConnections(connections);
+	cout << vecConnections.size() << endl;
 
 
 	for (unsigned int i = 0; i < vecNodes.size(); ++i) {
 		graph.addVertex(vecNodes[i].node_id, degToCartLong(vecNodes[i].long_deg), degToCartLat(vecNodes[i].lat_deg));
 	}
-
 	for(unsigned int i = 0;i<vecConnections.size();i++){
 		Road temp;
 		Node nd1;
@@ -44,15 +49,18 @@ Graph<int> LoadGraph::createGraph(const string &nodes, const string &roads, cons
 			graph.addEdge(vecConnections[i].node1,vecConnections[i].node2,distance(nd1.lat_deg,nd1.long_deg,nd2.lat_deg,nd2.long_deg));
 	}
 
+	// TODO APAGAR- DEBUG
+	vector<Vertex<int>*> routes = graph.getVertexSet();
+
+	cout << "sizeloadgraph: " << routes.size() << endl;
+	pressKeyToContinue();
+
 	return graph;
 }
 
 vector <Node> LoadGraph::loadNodes(const string &nodes){
 	vector<Node> ret;
 	ifstream input(nodes.c_str());
-
-	cout << "start" << endl;
-	int pos = 1;
 
 	for( string line; getline( input, line ); ){
 		int in = 0,comp = 0,var = 0;
@@ -87,14 +95,9 @@ vector <Node> LoadGraph::loadNodes(const string &nodes){
 			}else
 				comp++;
 		}
-
-		// TODO - REMOVER - DEBUGGING
-		cout << "i: " << pos << "    node: " << temp.node_id <<endl;
-		pos++;
 		ret.push_back(temp);
 	}
 
-	pressKeyToContinue();
 	return ret;
 }
 
@@ -130,10 +133,9 @@ vector <Road> LoadGraph::loadRoads(const string &roads){
 			}else
 				comp++;
 		}
-
-		ret.push_back(temp);
 	}
 
+	cout << "roadsize: " << ret.size() << endl;
 	return ret;
 }
 

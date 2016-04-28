@@ -15,7 +15,7 @@
 using namespace std;
 
 struct Node{
-	unsigned long node_id;
+	long int node_id;
 	double lat_deg;
 	double  long_deg;
 	double  long_rad;
