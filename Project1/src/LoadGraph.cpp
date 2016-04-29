@@ -3,13 +3,13 @@
 Graph<int> LoadGraph::createGraph(const string &nodes, const string &roads, const string &connections){
 
 	Graph <int>  graph;
-	vector<Node> vecNodes = loadNodes(nodes);
 	vector<Road> vecRoads = loadRoads(roads);
 	vector<Connect> vecConnections = loadConnections(connections);
+	vector<Node> vecNodes = loadNodes(nodes,vecConnections);
 
 
 	for (unsigned int i = 0; i < vecNodes.size(); ++i) {
-		graph.addVertex(vecNodes[i].node_id, degToCartLat(vecNodes[i].lat_deg),degToCartLong(vecNodes[i].long_deg));
+		graph.addVertex(vecNodes[i].node_id, degToCartLong(vecNodes[i].long_deg),degToCartLat(vecNodes[i].lat_deg));
 	}
 
 	for(unsigned int i = 0;i<vecConnections.size();i++){
@@ -47,8 +47,61 @@ Graph<int> LoadGraph::createGraph(const string &nodes, const string &roads, cons
 	return graph;
 }
 
-vector <Node> LoadGraph::loadNodes(const string &nodes){
+vector <Node> LoadGraph::loadNodes(const string &nodes, vector <Connect> &connects){
 	vector<Node> ret;
+	ifstream input(nodes.c_str());
+
+	int nodeID = 1;
+	for( string line; getline( input, line ); ){
+		int in = 0,comp = 0,var = 0;
+		Node temp;
+		int fileID;
+		for(unsigned int i = 0; i<line.size(); i++){
+			if(line[i]==';'){
+				if(var == 0){
+					temp.node_id = nodeID;
+					fileID = abs(atoi((line.substr(in,comp)).c_str()));
+					in = i+1;
+					comp = 0;
+					var++;
+				}else if(var == 1){
+					temp.lat_deg = atof((line.substr(in,comp)).c_str());
+					in = i+1;
+					comp = 0;
+					var++;
+				}else if(var == 2){
+					temp.long_deg = atof((line.substr(in,comp)).c_str());
+					in = i+1;
+					comp = 0;
+					var++;
+				}else if(var == 3){
+					temp.long_rad = atof((line.substr(in,comp)).c_str());
+					in = i+1;
+					comp = 0;
+					var++;
+				}
+			}else if(var == 4){
+				temp.lat_rad = atof((line.substr(in,line.size()-1)).c_str());
+				break;
+			}else
+				comp++;
+		}
+
+		for (unsigned int i = 0; i < connects.size(); ++i) {
+			if(connects[i].node1 == fileID)
+				connects[i].node1 = nodeID;
+
+			if(connects[i].node2 == fileID)
+				connects[i].node2 = nodeID;
+		}
+
+		nodeID++;
+		ret.push_back(temp);
+	}
+
+	return ret;
+
+	/*vector<Node> ret;
 	ifstream input(nodes.c_str());
 
 	for( string line; getline( input, line ); ){
@@ -88,7 +141,7 @@ vector <Node> LoadGraph::loadNodes(const string &nodes){
 		ret.push_back(temp);
 	}
 
-	return ret;
+	return ret;*/
 }
 
 vector <Road> LoadGraph::loadRoads(const string &roads){
@@ -189,7 +242,6 @@ double LoadGraph::degToCartLong(double coord){
 	double long_max = -8.605257;
 
 	double dLong = long_max - long_min;
-
 
 	ret = ((coord - long_min) * maxWin)/dLong;
 	return ret;

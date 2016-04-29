@@ -4,8 +4,8 @@ using namespace std;
 
 SchoolBus::SchoolBus(){
 	loadData();
+	// TODO - ATIVAR FLOYD-WARSHALL
 	this->routesGraph.floydWarshallShortestPath();
-	pressKeyToContinue();
 };
 
 SchoolBus::SchoolBus(const Graph<int> &graph){
@@ -35,11 +35,9 @@ Graph <int> SchoolBus::getRoutesGraph() const{
 }
 
 void SchoolBus::showGraph(){
-	unsigned int width = 600;
-	unsigned int height = 600;
 
-	gv = new GraphViewer(width, height, false);
-	gv->createWindow(width, height);
+	gv = new GraphViewer(WIDTH_SIZE, HEIGHT_SIZE, false);
+	gv->createWindow(WIDTH_SIZE, HEIGHT_SIZE);
 	gv->defineVertexColor("CYAN");
 	gv->defineEdgeColor("LIGHT_GRAY");
 	gv->defineEdgeCurved(false);
@@ -49,8 +47,8 @@ void SchoolBus::showGraph(){
 
 	// Creating the nodes
 	for (unsigned int i = 0; i < routes.size(); i++){
-		gv->addNode(routes[i]->getInfo(), routes[i]->getY(), routes[i]->getX());
-		gv->setVertexSize(routes[i]->getInfo(), 8);
+		gv->addNode(routes[i]->getInfo(), routes[i]->getX(), routes[i]->getY());
+		gv->setVertexSize(routes[i]->getInfo(), 5);
 		routes[i]->gvNodeID = routes[i]->getInfo();
 	}
 
@@ -60,28 +58,11 @@ void SchoolBus::showGraph(){
 		for (int unsigned j = 0; j < routes[i]->adj.size(); j++){
 			gv->addEdge(counter++, routes[i]->gvNodeID,
 					routes[i]->adj[j].getDest()->gvNodeID,
-					EdgeType::DIRECTED);
+					EdgeType::UNDIRECTED);
 			gv->setEdgeThickness(counter, 2);
-			gv->setEdgeColor(counter, "LIGHT_GRAY");
 			routes[i]->adj[j].setGvEdgeID(counter);
 		}
 	}
-
-	/*unsigned int i  = destNode;
-	while (routes[i]->path != NULL){
-		for (int unsigned j = 0; j < routes[i]->path->adj.size(); j++){
-			if (routes[i]->path->adj[j].getDest()->getInfo() == routes[i]->getInfo()){
-				gv->removeEdge(routes[i]->path->adj[j].getGvEdgeID());
-				gv->addEdge(routes[i]->path->adj[j].getGvEdgeID(), routes[i]->path->gvNodeID,
-						routes[i]->path->adj[j].getDest()->gvNodeID,
-						EdgeType::DIRECTED);
-				gv->setEdgeColor(routes[i]->path->adj[j].getGvEdgeID(), "GREEN");
-				gv->setEdgeThickness(routes[i]->path->adj[j].getGvEdgeID(), 3);
-				i = routes[i]->path->getInfo();
-				break;
-			}
-		}
-	}*/
 
 	gv->rearrange();
 }
@@ -116,13 +97,9 @@ void SchoolBus::generateRoute(int srcNode, int destNod, vector<int> stops){
 
 	vector<Vertex<int>*> path = getInttoVertex(finalPath);
 
-	unsigned int width = 800;
-	unsigned int height = 600;
-
-	routesGraph.dijkstraShortestPath(srcNode);
-	gv = new GraphViewer(width, height, true);
-	gv->createWindow(width, height);
-	gv->defineVertexColor("blue");
+	gv = new GraphViewer(WIDTH_SIZE, HEIGHT_SIZE, false);
+	gv->createWindow(WIDTH_SIZE, HEIGHT_SIZE);
+	gv->defineVertexColor("CYAN");
 	gv->defineEdgeCurved(false);
 
 	// Get network of nodes
@@ -130,33 +107,37 @@ void SchoolBus::generateRoute(int srcNode, int destNod, vector<int> stops){
 
 	// Creating the nodes
 	for (unsigned int i = 0; i < routes.size(); i++){
-		gv->addNode(routes[i]->getInfo());
+		gv->addNode(routes[i]->getInfo(), routes[i]->getX(), routes[i]->getY());
 		gv->setVertexSize(routes[i]->getInfo(), 5);
 		routes[i]->gvNodeID = routes[i]->getInfo();
 	}
 
 	// Creating the edges
-	/*unsigned int counter = 0;
+	unsigned int counter = 0;
 	for (unsigned int i = 0; i < routes.size(); i++){
 		for (int unsigned j = 0; j < routes[i]->adj.size(); j++){
 			gv->addEdge(counter++, routes[i]->gvNodeID,
 					routes[i]->adj[j].getDest()->gvNodeID,
-					EdgeType::DIRECTED);
-
+					EdgeType::UNDIRECTED);
+			gv->setEdgeThickness(counter, 2);
+			gv->setEdgeColor(counter, "LIGHT_GRAY");
 			routes[i]->adj[j].setGvEdgeID(counter);
-			gv->setEdgeWeight(counter-1, routes[i]->adj[j].getWeigth());
 		}
-	}*/
+	}
 
+	// Drawing the best route
 	unsigned int j = 0;
 	for (unsigned int i = 0; i < path.size()-1; i++){
 		if (path[i]->getInfo()!= path[i+1]->getInfo()){
+			gv->removeEdge(j);
 			gv->addEdge(j, path[i]->gvNodeID, path[i+1]->gvNodeID, EdgeType::DIRECTED);
 			gv->setEdgeColor(j, "GREEN");
 			gv->setEdgeThickness(j, 3);
 			j++;
 		}
 	}
+
+	gv->rearrange();
 }
 
 void SchoolBus::saveBus(){

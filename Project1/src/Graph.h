@@ -208,7 +208,6 @@ public:
 	int edgeCost(int vOrigIndex, int vDestIndex);
 	vector<T> getfloydWarshallPath(const T &origin, const T &dest);
 	void getfloydWarshallPathAux(int index1, int index2, vector<T> & res);
-	bool allTrue(vector<bool>vecB);
 	int ** getW(){
 		return W;
 	}
@@ -875,14 +874,6 @@ void Graph<T>::floydWarshallShortestPath() {
 					P[i][j] = k;
 				}
 			}
-}
-
-template<class T>
-bool Graph<T>::allTrue(vector<bool> vecB){
-	for(int i = 0; i < vecB.size(); i++)
-		if(!vecB[i])
-			return false;
-	return true;
 }
 
 #endif /* GRAPH_H_ */

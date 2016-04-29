@@ -42,7 +42,7 @@ struct Connect{
 class LoadGraph{
 public:
 	static Graph<int> createGraph(const string &nodes, const string &roads, const string &connections);
-	static vector <Node> loadNodes(const string &nodes);
+	static vector <Node> loadNodes(const string &nodes, vector <Connect> &connects);
 	static vector <Road> loadRoads(const string &roads);
 	static vector <Connect> loadConnections(const string &connections);
 	static double degToCartLat(double coord);
