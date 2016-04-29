@@ -73,6 +73,11 @@ public:
 	vector<Vertex<int>*> getInttoVertex(vector <int> &vec);
 
 	/**
+	 * @brief Shows the map
+	 */
+	void showMap();
+
+	/**
 	 * @brief Shows the graph
 	 */
 	void showGraph();
@@ -84,7 +89,7 @@ public:
 	 * @param destNode
 	 * @param stops
 	 */
-	void generateRoute(int srcNode, int destNod, vector<int> stops);
+	void generateRoute(int origin, int dest, vector<int> stops);
 
 	/**
 	 * @brief Saves bus to a .csv file
@@ -186,7 +191,7 @@ public:
 	 * @param nodeID
 	 * @return true if the nodeID is valid
 	 */
-	bool validNodeID(int nodeID);
+	bool validSchoolNodeID(int nodeID);
 
 	/**
 	 * @brief Registers school's nodeID
@@ -304,11 +309,21 @@ public:
 	int registerStudentBus(int schoolID);
 
 	/**
+	 * @brief Associates a node to a student
+	 *
+	 * @param studentNodeID
+	 * @param schoolNodeID
+	 * @returns true if nodeID is valid
+	 */
+	bool validStudentNodeID(int studentNodeID, int schoolNodeID);
+
+	/**
 	 * @brief Registers student's nodeID
 	 *
+	 * @param schoolNodeID
 	 * @returns student nodeID
 	 */
-	int registerStudentNode();
+	int registerStudentNode(int schoolNodeID);
 
 	/**
 	 * @brief Registers a new client

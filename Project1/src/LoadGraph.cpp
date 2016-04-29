@@ -10,6 +10,7 @@ Graph<int> LoadGraph::createGraph(const string &nodes, const string &roads, cons
 
 	for (unsigned int i = 0; i < vecNodes.size(); ++i) {
 		graph.addVertex(vecNodes[i].node_id, degToCartLong(vecNodes[i].long_deg),degToCartLat(vecNodes[i].lat_deg));
+		//cout << "nodeid: "<< vecNodes[i].node_id << "  x: " <<  (int)degToCartLong(vecNodes[i].long_deg) << "   y: " << (int)degToCartLat(vecNodes[i].lat_deg) << endl;
 	}
 
 	for(unsigned int i = 0;i<vecConnections.size();i++){
@@ -100,48 +101,6 @@ vector <Node> LoadGraph::loadNodes(const string &nodes, vector <Connect> &connec
 	}
 
 	return ret;
-
-	/*vector<Node> ret;
-	ifstream input(nodes.c_str());
-
-	for( string line; getline( input, line ); ){
-		int in = 0,comp = 0,var = 0;
-		Node temp;
-
-		for(unsigned int i = 0; i<line.size(); i++){
-			if(line[i]==';'){
-				if(var == 0){
-					temp.node_id = abs(atoi((line.substr(in,comp)).c_str()));
-					in = i+1;
-					comp = 0;
-					var++;
-				}else if(var == 1){
-					temp.lat_deg = atof((line.substr(in,comp)).c_str());
-					in = i+1;
-					comp = 0;
-					var++;
-				}else if(var == 2){
-					temp.long_deg = atof((line.substr(in,comp)).c_str());
-					in = i+1;
-					comp = 0;
-					var++;
-				}else if(var == 3){
-					temp.long_rad = atof((line.substr(in,comp)).c_str());
-					in = i+1;
-					comp = 0;
-					var++;
-				}
-			}else if(var == 4){
-				temp.lat_rad = atof((line.substr(in,line.size()-1)).c_str());
-				break;
-			}else
-				comp++;
-		}
-
-		ret.push_back(temp);
-	}
-
-	return ret;*/
 }
 
 vector <Road> LoadGraph::loadRoads(const string &roads){

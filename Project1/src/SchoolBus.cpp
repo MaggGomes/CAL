@@ -3,12 +3,13 @@
 using namespace std;
 
 SchoolBus::SchoolBus(){
+	nodeID = 1;
 	loadData();
-	// TODO - ATIVAR FLOYD-WARSHALL
 	this->routesGraph.floydWarshallShortestPath();
 };
 
 SchoolBus::SchoolBus(const Graph<int> &graph){
+	nodeID = 1;
 	loadData();
 	this->routesGraph = graph;
 	this->routesGraph.floydWarshallShortestPath();
@@ -34,6 +35,13 @@ Graph <int> SchoolBus::getRoutesGraph() const{
 	return routesGraph;
 }
 
+void SchoolBus::showMap(){
+	gv = new GraphViewer(800, 600, true);
+	gv->setBackground("res/mapa.jpg");
+	gv->createWindow(800, 600);
+	gv->rearrange();
+}
+
 void SchoolBus::showGraph(){
 
 	gv = new GraphViewer(WIDTH_SIZE, HEIGHT_SIZE, false);
@@ -42,11 +50,11 @@ void SchoolBus::showGraph(){
 	gv->defineEdgeColor("LIGHT_GRAY");
 	gv->defineEdgeCurved(false);
 
-	// Get network of nodes
+	// Get network of all nodes of the graph
 	vector<Vertex<int>*> routes = routesGraph.getVertexSet();
 
 	// Creating the nodes
-	for (unsigned int i = 0; i < routes.size(); i++){
+	for (size_t i = 0; i < routes.size(); i++){
 		gv->addNode(routes[i]->getInfo(), routes[i]->getX(), routes[i]->getY());
 		gv->setVertexSize(routes[i]->getInfo(), 5);
 		routes[i]->gvNodeID = routes[i]->getInfo();
@@ -58,8 +66,8 @@ void SchoolBus::showGraph(){
 		for (int unsigned j = 0; j < routes[i]->adj.size(); j++){
 			gv->addEdge(counter++, routes[i]->gvNodeID,
 					routes[i]->adj[j].getDest()->gvNodeID,
-					EdgeType::UNDIRECTED);
-			gv->setEdgeThickness(counter, 2);
+					EdgeType::DIRECTED);
+			gv->setEdgeThickness(counter, 3);
 			routes[i]->adj[j].setGvEdgeID(counter);
 		}
 	}
@@ -74,7 +82,12 @@ vector<Vertex<int>*>  SchoolBus::getInttoVertex(vector <int> &vec){
 	for (unsigned int i = 0; i < vec.size(); i++){
 		for (unsigned int j = 0; j < routes.size(); j++){
 			if (routes[j]->getInfo() == vec[i]){
-				temp.push_back(routes[j]);
+				if (temp.size()>0){
+					if (temp[temp.size()-1]->getInfo()!=routes[j]->getInfo())
+						temp.push_back(routes[j]);
+				}
+				else
+					temp.push_back(routes[j]);
 				break;
 			}
 		}
@@ -83,30 +96,31 @@ vector<Vertex<int>*>  SchoolBus::getInttoVertex(vector <int> &vec){
 	return temp;
 }
 
-void SchoolBus::generateRoute(int srcNode, int destNod, vector<int> stops){
+void SchoolBus::generateRoute(int origin, int dest, vector<int> stops){
 
-	Graph<int> subGraph = routesGraph.createSubGraph(routesGraph,srcNode,destNod,stops);
+	vector <int> bestRoute = this->routesGraph.getShortestPathMultiPoints(origin, dest,stops);
 
-	vector <int> subRoutes = subGraph.getShortestPathAllPoints(srcNode,destNod,stops,routesGraph.getW());
-	vector <int> finalPath;
+	// Vector with the info of the nodes that the best route uses
+	vector <int> finalRoute;
 
-	for (unsigned int i = 0; i < subRoutes.size()-1; i++){
-		vector <int> temp = this->routesGraph.getfloydWarshallPath(subRoutes[i], subRoutes[i+1]);
-		finalPath.insert(finalPath.end(), temp.begin(), temp.end());
+	for (unsigned int i = 0; i < bestRoute.size()-1; i++){
+		vector <int> temp = this->routesGraph.getfloydWarshallPath(bestRoute[i], bestRoute[i+1]);
+		finalRoute.insert(finalRoute.end(), temp.begin(), temp.end());
 	}
 
-	vector<Vertex<int>*> path = getInttoVertex(finalPath);
+	// Final vector with the nodes of the best route
+	vector<Vertex<int>*> path = getInttoVertex(finalRoute);
+
+	// Get network of all nodes of the graph
+	vector<Vertex<int>*> routes = routesGraph.getVertexSet();
 
 	gv = new GraphViewer(WIDTH_SIZE, HEIGHT_SIZE, false);
 	gv->createWindow(WIDTH_SIZE, HEIGHT_SIZE);
 	gv->defineVertexColor("CYAN");
 	gv->defineEdgeCurved(false);
 
-	// Get network of nodes
-	vector<Vertex<int>*> routes = routesGraph.getVertexSet();
-
 	// Creating the nodes
-	for (unsigned int i = 0; i < routes.size(); i++){
+	for (size_t i = 0; i < routes.size(); i++){
 		gv->addNode(routes[i]->getInfo(), routes[i]->getX(), routes[i]->getY());
 		gv->setVertexSize(routes[i]->getInfo(), 5);
 		routes[i]->gvNodeID = routes[i]->getInfo();
@@ -114,7 +128,7 @@ void SchoolBus::generateRoute(int srcNode, int destNod, vector<int> stops){
 
 	// Creating the edges
 	unsigned int counter = 0;
-	for (unsigned int i = 0; i < routes.size(); i++){
+	for (size_t i = 0; i < routes.size(); i++){
 		for (int unsigned j = 0; j < routes[i]->adj.size(); j++){
 			gv->addEdge(counter++, routes[i]->gvNodeID,
 					routes[i]->adj[j].getDest()->gvNodeID,
@@ -125,15 +139,16 @@ void SchoolBus::generateRoute(int srcNode, int destNod, vector<int> stops){
 		}
 	}
 
-	// Drawing the best route
-	unsigned int j = 0;
-	for (unsigned int i = 0; i < path.size()-1; i++){
-		if (path[i]->getInfo()!= path[i+1]->getInfo()){
-			gv->removeEdge(j);
-			gv->addEdge(j, path[i]->gvNodeID, path[i+1]->gvNodeID, EdgeType::DIRECTED);
-			gv->setEdgeColor(j, "GREEN");
-			gv->setEdgeThickness(j, 3);
-			j++;
+	for (size_t i = 0; i < path.size()-1; i++){
+		for (size_t j = 0; j < path[i]->adj.size(); j++){
+			if (path[i]->adj[j].getDest()->gvNodeID == path[i+1]->gvNodeID){
+				counter = path[i]->adj[j].getGvEdgeID();
+				gv->removeEdge(path[i]->adj[j].getGvEdgeID());
+				gv->addEdge(counter, path[i]->gvNodeID, path[i+1]->gvNodeID, EdgeType::DIRECTED);
+				gv->setEdgeColor(counter, "GREEN");
+				gv->setEdgeThickness(counter, 5);
+				break;
+			}
 		}
 	}
 
@@ -143,10 +158,10 @@ void SchoolBus::generateRoute(int srcNode, int destNod, vector<int> stops){
 void SchoolBus::saveBus(){
 	ofstream file;
 
-	remove("bus.csv");
-	file.open("bus.csv");
+	remove("res/bus.csv");
+	file.open("res/bus.csv");
 
-	for (unsigned int i = 0; i < bus.size(); i++){
+	for (size_t i = 0; i < bus.size(); i++){
 		if (i < bus.size() - 1)
 			file << bus[i].getID() << ";" << bus[i].getRegistration() << ";" << bus[i].getBuildYear()<<";"<< bus[i].getCapacity() << ";" << bus[i].getSchool()->getID() <<"\n";
 		else
@@ -159,10 +174,10 @@ void SchoolBus::saveBus(){
 void SchoolBus::saveSchools(){
 	ofstream file;
 
-	remove("schools.csv");
-	file.open("schools.csv");
+	remove("res/schools.csv");
+	file.open("res/schools.csv");
 
-	for (unsigned int i = 0; i < schools.size(); i++){
+	for (size_t i = 0; i < schools.size(); i++){
 		if (i < schools.size() - 1)
 			file << schools[i]->getID() << ";" << schools[i]->getName() << ";" << schools[i]->getNodeID() << "\n";
 		else
@@ -176,10 +191,10 @@ void SchoolBus::saveStudents(){
 
 	ofstream file;
 
-	remove("students.csv");
-	file.open("students.csv");
+	remove("res/students.csv");
+	file.open("res/students.csv");
 
-	for (unsigned int i = 0; i < schools.size(); i++){
+	for (size_t i = 0; i < schools.size(); i++){
 		for (unsigned j = 0; j < schools[i]->getStudents().size(); j++){
 			if ((i < schools.size() - 1) && (j < schools[i]->getStudents().size()-1))
 				file << schools[i]->getStudents()[j]->getID() << ";" << schools[i]->getStudents()[j]->getName() << ";" << schools[i]->getStudents()[j]->getNodeID() << ";" << schools[i]->getStudents()[j]->getSchoolID()<< ";" << schools[i]->getStudents()[j]->getBusID() << "\n";
@@ -227,7 +242,7 @@ void SchoolBus::loadBus(){
 		Bus busTemp(buildYear, registration, capacity);
 		busTemp.setID(ID);
 
-		for (unsigned int i = 0; i < schools.size(); i++){
+		for (size_t i = 0; i < schools.size(); i++){
 			if (schools[i]->getID() == schoolID){
 				busTemp.setSchool(schools[i]);
 				break;
@@ -302,14 +317,14 @@ void SchoolBus::loadStudents(){
 		student->setSchoolID(schoolID);
 		student->setBusID(busID);
 
-		for (unsigned int i = 0; i < schools.size(); i++){
+		for (size_t i = 0; i < schools.size(); i++){
 			if (schools[i]->getID() == schoolID){
 				schools[i]->addStudent(student);
 				break;
 			}
 		}
 
-		for (unsigned int i = 0; i < bus.size(); i++){
+		for (size_t i = 0; i < bus.size(); i++){
 			if (bus[i].getID() == busID){
 				bus[i].addStudent(student);
 				break;
@@ -332,7 +347,7 @@ void SchoolBus::menuShowBus(){
 	printAppName();
 	cout << endl << endl;
 
-	for (unsigned int i = 0; i < bus.size(); i++){
+	for (size_t i = 0; i < bus.size(); i++){
 		cout << bus[i];
 	}
 
@@ -345,7 +360,7 @@ void SchoolBus::menuShowSchools(){
 
 	cout << schools[0]->getName() << endl;
 
-	for (unsigned int i = 0; i < schools.size(); i++){
+	for (size_t i = 0; i < schools.size(); i++){
 		cout << schools[i];
 	}
 
@@ -357,8 +372,8 @@ void SchoolBus::menuShowStudents(){
 	printAppName();
 	cout << endl << endl;
 
-	for (unsigned int i = 0; i < schools.size(); i++){
-		for (unsigned int j = 0; j < bus[i].getStudents().size(); j++){
+	for (size_t i = 0; i < schools.size(); i++){
+		for (size_t j = 0; j < bus[i].getStudents().size(); j++){
 			cout << "Student ID: " << bus[i].getStudents()[j]->getID() << " | " << "Student Name: " << bus[i].getStudents()[j]->getName() << " | " << "Node ID: " << bus[i].getStudents()[j]->getNodeID() << " | " << "School ID: " << bus[i].getStudents()[j]->getSchoolID() << " | " << "Bus ID: " << bus[i].getStudents()[j]->getBusID() << "\n";
 		};
 	}
@@ -441,8 +456,7 @@ void SchoolBus::menuStarting(){
 					menuBusManagement();
 					break;
 				case 3:
-					// TODO - APAGAR/MODIFICAR
-					showGraph();
+					showMap();
 					break;
 				case 4:
 					saveData();
@@ -456,7 +470,7 @@ void SchoolBus::menuStarting(){
 void SchoolBus::searchSchoolID(int schoolID){
 	bool found = false;
 
-	for (unsigned int i = 0; i < schools.size(); i++){
+	for (size_t i = 0; i < schools.size(); i++){
 		if (schools[i]->getID()==schoolID){
 			found = true;
 			break;
@@ -491,7 +505,7 @@ void SchoolBus::searchSchoolID(int schoolID){
 void SchoolBus::searchSchoolName(string schoolName){
 	bool found = false;
 
-	for (unsigned int i = 0; i < schools.size(); i++){
+	for (size_t i = 0; i < schools.size(); i++){
 		if (schools[i]->getName()==schoolName){
 			found = true;
 			break;
@@ -631,7 +645,7 @@ void SchoolBus::menuSearchSchool(){
 
 bool SchoolBus::validSchoolName(const string &name){
 
-	for (unsigned int i = 0; i < schools.size(); i++){
+	for (size_t i = 0; i < schools.size(); i++){
 		if (schools[i]->getName() == name)
 			return false;
 	}
@@ -664,28 +678,35 @@ string SchoolBus::registerSchoolName(){
 	return name;
 }
 
-bool SchoolBus::validNodeID(int nodeID){
+bool SchoolBus::validSchoolNodeID(int nodeID){
 
 	// Can't there is repeated node ID
 
 	if (this->nodeID == nodeID)
 		return false;
 
-	for (unsigned int i = 0; i < schools.size(); i++){
+	for (size_t i = 0; i < schools.size(); i++){
 		if (schools[i]->getNodeID()==nodeID)
 			return false;
 	}
 
-	for (unsigned int i = 0; i < bus.size(); i++){
+	for (size_t i = 0; i < bus.size(); i++){
 		for (unsigned j = 0; j < bus[i].getStudents().size(); j++){
 			if (bus[i].getStudents()[j]->getNodeID() == nodeID)
 				return false;
 		}
 	}
 
-	for (unsigned int i = 0; i < routesGraph.getVertexSet().size(); i++){
-		if (routesGraph.getVertexSet()[i]->getInfo() == nodeID)
-			return true;
+	// Verifies if the nodeID exists
+	for (size_t i = 0; i < routesGraph.getVertexSet().size(); i++){
+		if (routesGraph.getVertexSet()[i]->getInfo() == nodeID){
+			// Verifies if the paths from school to the bus station and vice-versa are possible
+			if (routesGraph.getW()[this->nodeID][nodeID] < INT_INFINITY && routesGraph.getW()[nodeID][this->nodeID] < INT_INFINITY)
+				return true;
+			else
+				return false;
+		}
+
 	}
 
 	return false;
@@ -701,7 +722,7 @@ int SchoolBus::registerSchoolNodeID(){
 	cout << ">> SCHOOL NODE ID (localization in the graph): ";
 	cin >> nodeID;
 
-	while(cin.fail() || !validNodeID(nodeID)){
+	while(cin.fail() || !validSchoolNodeID(nodeID)){
 		cleanBuffer();
 		setColor(4, 0);
 		cout << ":: ERROR: Invalid school localization! Please try again." << endl << endl;
@@ -916,7 +937,7 @@ void SchoolBus::menuClientManagement(){
 void SchoolBus::searchBusID(int busID){
 	bool found = false;
 
-	for (unsigned int i = 0; i < bus.size(); i++){
+	for (size_t i = 0; i < bus.size(); i++){
 		if (bus[i].getID()==busID){
 			found = true;
 			break;
@@ -951,7 +972,7 @@ void SchoolBus::searchBusID(int busID){
 void SchoolBus::searchBusReg(string busReg){
 	bool found = false;
 
-	for (unsigned int i = 0; i < bus.size(); i++){
+	for (size_t i = 0; i < bus.size(); i++){
 		if (bus[i].getRegistration()==busReg){
 			found = true;
 			break;
@@ -1124,7 +1145,7 @@ bool SchoolBus::validRegistration(const string &reg){
 	if (reg.size() != 6)
 		return false;
 
-	for (unsigned int i = 0; i < bus.size(); i++)
+	for (size_t i = 0; i < bus.size(); i++)
 		if (bus[i].getRegistration() == reg)
 			return false;
 
@@ -1191,7 +1212,7 @@ int SchoolBus::registerBusCapacity(){
 }
 
 bool SchoolBus::validBusSchoolID(int id){
-	for (unsigned int i = 0; i < schools.size(); i++){
+	for (size_t i = 0; i < schools.size(); i++){
 		if (schools[i]->getID() == id){
 			return true;
 		}
@@ -1244,7 +1265,7 @@ void SchoolBus::registerNewBus(){
 
 		Bus busTemp(year, registration, capacity);
 
-		for (unsigned int i = 0; i < schools.size(); i++){
+		for (size_t i = 0; i < schools.size(); i++){
 			if (schools[i]->getID() == schoolID){
 				busTemp.setSchool(schools[i]);
 				break;
@@ -1272,7 +1293,7 @@ string SchoolBus::registerStudentName(){
 	cout << ">> STUDENT NAME: ";
 	getline(cin, stuName);
 
-	while(cin.fail()){
+	while(cin.fail() || stuName.size()>20){
 		cleanBuffer();
 		setColor(4, 0);
 		cout << ":: ERROR: Invalid name! Please try again." << endl << endl;
@@ -1317,7 +1338,7 @@ int SchoolBus::registerStudentSchool(){
 int SchoolBus::registerStudentBus(int schoolID){
 	int stuBus = 0;
 
-	for(unsigned int i = 0;i < bus.size();i++){
+	for(size_t i = 0;i < bus.size();i++){
 		if((bus[i].getSchool()->getID() == schoolID) && ((bus[i].getCapacity() - 1) > bus[i].getStudents().size())){
 			stuBus = bus[i].getID();
 			break;
@@ -1328,7 +1349,42 @@ int SchoolBus::registerStudentBus(int schoolID){
 	return stuBus;
 }
 
-int SchoolBus::registerStudentNode(){
+bool SchoolBus::validStudentNodeID(int studentNodeID, int schoolNodeID){
+
+	// Can't there is repeated node ID
+
+	if (this->nodeID == studentNodeID)
+		return false;
+
+	for (size_t i = 0; i < schools.size(); i++){
+		if (schools[i]->getNodeID()==studentNodeID)
+			return false;
+	}
+
+	for (size_t i = 0; i < bus.size(); i++){
+		for (unsigned j = 0; j < bus[i].getStudents().size(); j++){
+			if (bus[i].getStudents()[j]->getNodeID() == studentNodeID)
+				return false;
+		}
+	}
+
+	// Verifies if the nodeID exists
+	for (size_t i = 0; i < routesGraph.getVertexSet().size(); i++){
+		if (routesGraph.getVertexSet()[i]->getInfo() == studentNodeID){
+			// Verifies if the paths from student to the bus station and vice-versa are possible
+			if (routesGraph.getW()[this->nodeID][studentNodeID] < INT_INFINITY && routesGraph.getW()[studentNodeID][this->nodeID] < INT_INFINITY
+					&& routesGraph.getW()[schoolNodeID][studentNodeID] < INT_INFINITY && routesGraph.getW()[studentNodeID][schoolNodeID] < INT_INFINITY)
+				return true;
+			else
+				return false;
+		}
+
+	}
+
+	return false;
+}
+
+int SchoolBus::registerStudentNode(int schoolNodeID){
 	int nodeID;
 
 	clrscr();
@@ -1337,7 +1393,7 @@ int SchoolBus::registerStudentNode(){
 	cout << ">> STUDENT NODE ID (localization in the graph): ";
 	cin >> nodeID;
 
-	while(cin.fail()){
+	while(cin.fail() || !validStudentNodeID(nodeID, schoolNodeID)){
 		cleanBuffer();
 		setColor(4, 0);
 		cout << ":: ERROR: Invalid student localization! Please try again." << endl << endl;
@@ -1358,7 +1414,7 @@ void SchoolBus::registerNewClient(){
 
 	if (bus.size() == 0){
 		setColor(4, 0);
-		cout << ":: ERROR: Can´t register client because currently there is any bus in database." << endl << endl;
+		cout << ":: ERROR: Can´t register any client because currently there isn't any bus in the database. Please register first a bus" << endl << endl;
 		Sleep(2000);
 		setColor(7, 0);
 		menuClientManagement();
@@ -1367,8 +1423,18 @@ void SchoolBus::registerNewClient(){
 	else {
 		string name = registerStudentName();
 		int schoolID = registerStudentSchool();
+
+		int schoolNodeID;
+
+		for (size_t i = 0; i < schools.size(); i++){
+			if (schools[i]->getID() == schoolID){
+				schoolNodeID = schools[i]->getNodeID();
+				break;
+			}
+		}
+
+		int nodeID = registerStudentNode(schoolNodeID);
 		int busID = registerStudentBus(schoolID);
-		int nodeID = registerStudentNode();
 
 		Student tempStudent(name, nodeID);
 		tempStudent.setBusID(busID);
@@ -1376,14 +1442,14 @@ void SchoolBus::registerNewClient(){
 
 		Student* ptTempStudent = &tempStudent;
 
-		for (unsigned int i = 0; i < schools.size(); i++){
+		for (size_t i = 0; i < schools.size(); i++){
 			if (schools[i]->getID() == schoolID){
 				schools[i]->addStudent(ptTempStudent);
 				break;
 			}
 		}
 
-		for (unsigned int i = 0; i < bus.size(); i++){
+		for (size_t i = 0; i < bus.size(); i++){
 			if (bus[i].getID() == busID){
 				bus[i].addStudent(ptTempStudent);
 				break;
