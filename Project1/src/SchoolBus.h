@@ -358,6 +358,13 @@ public:
 	 * @brief Menu for bus management
 	 */
 	void menuBusManagement();
+
+	/**
+	 * @brief Chooses the best bus for the student
+	 *
+	 * @param The node where the student is, and the school where the student belongs
+	 */
+	int placeStudent(int nodeID,int schoolID,int start);
 };
 
 #endif // SCHOOLBUS_H

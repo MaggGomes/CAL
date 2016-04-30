@@ -1827,3 +1827,46 @@ void SchoolBus::menuBusManagement(){
 		}
 	}
 }
+
+
+int SchoolBus::placeStudent(int nodeID,int schoolID,int start){
+	vector<int> vecBus;
+	int end;
+	for (int i = 0; i < bus.size(); ++i) {
+		if(bus[i].getSchool()->getID() == schoolID)
+			vecBus.push_back(i);
+	}
+
+	for (int i = 0; i < schools.size(); ++i) {
+		if(schools[i]->getID() == schoolID){
+			end = schools[i]->getNodeID();
+			break;
+		}
+	}
+
+	if (vecBus.size() == 1)
+		return vecBus[0];
+
+	int tBus = -1;
+	int dist = 9999999;
+
+	for (int i = 0; i < vecBus.size(); i++) {
+		vector<int> stuNodes;
+
+		stuNodes.push_back(start);
+		vector<Student*> tempStu = bus[vecBus[i]].getStudents();
+		for(int j = 0; j < tempStu.size() ;j++)
+			stuNodes.push_back(tempStu[j]->getID());
+		stuNodes.push_back(nodeID);
+		stuNodes.push_back(end);
+
+		int tDist = this->getRoutesGraph().calculateDist(stuNodes);
+
+		if (tDist < dist && bus[tBus].getCapacity() > bus[tBus].getStudents().size()) {
+			dist = tDist;
+			tBus = vecBus[i];
+		}
+	}
+
+	return tBus;
+}
