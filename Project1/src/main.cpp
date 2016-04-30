@@ -55,11 +55,8 @@ int main(){
 	schoolBus.menuStarting();*/
 
 	SchoolBus schoolBus;
-	schoolBus.generateRoute(459, 458, vec);
+	//schoolBus.generateRoute(459, 458, vec);
 	schoolBus.menuStarting();
-
-
-
 
 	return 0;
 }

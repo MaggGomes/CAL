@@ -65,6 +65,12 @@ ostream& operator<<(ostream& os, Student * student){
 	os << " | ";
 	os << "NODE ID: ";
 	os << student->getNodeID();
+	os << " | ";
+	os << "SCHOOL ID: ";
+	os << student->getSchoolID();
+	os << " | ";
+	os << "BUS ID: ";
+	os << student->getBusID();
 	os << endl;
 
 	return os;

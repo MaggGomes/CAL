@@ -23,6 +23,11 @@ class Bus {
 	vector<Student *> students;
 public:
 	/**
+	 * @brief Bus's default constructor
+	 */
+	Bus();
+
+	/**
 	 * @brief Bus's constructor
 	 *
 	 * @param buildYear Bus's build year
@@ -114,6 +119,13 @@ public:
 	 * @return the students
 	 */
 	int getID() const;
+
+	/**
+	 * @brief Returns a vector with the node ID's of the students
+	 *
+	 * @return the node ID's of the students
+	 */
+	vector<int> getStops() const;
 
 	/**
 	 * @brief Overload of the operator == for the class Bus

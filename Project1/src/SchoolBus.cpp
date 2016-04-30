@@ -5,6 +5,7 @@ using namespace std;
 SchoolBus::SchoolBus(){
 	nodeID = 1;
 	loadData();
+	// TODO
 	this->routesGraph.floydWarshallShortestPath();
 };
 
@@ -42,6 +43,62 @@ void SchoolBus::showMap(){
 	gv->rearrange();
 }
 
+void SchoolBus::showAllClientsAndSchools(){
+
+	// Get network of all nodes of the graph
+	vector<Vertex<int>*> routes = routesGraph.getVertexSet();
+
+	gv = new GraphViewer(WIDTH_SIZE, HEIGHT_SIZE, false);
+	gv->createWindow(WIDTH_SIZE, HEIGHT_SIZE);
+	gv->defineVertexColor("CYAN");
+	gv->defineEdgeCurved(false);
+
+	// Creating the nodes
+	for (size_t i = 0; i < routes.size(); i++){
+		gv->addNode(routes[i]->getInfo(), routes[i]->getX(), routes[i]->getY());
+
+		for (size_t j = 0; j < schools.size(); j++){
+			if (routes[i]->getInfo() == schools[j]->getNodeID()){
+				// Prints school's icon
+				gv->setVertexIcon(routes[i]->getInfo(), "res/schoolIcon.png");
+				break;
+			}
+
+			for (size_t k = 0; k < schools[j]->getStudents().size(); k++){
+				if (schools[j]->getStudents()[k]->getNodeID() == routes[i]->getInfo()){
+					// Prints student's icon
+					gv->setVertexIcon(routes[i]->getInfo(), "res/studentIcon.png");
+					break;
+				}
+			}
+		}
+
+		// Prints bus station's icon
+		if (routes[i]->getInfo() == this->nodeID)
+			gv->setVertexIcon(routes[i]->getInfo(), "res/busIcon.png");
+		else
+			gv->setVertexSize(routes[i]->getInfo(), 8);
+
+		routes[i]->gvNodeID = routes[i]->getInfo();
+	}
+
+	// Creating the edges
+	unsigned int counter = 0;
+	for (size_t i = 0; i < routes.size(); i++){
+		for (int unsigned j = 0; j < routes[i]->adj.size(); j++){
+			gv->addEdge(counter++, routes[i]->gvNodeID,
+					routes[i]->adj[j].getDest()->gvNodeID,
+					EdgeType::UNDIRECTED);
+			gv->setEdgeThickness(counter, 5);
+			gv->setEdgeColor(counter, "LIGHT_GRAY");
+			routes[i]->adj[j].setGvEdgeID(counter);
+		}
+	}
+
+	gv->rearrange();
+
+}
+
 void SchoolBus::showGraph(){
 
 	gv = new GraphViewer(WIDTH_SIZE, HEIGHT_SIZE, false);
@@ -56,7 +113,7 @@ void SchoolBus::showGraph(){
 	// Creating the nodes
 	for (size_t i = 0; i < routes.size(); i++){
 		gv->addNode(routes[i]->getInfo(), routes[i]->getX(), routes[i]->getY());
-		gv->setVertexSize(routes[i]->getInfo(), 5);
+		gv->setVertexSize(routes[i]->getInfo(), 8);
 		routes[i]->gvNodeID = routes[i]->getInfo();
 	}
 
@@ -67,7 +124,7 @@ void SchoolBus::showGraph(){
 			gv->addEdge(counter++, routes[i]->gvNodeID,
 					routes[i]->adj[j].getDest()->gvNodeID,
 					EdgeType::DIRECTED);
-			gv->setEdgeThickness(counter, 3);
+			gv->setEdgeThickness(counter, 5);
 			routes[i]->adj[j].setGvEdgeID(counter);
 		}
 	}
@@ -75,7 +132,56 @@ void SchoolBus::showGraph(){
 	gv->rearrange();
 }
 
-vector<Vertex<int>*>  SchoolBus::getInttoVertex(vector <int> &vec){
+void SchoolBus::showSchoolAndStudents(School* school){
+
+	// Get network of all nodes of the graph
+	vector<Vertex<int>*> routes = routesGraph.getVertexSet();
+
+	gv = new GraphViewer(WIDTH_SIZE, HEIGHT_SIZE, false);
+	gv->createWindow(WIDTH_SIZE, HEIGHT_SIZE);
+	gv->defineVertexColor("CYAN");
+	gv->defineEdgeCurved(false);
+
+	// Creating the nodes
+	for (size_t i = 0; i < routes.size(); i++){
+		gv->addNode(routes[i]->getInfo(), routes[i]->getX(), routes[i]->getY());
+
+		// Prints student's icon
+		for (size_t j = 0; j < school->getStudents().size(); j++)
+			if (school->getStudents()[j]->getNodeID() == routes[i]->getInfo())
+				gv->setVertexIcon(routes[i]->getInfo(), "res/studentIcon.png");
+
+		// Prints bus station's icon
+		if (routes[i]->getInfo() == this->nodeID)
+			gv->setVertexIcon(routes[i]->getInfo(), "res/busIcon.png");
+
+		// Prints school's icon
+		else if (routes[i]->getInfo() == school->getNodeID())
+			gv->setVertexIcon(routes[i]->getInfo(), "res/schoolIcon.png");
+		else
+			gv->setVertexSize(routes[i]->getInfo(), 8);
+
+		routes[i]->gvNodeID = routes[i]->getInfo();
+	}
+
+	// Creating the edges
+	unsigned int counter = 0;
+	for (size_t i = 0; i < routes.size(); i++){
+		for (int unsigned j = 0; j < routes[i]->adj.size(); j++){
+			gv->addEdge(counter++, routes[i]->gvNodeID,
+					routes[i]->adj[j].getDest()->gvNodeID,
+					EdgeType::UNDIRECTED);
+			gv->setEdgeThickness(counter, 5);
+			gv->setEdgeColor(counter, "LIGHT_GRAY");
+			routes[i]->adj[j].setGvEdgeID(counter);
+		}
+	}
+
+	gv->rearrange();
+
+}
+
+vector<Vertex<int>*> SchoolBus::getInttoVertex(vector <int> &vec){
 	vector<Vertex<int>*> temp;
 	vector<Vertex<int>*> routes = this->routesGraph.getVertexSet();
 
@@ -103,7 +209,7 @@ void SchoolBus::generateRoute(int origin, int dest, vector<int> stops){
 	// Vector with the info of the nodes that the best route uses
 	vector <int> finalRoute;
 
-	for (unsigned int i = 0; i < bestRoute.size()-1; i++){
+	for (size_t i = 0; i < bestRoute.size()-1; i++){
 		vector <int> temp = this->routesGraph.getfloydWarshallPath(bestRoute[i], bestRoute[i+1]);
 		finalRoute.insert(finalRoute.end(), temp.begin(), temp.end());
 	}
@@ -122,7 +228,22 @@ void SchoolBus::generateRoute(int origin, int dest, vector<int> stops){
 	// Creating the nodes
 	for (size_t i = 0; i < routes.size(); i++){
 		gv->addNode(routes[i]->getInfo(), routes[i]->getX(), routes[i]->getY());
-		gv->setVertexSize(routes[i]->getInfo(), 5);
+
+		// Prints student's icon
+		for (size_t j = 0; j < stops.size(); j++)
+			if (stops[j] == routes[i]->getInfo())
+				gv->setVertexIcon(routes[i]->getInfo(), "res/studentIcon.png");
+
+		// Prints bus station's icon
+		if (routes[i]->getInfo() == origin)
+			gv->setVertexIcon(routes[i]->getInfo(), "res/busIcon.png");
+
+		// Prints school's icon
+		else if (routes[i]->getInfo() == dest)
+			gv->setVertexIcon(routes[i]->getInfo(), "res/schoolIcon.png");
+		else
+			gv->setVertexSize(routes[i]->getInfo(), 8);
+
 		routes[i]->gvNodeID = routes[i]->getInfo();
 	}
 
@@ -132,21 +253,20 @@ void SchoolBus::generateRoute(int origin, int dest, vector<int> stops){
 		for (int unsigned j = 0; j < routes[i]->adj.size(); j++){
 			gv->addEdge(counter++, routes[i]->gvNodeID,
 					routes[i]->adj[j].getDest()->gvNodeID,
-					EdgeType::UNDIRECTED);
-			gv->setEdgeThickness(counter, 2);
+					EdgeType::DIRECTED);
+			gv->setEdgeThickness(counter, 5);
 			gv->setEdgeColor(counter, "LIGHT_GRAY");
 			routes[i]->adj[j].setGvEdgeID(counter);
 		}
 	}
 
+	counter = 10000;
 	for (size_t i = 0; i < path.size()-1; i++){
 		for (size_t j = 0; j < path[i]->adj.size(); j++){
 			if (path[i]->adj[j].getDest()->gvNodeID == path[i+1]->gvNodeID){
-				counter = path[i]->adj[j].getGvEdgeID();
-				gv->removeEdge(path[i]->adj[j].getGvEdgeID());
-				gv->addEdge(counter, path[i]->gvNodeID, path[i+1]->gvNodeID, EdgeType::DIRECTED);
+				gv->addEdge(counter++, path[i]->gvNodeID, path[i+1]->gvNodeID, EdgeType::DIRECTED);
 				gv->setEdgeColor(counter, "GREEN");
-				gv->setEdgeThickness(counter, 5);
+				gv->setEdgeThickness(counter, 8);
 				break;
 			}
 		}
@@ -358,8 +478,6 @@ void SchoolBus::menuShowSchools(){
 	clrscr();
 	printAppName();
 
-	cout << schools[0]->getName() << endl;
-
 	for (size_t i = 0; i < schools.size(); i++){
 		cout << schools[i];
 	}
@@ -373,8 +491,8 @@ void SchoolBus::menuShowStudents(){
 	cout << endl << endl;
 
 	for (size_t i = 0; i < schools.size(); i++){
-		for (size_t j = 0; j < bus[i].getStudents().size(); j++){
-			cout << "Student ID: " << bus[i].getStudents()[j]->getID() << " | " << "Student Name: " << bus[i].getStudents()[j]->getName() << " | " << "Node ID: " << bus[i].getStudents()[j]->getNodeID() << " | " << "School ID: " << bus[i].getStudents()[j]->getSchoolID() << " | " << "Bus ID: " << bus[i].getStudents()[j]->getBusID() << "\n";
+		for (size_t j = 0; j < schools[i]->getStudents().size(); j++){
+			cout << schools[i]->getStudents()[j];
 		};
 	}
 
@@ -382,7 +500,7 @@ void SchoolBus::menuShowStudents(){
 }
 
 void SchoolBus::menuStarting(){
-	string Menu[5] = { "<<  SCHOOL MANAGEMENT >>", "<<  CLIENT MANAGEMENT >>", "<<  BUS MANAGEMENT    >>", "<<  VIEW OF CITY MAP  >>", "<<  EXIT              >>" };
+	string Menu[6] = { "<<  SCHOOL MANAGEMENT >>", "<<  CLIENT MANAGEMENT >>", "<<  BUS MANAGEMENT    >>", "<<  VIEW OF CITY MAP  >>", "<<  VIEW OF CLIENT MAP>>", "<<  EXIT              >>" };
 	bool validity = true;
 	int pointer = 0;
 
@@ -393,7 +511,7 @@ void SchoolBus::menuStarting(){
 		setColor(11, 0);
 		cout << setw(51) << "<<<<<   WELCOME    >>>>>" << endl << endl;
 
-		for (int i = 0; i < 5; ++i)
+		for (int i = 0; i < 6; ++i)
 		{
 			if (i == pointer)
 			{
@@ -419,7 +537,7 @@ void SchoolBus::menuStarting(){
 			if (ch == ARROW_DOWN) {
 				Beep(250, 160);
 				pointer += 1;
-				if (pointer == 5)
+				if (pointer == 6)
 				{
 					pointer = 0;
 				}
@@ -431,7 +549,7 @@ void SchoolBus::menuStarting(){
 				pointer -= 1;
 				if (pointer == -1)
 				{
-					pointer = 4;
+					pointer = 5;
 				}
 				break;
 			}
@@ -459,6 +577,9 @@ void SchoolBus::menuStarting(){
 					showMap();
 					break;
 				case 4:
+					showAllClientsAndSchools();
+					break;
+				case 5:
 					saveData();
 					exiting();
 				}
@@ -469,10 +590,12 @@ void SchoolBus::menuStarting(){
 
 void SchoolBus::searchSchoolID(int schoolID){
 	bool found = false;
+	School *tempSchool;
 
 	for (size_t i = 0; i < schools.size(); i++){
 		if (schools[i]->getID()==schoolID){
 			found = true;
+			tempSchool = schools[i];
 			break;
 		}
 	}
@@ -482,11 +605,11 @@ void SchoolBus::searchSchoolID(int schoolID){
 		printAppName();
 		cleanBuffer();
 		char input = ' ';
-		cout << "> Do you want to see the BUS Route?";
+		cout << "> Do you want to see the location of the School and its students?";
 		cin >> input;
 		if (input == 'y' || input == 'Y'){
 			cout << "\n> Please wait a moment while the map loads.\n";
-			showGraph(); // TODO - IMPRIMIR ROTA - alterar para valores corretos (valor 6 aqui colocado é random - deve ser mudado apra o nodeID da escola)
+			showSchoolAndStudents(tempSchool);
 		}
 
 		pressKeyToContinue();
@@ -497,17 +620,19 @@ void SchoolBus::searchSchoolID(int schoolID){
 		setColor(4, 0);
 		cout << ":: ERROR: There is no School with the ID " << schoolID << " registered in the database! Please try again."<< endl << endl;
 		setColor(7, 0);
-		Sleep(1000);
+		Sleep(2000);
 		menuSearchSchool();
 	}
 }
 
 void SchoolBus::searchSchoolName(string schoolName){
 	bool found = false;
+	School *tempSchool;
 
 	for (size_t i = 0; i < schools.size(); i++){
 		if (schools[i]->getName()==schoolName){
 			found = true;
+			tempSchool = schools[i];
 			break;
 		}
 	}
@@ -517,27 +642,28 @@ void SchoolBus::searchSchoolName(string schoolName){
 		printAppName();
 		cleanBuffer();
 		char input = ' ';
-		cout << "> Do you want to see the BUS Route?";
+		cout << "> Do you want to see the location of the School and its students?";
 		cin >> input;
 		if (input == 'y' || input == 'Y'){
 			cout << "\n> Please wait a moment while the map loads.\n";
-			showGraph(); // TODO - IMPRIMIR ROTA - alterar para valores corretos (valor 6 aqui colocado é random - deve ser mudado apra o nodeID da escola)
+			showSchoolAndStudents(tempSchool);
 		}
+
 		pressKeyToContinue();
-		menuSearchBus();
+		menuSearchSchool();
 	}
 
 	else {
 		setColor(4, 0);
 		cout << ":: ERROR: There is no School with the name " << schoolName << " registered in the database! Please try again."<< endl << endl;
 		setColor(7, 0);
-		Sleep(1000);
+		Sleep(2000);
 		menuSearchBus();
 	}
 }
 
 void SchoolBus::menuSearchSchool(){
-	string Menu[4] = { "<<  SEARCH BY ID      >>", "<<  SEARCH BY NAME  >>", "<<  BACK              >>", "<<  EXIT              >>" };
+	string Menu[4] = { "<<  SEARCH BY ID      >>", "<<  SEARCH BY NAME    >>", "<<  BACK              >>", "<<  EXIT              >>" };
 	bool validity = true;
 	int pointer = 0;
 	int id;
@@ -611,19 +737,19 @@ void SchoolBus::menuSearchSchool(){
 						setColor(4, 0);
 						cout << ":: ERROR: Invalid input! Please try again." << endl << endl;
 						setColor(7, 0);
-						Sleep(1000);
+						Sleep(2000);
 					}
 					else
 						searchSchoolID(id);
 					pressKeyToContinue();
 					cleanBuffer();
-					menuSearchBus();
+					menuSearchSchool();
 				case 1:
 					validity = false;
 					clrscr();
 					printAppName();
 					cleanBuffer();
-					cout << ">> BUS REGISTRATION: ";
+					cout << ">> SCHOOL NAME: ";
 					getline(cin, name);
 					searchSchoolName(name);
 					pressKeyToContinue();
@@ -665,7 +791,7 @@ string SchoolBus::registerSchoolName(){
 		cleanBuffer();
 		setColor(4, 0);
 		cout << ":: ERROR: Invalid school name! Please try again." << endl << endl;
-		Sleep(1000);
+		Sleep(2000);
 		setColor(7, 0);
 		clrscr();
 		printAppName();
@@ -726,7 +852,7 @@ int SchoolBus::registerSchoolNodeID(){
 		cleanBuffer();
 		setColor(4, 0);
 		cout << ":: ERROR: Invalid school localization! Please try again." << endl << endl;
-		Sleep(1000);
+		Sleep(2000);
 		setColor(7, 0);
 		clrscr();
 		printAppName();
@@ -915,10 +1041,9 @@ void SchoolBus::menuClientManagement(){
 					break;
 				case 1:
 					validity = false;
-					exit(0);
+					menuSearchStudent();
 					break;
 				case 2:
-					saveData();
 					registerNewClient();
 					break;
 				case 3:
@@ -936,9 +1061,11 @@ void SchoolBus::menuClientManagement(){
 
 void SchoolBus::searchBusID(int busID){
 	bool found = false;
+	Bus tempBus;
 
 	for (size_t i = 0; i < bus.size(); i++){
 		if (bus[i].getID()==busID){
+			tempBus = bus[i];
 			found = true;
 			break;
 		}
@@ -953,7 +1080,7 @@ void SchoolBus::searchBusID(int busID){
 		cin >> input;
 		if (input == 'y' || input == 'Y'){
 			cout << "\n> Please wait a moment while the map loads.\n";
-			showGraph(); // TODO - IMPRIMIR ROTA - alterar para valores corretos (valor 6 aqui colocado é random - deve ser mudado apra o nodeID da escola)
+			generateRoute(this->nodeID, tempBus.getSchool()->getNodeID(),tempBus.getStops());
 		}
 
 		pressKeyToContinue();
@@ -964,16 +1091,18 @@ void SchoolBus::searchBusID(int busID){
 		setColor(4, 0);
 		cout << ":: ERROR: There is no BUS with the ID " << busID << " registered in the database! Please try again."<< endl << endl;
 		setColor(7, 0);
-		Sleep(1000);
+		Sleep(2000);
 		menuSearchBus();
 	}
 }
 
 void SchoolBus::searchBusReg(string busReg){
 	bool found = false;
+	Bus tempBus;
 
 	for (size_t i = 0; i < bus.size(); i++){
 		if (bus[i].getRegistration()==busReg){
+			tempBus = bus[i];
 			found = true;
 			break;
 		}
@@ -988,7 +1117,7 @@ void SchoolBus::searchBusReg(string busReg){
 		cin >> input;
 		if (input == 'y' || input == 'Y'){
 			cout << "\n> Please wait a moment while the map loads.\n";
-			showGraph(); // TODO - IMPRIMIR ROTA - alterar para valores corretos (valor 6 aqui colocado é random - deve ser mudado apra o nodeID da escola)
+			generateRoute(this->nodeID, tempBus.getSchool()->getNodeID(),tempBus.getStops());
 		}
 
 		pressKeyToContinue();
@@ -999,7 +1128,7 @@ void SchoolBus::searchBusReg(string busReg){
 		setColor(4, 0);
 		cout << ":: ERROR: There is no BUS with the Registration " << busReg << " registered in the database! Please try again."<< endl << endl;
 		setColor(7, 0);
-		Sleep(1000);
+		Sleep(2000);
 		menuSearchSchool();
 	}
 }
@@ -1079,7 +1208,7 @@ void SchoolBus::menuSearchBus(){
 						setColor(4, 0);
 						cout << ":: ERROR: Invalid input! Please try again." << endl << endl;
 						setColor(7, 0);
-						Sleep(1000);
+						Sleep(2000);
 					}
 					else
 						searchBusID(id);
@@ -1127,7 +1256,7 @@ int SchoolBus::registerBusYear(){
 		cleanBuffer();
 		setColor(4, 0);
 		cout << ":: ERROR: Invalid construction year! Please try again." << endl << endl;
-		Sleep(1000);
+		Sleep(2000);
 		setColor(7, 0);
 		clrscr();
 		printAppName();
@@ -1172,7 +1301,7 @@ string SchoolBus::registerBusRegistration(){
 		cleanBuffer();
 		setColor(4, 0);
 		cout << ":: ERROR: Invalid registration! Please try again." << endl << endl;
-		Sleep(1000);
+		Sleep(2000);
 		setColor(7, 0);
 		clrscr();
 		printAppName();
@@ -1198,7 +1327,7 @@ int SchoolBus::registerBusCapacity(){
 		cleanBuffer();
 		setColor(4, 0);
 		cout << ":: ERROR: Invalid bus capacity! Please try again." << endl << endl;
-		Sleep(1000);
+		Sleep(2000);
 		setColor(7, 0);
 		clrscr();
 		printAppName();
@@ -1234,7 +1363,7 @@ int SchoolBus::registerBusSchool(){
 		cleanBuffer();
 		setColor(4, 0);
 		cout << ":: ERROR: Invalid school ID! Please try again." << endl << endl;
-		Sleep(1000);
+		Sleep(2000);
 		setColor(7, 0);
 		clrscr();
 		printAppName();
@@ -1250,8 +1379,10 @@ int SchoolBus::registerBusSchool(){
 void SchoolBus::registerNewBus(){
 
 	if (schools.size() == 0){
+		clrscr();
+		printAppName();
 		setColor(4, 0);
-		cout << ":: ERROR: Can´t create bus because currently there is no any school in database." << endl << endl;
+		cout << ":: ERROR: Cant create bus because currently there is no any school in database." << endl << endl;
 		Sleep(2000);
 		setColor(7, 0);
 		menuBusManagement();
@@ -1291,13 +1422,13 @@ string SchoolBus::registerStudentName(){
 	printAppName();
 
 	cout << ">> STUDENT NAME: ";
-	getline(cin, stuName);
+	cin >> stuName;
 
-	while(cin.fail() || stuName.size()>20){
+	while(cin.fail() || stuName.size()<2 || stuName.size()>20){
 		cleanBuffer();
 		setColor(4, 0);
 		cout << ":: ERROR: Invalid name! Please try again." << endl << endl;
-		Sleep(1000);
+		Sleep(2000);
 		setColor(7, 0);
 		clrscr();
 		printAppName();
@@ -1322,7 +1453,7 @@ int SchoolBus::registerStudentSchool(){
 		cleanBuffer();
 		setColor(4, 0);
 		cout << ":: ERROR: Invalid school ID! Please try again." << endl << endl;
-		Sleep(1000);
+		Sleep(2000);
 		setColor(7, 0);
 		clrscr();
 		printAppName();
@@ -1397,7 +1528,7 @@ int SchoolBus::registerStudentNode(int schoolNodeID){
 		cleanBuffer();
 		setColor(4, 0);
 		cout << ":: ERROR: Invalid student localization! Please try again." << endl << endl;
-		Sleep(1000);
+		Sleep(2000);
 		setColor(7, 0);
 		clrscr();
 		printAppName();
@@ -1465,6 +1596,147 @@ void SchoolBus::registerNewClient(){
 		menuClientManagement();
 	}
 
+}
+
+void SchoolBus::searchStudentID(int studentID){
+	bool found = false;
+	Student * tempStudent;
+	Bus tempBus;
+
+	for (size_t i = 0; i < schools.size(); i++){
+		for (size_t j = 0; j < schools[i]->getStudents().size(); j++){
+			if (schools[i]->getStudents()[j]->getID()==studentID){
+				found = true;
+				tempStudent = schools[i]->getStudents()[j];
+				break;
+			}
+		}
+	}
+
+	for (size_t k = 0; k < bus.size(); k++){
+		if (bus[k].getID() == tempStudent->getBusID()){
+			tempBus = bus[k];
+		}
+	}
+
+	if (found){
+		clrscr();
+		printAppName();
+		cleanBuffer();
+		char input = ' ';
+		cout << "> Do you want to see the route of the student to the school?";
+		cin >> input;
+		if (input == 'y' || input == 'Y'){
+			cout << "\n> Please wait a moment while the map loads.\n";
+			generateRoute(this->nodeID, tempBus.getSchool()->getNodeID(), tempBus.getStops());
+		}
+
+		pressKeyToContinue();
+		menuSearchSchool();
+	}
+
+	else {
+		setColor(4, 0);
+		cout << ":: ERROR: There is no student with the ID " << studentID << " registered in the database! Please try again."<< endl << endl;
+		setColor(7, 0);
+		Sleep(2000);
+		menuSearchStudent();
+	}
+}
+
+void SchoolBus::menuSearchStudent(){
+	string Menu[3] = { "<<  SEARCH BY ID      >>", "<<  BACK              >>", "<<  EXIT              >>" };
+	bool validity = true;
+	int pointer = 0;
+	int id;
+	string name;
+
+	while (validity)
+	{
+		clrscr();
+		printAppName();
+		setColor(11, 0);
+		cout << setw(51) << "<<<<< SEARCH CLIENT>>>>>" << endl << endl;
+
+		for (int i = 0; i < 3; ++i)
+		{
+			if (i == pointer)
+			{
+				cout << "                           ";
+				setColor(3, 1);
+				cout << Menu[i] << endl << endl;
+			}
+			else
+			{
+				setColor(3, 0);
+				cout << setw(51) << Menu[i] << endl << endl;
+			}
+		}
+		setColor(7, 0);
+
+		while (validity)
+		{
+			int ch = _getch();
+
+			if (ch == 0 || ch == 224)
+				ch = 256 + _getch();
+
+			if (ch == ARROW_DOWN) {
+				Beep(250, 160);
+				pointer += 1;
+				if (pointer == 3)
+				{
+					pointer = 0;
+				}
+				break;
+			}
+
+			if (ch == ARROW_UP){
+				Beep(250, 160);
+				pointer -= 1;
+				if (pointer == -1)
+				{
+					pointer = 2;
+				}
+				break;
+			}
+
+			if (ch == '\r')
+			{
+				setColor(7, 0);
+				Beep(200, 160);
+
+				switch (pointer)
+				{
+				case 0:
+					validity = false;
+					clrscr();
+					printAppName();
+					cleanBuffer();
+					cout << ">> CLIENT ID: ";
+					cin >> id;
+					if (cin.fail()){
+						setColor(4, 0);
+						cout << ":: ERROR: Invalid input! Please try again." << endl << endl;
+						setColor(7, 0);
+						Sleep(2000);
+					}
+					else
+						searchStudentID(id);
+					pressKeyToContinue();
+					cleanBuffer();
+					menuSearchStudent();
+				case 1:
+					validity = false;
+					menuClientManagement();
+					break;
+				case 2:
+					saveData();
+					exiting();
+				}
+			}
+		}
+	}
 }
 
 void SchoolBus::menuBusManagement(){

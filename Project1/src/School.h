@@ -14,6 +14,7 @@ class School {
 	static int lastID;
 	int nodeID;
 public:
+
 	/**
 	 * @brief School's constructor
 	 *

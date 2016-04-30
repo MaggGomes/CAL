@@ -10,7 +10,7 @@
 #include "Utilities.h"
 #include "Graph.h"
 
-#define WIDTH_SIZE 600
+#define WIDTH_SIZE 800
 #define HEIGHT_SIZE 600
 
 using namespace std;

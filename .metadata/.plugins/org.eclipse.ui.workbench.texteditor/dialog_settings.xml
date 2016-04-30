@@ -2,22 +2,23 @@
 <section name="Workbench">
 	<section name="org.eclipse.ui.texteditor.FindReplaceDialog">
 		<item value="false" key="isRegEx"/>
-		<item value="250" key="selection"/>
+		<item value="setVerte" key="selection"/>
 		<item value="false" key="casesensitive"/>
 		<item value="false" key="incremental"/>
 		<item value="true" key="wrap"/>
 		<item value="false" key="wholeword"/>
 		<list key="findhistory">
-			<item value="2503"/>
-			<item value="250"/>
-			<item value="250360775"/>
-			<item value="314443031"/>
-			<item value="314443050"/>
-			<item value="314443030"/>
-			<item value="314443029"/>
-			<item value="314443028"/>
+			<item value="setverte"/>
+			<item value="registerstu"/>
+			<item value="validstu"/>
+			<item value="bool SchoolBus::validStudentNodeID(int nodeID"/>
+			<item value="validnode"/>
+			<item value="bus.csv"/>
+			<item value="students.csv"/>
+			<item value="schools.csv"/>
 		</list>
 		<list key="replacehistory">
+			<item value="size_t"/>
 			<item value="registered in"/>
 			<item value="ERROR"/>
 			<item value="validity"/>
@@ -28,7 +29,7 @@
 		<item value="257" key="DIALOG_WIDTH"/>
 		<item value="1|Segoe UI|9.0|0|WINDOWS|1|-12|0|0|0|400|0|0|0|1|0|0|0|0|Segoe UI" key="DIALOG_FONT_NAME"/>
 		<item value="403" key="DIALOG_HEIGHT"/>
-		<item value="952" key="DIALOG_X_ORIGIN"/>
+		<item value="873" key="DIALOG_X_ORIGIN"/>
 		<item value="333" key="DIALOG_Y_ORIGIN"/>
 	</section>
 </section>

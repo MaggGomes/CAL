@@ -2,6 +2,8 @@
 
 int Bus::lastID = 0;
 
+Bus::Bus(){}
+
 Bus::Bus(int buildYear, string registration, int capacity){
 	this->ID = lastID;
 	this->buildYear = buildYear;
@@ -59,6 +61,15 @@ int Bus::getID() const {
 	return ID;
 }
 
+vector<int> Bus::getStops() const{
+	vector <int> stops;
+
+	for (size_t i = 0; i < students.size(); i++)
+		stops.push_back(students[i]->getNodeID());
+
+	return stops;
+}
+
 bool Bus::operator==(const Bus bus) const{
 	if (this->registration == bus.getRegistration())
 		return true;
@@ -76,8 +87,11 @@ ostream& operator<<(ostream& os, const Bus& bus){
 	os << "Capacity: ";
 	os << bus.getCapacity();
 	os << " | ";
-	os << "Current occupation: ";
+	os << "Occupation: ";
 	os << bus.getStudents().size();
+	os << " | ";
+	os << "School ID: ";
+	os << bus.getSchool()->getID();
 	os << endl;
 
 	return os;
