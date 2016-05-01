@@ -56,7 +56,8 @@ int main(){
 
 	SchoolBus schoolBus;
 	//schoolBus.generateRoute(459, 458, vec);
-	schoolBus.menuStarting();
-
+	//schoolBus.menuStarting();
+	cout << schoolBus.placeStudent(96,0,1)<< endl;
+	pressKeyToContinue();
 	return 0;
 }

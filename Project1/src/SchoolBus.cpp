@@ -1565,10 +1565,10 @@ void SchoolBus::registerNewClient(){
 		}
 
 		int nodeID = registerStudentNode(schoolNodeID);
-		int busID = registerStudentBus(schoolID);
+		//int busID = registerStudentBus(schoolID);
 
 		Student tempStudent(name, nodeID);
-		tempStudent.setBusID(busID);
+		//tempStudent.setBusID(busID);
 		tempStudent.setSchoolID(schoolID);
 
 		Student* ptTempStudent = &tempStudent;
@@ -1580,11 +1580,18 @@ void SchoolBus::registerNewClient(){
 			}
 		}
 
-		for (size_t i = 0; i < bus.size(); i++){
-			if (bus[i].getID() == busID){
-				bus[i].addStudent(ptTempStudent);
-				break;
-			}
+		int busInd = placeStudent(nodeID,schoolID,1);
+		if(busInd != -1){
+			bus[busInd].addStudent(ptTempStudent);
+			setColor(10, 0);
+			cout << ":: INFO: A new client was registered with success! Bus " << bus[busInd].getRegistration() << endl << endl;
+			setColor(7, 0);
+		}else{
+			setColor(4, 0);
+			cout << ":: ERROR: Cant register the client because currently there isnt any bus available. Please register another bus to school " << schoolID << endl << endl;
+			Sleep(5000);
+			setColor(7, 0);
+			menuClientManagement();
 		}
 
 		setColor(10, 0);
@@ -1844,6 +1851,8 @@ int SchoolBus::placeStudent(int nodeID,int schoolID,int start){
 		}
 	}
 
+
+	cout << vecBus.size() << endl;
 	if (vecBus.size() == 1)
 		return vecBus[0];
 
@@ -1861,7 +1870,7 @@ int SchoolBus::placeStudent(int nodeID,int schoolID,int start){
 		stuNodes.push_back(end);
 
 		int tDist = this->getRoutesGraph().calculateDist(stuNodes);
-
+cout << tDist<< endl;
 		if (tDist < dist && bus[tBus].getCapacity() > bus[tBus].getStudents().size()) {
 			dist = tDist;
 			tBus = vecBus[i];

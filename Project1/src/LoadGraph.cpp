@@ -183,8 +183,8 @@ vector <Connect> LoadGraph::loadConnections(const string &connections){
 double LoadGraph::degToCartLat(double coord){
 	double ret = 0, maxWin=WIDTH_SIZE;
 
-	double lat_min = 41.40894;
-	double lat_max = 41.24228;
+	double lat_min = 41.36190;
+	double lat_max = 41.35170;
 
 	double dLat = lat_max - lat_min;
 
@@ -196,8 +196,9 @@ double LoadGraph::degToCartLat(double coord){
 double LoadGraph::degToCartLong(double coord){
 	double ret = 0, maxWin=HEIGHT_SIZE;
 
-	double long_min = -8.780089;
-	double long_max = -8.605257;
+	double long_min = -8.755425;
+	double long_max = -8.739415;
+
 
 	double dLong = long_max - long_min;
 
@@ -209,7 +210,7 @@ double LoadGraph::distance(double aLat,double aLong,double bLat,double bLong){
 	double ax = degToCartLong(aLong);
 	double ay = degToCartLat(aLat);
 	double bx = degToCartLong(bLong);
-	double by = degToCartLong(bLat);
+	double by = degToCartLat(bLat);
 
 	return sqrt( pow((bx-ax),2) + pow((by-ay),2));
 }
