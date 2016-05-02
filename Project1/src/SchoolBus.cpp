@@ -1890,10 +1890,10 @@ int SchoolBus::validNodes(int node1ID, int node2ID){
 
 	for (size_t i = 0; i < routesGraph.getVertexSet().size(); i++)
 		{
-			if (routesGraph.getVertexSet()[i]->gvNodeID == node1ID)
+			if (routesGraph.getVertexSet()[i]->getInfo() == node1ID)
 			{
 				for (size_t j = 0; j < routesGraph.getVertexSet()[i]->adj.size(); j++){
-					if (routesGraph.getVertexSet()[i]->adj[j].getDest()->gvNodeID == node2ID)
+					if (routesGraph.getVertexSet()[i]->adj[j].getDest()->getInfo() == node2ID)
 					{
 						edgeWeight = routesGraph.getVertexSet()[i]->adj[j].getWeigth();
 						routesGraph.getVertexSet()[i]->adj[j].setWeight(INT_INFINITY);
@@ -1904,10 +1904,10 @@ int SchoolBus::validNodes(int node1ID, int node2ID){
 
 	for (size_t i = 0; i < routesGraph.getVertexSet().size(); i++)
 			{
-				if (routesGraph.getVertexSet()[i]->gvNodeID == node2ID)
+				if (routesGraph.getVertexSet()[i]->getInfo() == node2ID)
 				{
 					for (size_t j = 0; j < routesGraph.getVertexSet()[i]->adj.size(); j++){
-						if (routesGraph.getVertexSet()[i]->adj[j].getDest()->gvNodeID == node1ID)
+						if (routesGraph.getVertexSet()[i]->adj[j].getDest()->getInfo() == node1ID)
 						{
 							edgeWeight = routesGraph.getVertexSet()[i]->adj[j].getWeigth();
 							routesGraph.getVertexSet()[i]->adj[j].setWeight(INT_INFINITY);
@@ -1926,10 +1926,10 @@ void SchoolBus::showRemovedConnectionGraph(int node1ID, int node2ID){
 	//find the edge removed
 	for (size_t i = 0; i < routesGraph.getVertexSet().size(); i++)
 			{
-				if (routesGraph.getVertexSet()[i]->gvNodeID == node1ID)
+				if (routesGraph.getVertexSet()[i]->getInfo() == node1ID)
 				{
 					for (size_t j = 0; j < routesGraph.getVertexSet()[i]->adj.size(); j++){
-						if (routesGraph.getVertexSet()[i]->adj[j].getDest()->gvNodeID == node2ID)
+						if (routesGraph.getVertexSet()[i]->adj[j].getDest()->getInfo() == node2ID)
 						{
 							edgeID = routesGraph.getVertexSet()[i]->adj[j].getGvEdgeID();
 						}
@@ -1965,6 +1965,7 @@ void SchoolBus::showRemovedConnectionGraph(int node1ID, int node2ID){
 				routes[i]->adj[j].setGvEdgeID(counter);
 			}
 		}
+
 		gv->setEdgeWeight(edgeID, INT_INFINITY);
 		gv->setEdgeColor(edgeID, _RED);
 		gv->rearrange();
