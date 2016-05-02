@@ -1902,6 +1902,20 @@ int SchoolBus::validNodes(int node1ID, int node2ID){
 			}
 		}
 
+	for (size_t i = 0; i < routesGraph.getVertexSet().size(); i++)
+			{
+				if (routesGraph.getVertexSet()[i]->gvNodeID == node2ID)
+				{
+					for (size_t j = 0; j < routesGraph.getVertexSet()[i]->adj.size(); j++){
+						if (routesGraph.getVertexSet()[i]->adj[j].getDest()->gvNodeID == node1ID)
+						{
+							edgeWeight = routesGraph.getVertexSet()[i]->adj[j].getWeigth();
+							routesGraph.getVertexSet()[i]->adj[j].setWeight(INT_INFINITY);
+						}
+					}
+				}
+			}
+
 	return edgeWeight;
 }
 
