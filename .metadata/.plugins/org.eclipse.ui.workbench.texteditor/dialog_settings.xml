@@ -2,22 +2,23 @@
 <section name="Workbench">
 	<section name="org.eclipse.ui.texteditor.FindReplaceDialog">
 		<item value="false" key="isRegEx"/>
-		<item value="setVerte" key="selection"/>
+		<item value="28610292" key="selection"/>
 		<item value="false" key="casesensitive"/>
 		<item value="false" key="incremental"/>
 		<item value="true" key="wrap"/>
 		<item value="false" key="wholeword"/>
 		<list key="findhistory">
-			<item value="setverte"/>
-			<item value="registerstu"/>
-			<item value="validstu"/>
-			<item value="bool SchoolBus::validStudentNodeID(int nodeID"/>
-			<item value="validnode"/>
-			<item value="bus.csv"/>
-			<item value="students.csv"/>
-			<item value="schools.csv"/>
+			<item value="28610292"/>
+			<item value="518288225"/>
+			<item value="168"/>
+			<item value="Sleep(1000);"/>
+			<item value="search"/>
+			<item value="cout"/>
+			<item value="s"/>
+			<item value="calc"/>
 		</list>
 		<list key="replacehistory">
+			<item value="Sleep(2000);"/>
 			<item value="size_t"/>
 			<item value="registered in"/>
 			<item value="ERROR"/>
