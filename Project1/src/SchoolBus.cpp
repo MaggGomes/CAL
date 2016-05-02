@@ -1861,7 +1861,7 @@ int SchoolBus::placeStudent(int nodeID,int schoolID,int start){
 		return vecBus[0];
 
 	int tBus = -1;
-	int dist = 9999999;
+	int dist = INT_INFINITY;
 
 	for (int i = 0; i < vecBus.size(); i++) {
 		vector<int> stuNodes;
@@ -1874,7 +1874,7 @@ int SchoolBus::placeStudent(int nodeID,int schoolID,int start){
 		stuNodes.push_back(end);
 
 		int tDist = this->getRoutesGraph().calculateDist(stuNodes);
-cout << tDist<< endl;
+
 		if (tDist < dist && bus[tBus].getCapacity() > bus[tBus].getStudents().size()) {
 			dist = tDist;
 			tBus = vecBus[i];
@@ -1974,7 +1974,9 @@ int SchoolBus::menuRemoveConnection(){
 
 	showGraph();
 
-	int node1ID, node2ID, edgeWeight = 0, edgeID;
+	int edgeWeight = 0;
+
+	int node1ID, node2ID, edgeID;
 	string startNodeID, endNodeID;
 	int valid;
 
