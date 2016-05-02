@@ -1921,7 +1921,6 @@ int SchoolBus::validNodes(int node1ID, int node2ID){
 
 void SchoolBus::showRemovedConnectionGraph(int node1ID, int node2ID){
 
-	int edgeID;
 
 	//find the edge removed
 	for (size_t i = 0; i < routesGraph.getVertexSet().size(); i++)
@@ -1931,7 +1930,7 @@ void SchoolBus::showRemovedConnectionGraph(int node1ID, int node2ID){
 					for (size_t j = 0; j < routesGraph.getVertexSet()[i]->adj.size(); j++){
 						if (routesGraph.getVertexSet()[i]->adj[j].getDest()->getInfo() == node2ID)
 						{
-							edgeID = routesGraph.getVertexSet()[i]->adj[j].getGvEdgeID();
+							gv->setEdgeColor(routesGraph.getVertexSet()[i]->adj[j].getGvEdgeID(), _RED);
 						}
 					}
 				}
@@ -1966,8 +1965,8 @@ void SchoolBus::showRemovedConnectionGraph(int node1ID, int node2ID){
 			}
 		}
 
-		gv->setEdgeWeight(edgeID, INT_INFINITY);
-		gv->setEdgeColor(edgeID, _RED);
+		//gv->setEdgeWeight(edgeID, INT_INFINITY);
+		//gv->setEdgeColor(edgeID, _RED);
 		gv->rearrange();
 }
 
