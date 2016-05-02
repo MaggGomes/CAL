@@ -137,6 +137,9 @@ public:
 	Vertex<T> * getDest() const {
 		return dest;
 	}
+	void setWeight(double peso) const {
+		weight = peso;
+	}
 	double getWeigth() const {
 		return weight;
 	}

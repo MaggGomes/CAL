@@ -365,6 +365,10 @@ public:
 	 * @param The node where the student is, and the school where the student belongs
 	 */
 	int placeStudent(int nodeID,int schoolID,int start);
+
+	int removeConnection();
+
+	bool validNodes(int node1ID, int node2ID);
 };
 
 #endif // SCHOOLBUS_H

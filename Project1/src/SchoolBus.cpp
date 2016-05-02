@@ -1879,3 +1879,76 @@ cout << tDist<< endl;
 
 	return tBus;
 }
+
+bool SchoolBus::validNodes(int node1ID, int node2ID){
+
+	int edgeWeight = 0;
+	bool valid = false;
+
+	for (size_t i = 0; i < routesGraph.getVertexSet().size(); i++)
+		{
+			if (routesGraph.getVertexSet()[i]->gvNodeID == node1ID)
+			{
+				for (size_t j = 0; j < routesGraph.getVertexSet()[i]->adj.size(); j++){
+					if (routesGraph.getVertexSet()[i]->adj[j].getDest()->gvNodeID == node2ID)
+					{
+						edgeWeight = routesGraph.getVertexSet()[i]->adj[j].getWeigth();
+						routesGraph.getVertexSet()[i]->adj[j].setWeight(INT_INFINITY);
+						valid = true;
+					}
+				}
+			}
+		}
+
+	return valid;
+}
+
+int SchoolBus::removeConnection(){
+
+	showGraph();
+
+	int node1ID, node2ID, edgeWeight = 0;
+	string startNodeID, endNodeID;
+	bool valid;
+
+	clrscr();
+	printAppName();
+
+	cout << ">> Start Node ID: ";
+	cin >> startNodeID;
+
+	clrscr();
+	printAppName();
+	cout << ">> End Node ID: ";
+	cin >> endNodeID;
+
+	node1ID= atoi(startNodeID.c_str());
+	node2ID= atoi(endNodeID.c_str());
+
+	valid = validNodes(node1ID, node2ID);
+
+	while(cin.fail() || valid == false){
+		cleanBuffer();
+		setColor(4, 0);
+		cout << ":: ERROR: Invalid Nodes! Please try again." << endl << endl;
+		Sleep(2000);
+		setColor(7, 0);
+		clrscr();
+		printAppName();
+		cout << ">> Start Node ID: ";
+		getline(cin, startNodeID);
+		clrscr();
+		printAppName();
+		cout << ">> End Node ID : ";
+		getline(cin, endNodeID);
+		node1ID= atoi(startNodeID.c_str());
+		node2ID= atoi(endNodeID.c_str());
+		valid = validNodes(node1ID, node2ID);
+	}
+
+	cleanBuffer();
+
+	showGraph();
+
+	return edgeWeight;
+}
