@@ -500,7 +500,7 @@ void SchoolBus::menuShowStudents(){
 }
 
 void SchoolBus::menuStarting(){
-	string Menu[7] = { "<<  SCHOOL MANAGEMENT >>", "<<  CLIENT MANAGEMENT >>", "<<  BUS MANAGEMENT    >>", "<<  VIEW OF CITY MAP  >>", "<< VIEW OF CLIENT MAP >>", "<< REMOVE CONNECTION  >>" , "<<  EXIT              >>" };
+	string Menu[7] = { "<<  SCHOOL MANAGEMENT >>", "<<  CLIENT MANAGEMENT >>", "<<  BUS MANAGEMENT    >>", "<<  VIEW OF CITY MAP  >>", "<<  VIEW OF CLIENT MAP>>", "<<  REMOVE CONNECTION >>" , "<<  EXIT              >>" };
 	bool validity = true;
 	int pointer = 0;
 
@@ -537,7 +537,7 @@ void SchoolBus::menuStarting(){
 			if (ch == ARROW_DOWN) {
 				Beep(250, 160);
 				pointer += 1;
-				if (pointer == 6)
+				if (pointer == 7)
 				{
 					pointer = 0;
 				}
@@ -549,7 +549,7 @@ void SchoolBus::menuStarting(){
 				pointer -= 1;
 				if (pointer == -1)
 				{
-					pointer = 5;
+					pointer = 6;
 				}
 				break;
 			}
@@ -590,6 +590,7 @@ void SchoolBus::menuStarting(){
 		}
 	}
 }
+
 
 void SchoolBus::searchSchoolID(int schoolID){
 	bool found = false;
@@ -1922,6 +1923,7 @@ void SchoolBus::showRemovedConnectionGraph(int node1ID, int node2ID){
 				}
 			}
 
+	//show the graph
 	gv = new GraphViewer(WIDTH_SIZE, HEIGHT_SIZE, false);
 		gv->createWindow(WIDTH_SIZE, HEIGHT_SIZE);
 		gv->defineVertexColor("CYAN");
@@ -1950,6 +1952,7 @@ void SchoolBus::showRemovedConnectionGraph(int node1ID, int node2ID){
 			}
 		}
 		gv->setEdgeWeight(edgeID, INT_INFINITY);
+		gv->setEdgeColor(edgeID, _RED);
 		gv->rearrange();
 }
 
@@ -1965,15 +1968,15 @@ int SchoolBus::menuRemoveConnection(){
 	printAppName();
 
 	cout << ">> Start Node ID: ";
-	cin >> startNodeID;
+	cin >> node1ID;
 
 	clrscr();
 	printAppName();
 	cout << ">> End Node ID: ";
-	cin >> endNodeID;
+	cin >> node2ID;
 
-	node1ID= atoi(startNodeID.c_str());
-	node2ID= atoi(endNodeID.c_str());
+	//node1ID= atoi(startNodeID.c_str());
+	//node2ID= atoi(endNodeID.c_str());
 
 	valid = validNodes(node1ID, node2ID);
 
@@ -1986,13 +1989,13 @@ int SchoolBus::menuRemoveConnection(){
 		clrscr();
 		printAppName();
 		cout << ">> Start Node ID: ";
-		getline(cin, startNodeID);
+		cin >> node1ID;
 		clrscr();
 		printAppName();
 		cout << ">> End Node ID : ";
-		getline(cin, endNodeID);
-		node1ID= atoi(startNodeID.c_str());
-		node2ID= atoi(endNodeID.c_str());
+		cin >> node2ID;
+		//node1ID= atoi(startNodeID.c_str());
+		//node2ID= atoi(endNodeID.c_str());
 		valid = validNodes(node1ID, node2ID);
 	}
 
@@ -2001,6 +2004,8 @@ int SchoolBus::menuRemoveConnection(){
 	this->routesGraph.floydWarshallShortestPath();
 
 	showRemovedConnectionGraph(node1ID, node2ID);
+
+	menuStarting();
 
 	return edgeWeight;
 }
