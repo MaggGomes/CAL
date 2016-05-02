@@ -365,12 +365,23 @@ public:
 	 * @param The node where the student is, and the school where the student belongs
 	 */
 	int placeStudent(int nodeID,int schoolID,int start);
-
-	int removeConnection();
-
+	/**
+	 * @brief Menu to remove connection
+	 */
+	int menuRemoveConnection();
+	/**
+	 * @brief Checks if the nodes are connected
+	 *
+	 * @param The nodes to be checked
+	 */
 	int validNodes(int node1ID, int node2ID);
 
-	void showRemovedConnectionGraph(int EdgeID);
+	/**
+	 * @brief Show graph highlighting the removed connection
+	 *
+	 * @param Nodes of the connection
+	 */
+	void showRemovedConnectionGraph(int node1ID, int node2ID);
 };
 
 #endif // SCHOOLBUS_H

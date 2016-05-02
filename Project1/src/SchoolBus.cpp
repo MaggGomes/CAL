@@ -500,7 +500,7 @@ void SchoolBus::menuShowStudents(){
 }
 
 void SchoolBus::menuStarting(){
-	string Menu[6] = { "<<  SCHOOL MANAGEMENT >>", "<<  CLIENT MANAGEMENT >>", "<<  BUS MANAGEMENT    >>", "<<  VIEW OF CITY MAP  >>", "<<  VIEW OF CLIENT MAP>>", "<<  EXIT              >>" };
+	string Menu[7] = { "<<  SCHOOL MANAGEMENT >>", "<<  CLIENT MANAGEMENT >>", "<<  BUS MANAGEMENT    >>", "<<  VIEW OF CITY MAP  >>", "<< VIEW OF CLIENT MAP >>", "<< REMOVE CONNECTION  >>" , "<<  EXIT              >>" };
 	bool validity = true;
 	int pointer = 0;
 
@@ -580,6 +580,9 @@ void SchoolBus::menuStarting(){
 					showAllClientsAndSchools();
 					break;
 				case 5:
+					menuRemoveConnection();
+					break;
+				case 6:
 					saveData();
 					exiting();
 				}
@@ -1901,7 +1904,23 @@ int SchoolBus::validNodes(int node1ID, int node2ID){
 	return edgeWeight;
 }
 
-void SchoolBus::showRemovedConnectionGraph(int EdgeID){
+void SchoolBus::showRemovedConnectionGraph(int node1ID, int node2ID){
+
+	int edgeID;
+
+	//find the edge removed
+	for (size_t i = 0; i < routesGraph.getVertexSet().size(); i++)
+			{
+				if (routesGraph.getVertexSet()[i]->gvNodeID == node1ID)
+				{
+					for (size_t j = 0; j < routesGraph.getVertexSet()[i]->adj.size(); j++){
+						if (routesGraph.getVertexSet()[i]->adj[j].getDest()->gvNodeID == node2ID)
+						{
+							edgeID = routesGraph.getVertexSet()[i]->adj[j].getGvEdgeID();
+						}
+					}
+				}
+			}
 
 	gv = new GraphViewer(WIDTH_SIZE, HEIGHT_SIZE, false);
 		gv->createWindow(WIDTH_SIZE, HEIGHT_SIZE);
@@ -1930,11 +1949,11 @@ void SchoolBus::showRemovedConnectionGraph(int EdgeID){
 				routes[i]->adj[j].setGvEdgeID(counter);
 			}
 		}
-		gv->setEdgeWeight(id, INT_INFINITY);
+		gv->setEdgeWeight(edgeID, INT_INFINITY);
 		gv->rearrange();
 }
 
-int SchoolBus::removeConnection(){
+int SchoolBus::menuRemoveConnection(){
 
 	showGraph();
 
@@ -1981,7 +2000,7 @@ int SchoolBus::removeConnection(){
 
 	this->routesGraph.floydWarshallShortestPath();
 
-	showRemovedConnectionGraph();
+	showRemovedConnectionGraph(node1ID, node2ID);
 
 	return edgeWeight;
 }
