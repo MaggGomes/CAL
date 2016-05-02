@@ -368,7 +368,9 @@ public:
 
 	int removeConnection();
 
-	bool validNodes(int node1ID, int node2ID);
+	int validNodes(int node1ID, int node2ID);
+
+	void showRemovedConnectionGraph(int EdgeID);
 };
 
 #endif // SCHOOLBUS_H

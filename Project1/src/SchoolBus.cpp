@@ -1880,10 +1880,9 @@ cout << tDist<< endl;
 	return tBus;
 }
 
-bool SchoolBus::validNodes(int node1ID, int node2ID){
+int SchoolBus::validNodes(int node1ID, int node2ID){
 
-	int edgeWeight = 0;
-	bool valid = false;
+	int edgeWeight = INT_INFINITY;
 
 	for (size_t i = 0; i < routesGraph.getVertexSet().size(); i++)
 		{
@@ -1894,22 +1893,54 @@ bool SchoolBus::validNodes(int node1ID, int node2ID){
 					{
 						edgeWeight = routesGraph.getVertexSet()[i]->adj[j].getWeigth();
 						routesGraph.getVertexSet()[i]->adj[j].setWeight(INT_INFINITY);
-						valid = true;
 					}
 				}
 			}
 		}
 
-	return valid;
+	return edgeWeight;
+}
+
+void SchoolBus::showRemovedConnectionGraph(int EdgeID){
+
+	gv = new GraphViewer(WIDTH_SIZE, HEIGHT_SIZE, false);
+		gv->createWindow(WIDTH_SIZE, HEIGHT_SIZE);
+		gv->defineVertexColor("CYAN");
+		gv->defineEdgeColor("LIGHT_GRAY");
+		gv->defineEdgeCurved(false);
+
+		// Get network of all nodes of the graph
+		vector<Vertex<int>*> routes = routesGraph.getVertexSet();
+
+		// Creating the nodes
+		for (size_t i = 0; i < routes.size(); i++){
+			gv->addNode(routes[i]->getInfo(), routes[i]->getX(), routes[i]->getY());
+			gv->setVertexSize(routes[i]->getInfo(), 8);
+			routes[i]->gvNodeID = routes[i]->getInfo();
+		}
+
+		// Creating the edges
+		unsigned int counter = 0;
+		for (unsigned int i = 0; i < routes.size(); i++){
+			for (int unsigned j = 0; j < routes[i]->adj.size(); j++){
+				gv->addEdge(counter++, routes[i]->gvNodeID,
+						routes[i]->adj[j].getDest()->gvNodeID,
+						EdgeType::DIRECTED);
+				gv->setEdgeThickness(counter, 5);
+				routes[i]->adj[j].setGvEdgeID(counter);
+			}
+		}
+		gv->setEdgeWeight(id, INT_INFINITY);
+		gv->rearrange();
 }
 
 int SchoolBus::removeConnection(){
 
 	showGraph();
 
-	int node1ID, node2ID, edgeWeight = 0;
+	int node1ID, node2ID, edgeWeight = 0, edgeID;
 	string startNodeID, endNodeID;
-	bool valid;
+	int valid;
 
 	clrscr();
 	printAppName();
@@ -1927,7 +1958,7 @@ int SchoolBus::removeConnection(){
 
 	valid = validNodes(node1ID, node2ID);
 
-	while(cin.fail() || valid == false){
+	while(cin.fail() || valid == INT_INFINITY){
 		cleanBuffer();
 		setColor(4, 0);
 		cout << ":: ERROR: Invalid Nodes! Please try again." << endl << endl;
@@ -1948,7 +1979,9 @@ int SchoolBus::removeConnection(){
 
 	cleanBuffer();
 
-	showGraph();
+	this->routesGraph.floydWarshallShortestPath();
+
+	showRemovedConnectionGraph();
 
 	return edgeWeight;
 }
