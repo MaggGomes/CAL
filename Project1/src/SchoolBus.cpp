@@ -1917,8 +1917,46 @@ int SchoolBus::validNodes(int node1ID, int node2ID){
 	return edgeWeight;
 }
 
-void SchoolBus::showRemovedConnectionGraph(int origin, int dest){
+void SchoolBus::showRemovedConnectionGraph(int node1ID, int node2ID){
 
+	//find the edge removed
+	for (size_t i = 0; i < routesGraph.getVertexSet().size(); i++){
+		if (routesGraph.getVertexSet()[i]->getInfo() == node1ID){
+			for (size_t j = 0; j < routesGraph.getVertexSet()[i]->adj.size(); j++){
+				if (routesGraph.getVertexSet()[i]->adj[j].getDest()->getInfo() == node2ID){
+					gv->setEdgeColor(routesGraph.getVertexSet()[i]->adj[j].getGvEdgeID(), _RED);
+				}
+			}
+		}
+	}
+
+	//show the graph
+	gv = new GraphViewer(WIDTH_SIZE, HEIGHT_SIZE, false);
+	gv->createWindow(WIDTH_SIZE, HEIGHT_SIZE);
+	gv->defineVertexColor("CYAN");
+	gv->defineEdgeColor("LIGHT_GRAY");
+	gv->defineEdgeCurved(false);
+
+	// Get network of all nodes of the graph
+	vector<Vertex<int>*> routes = routesGraph.getVertexSet();
+
+	// Creating the nodes
+	for (size_t i = 0; i < routes.size(); i++){
+		gv->addNode(routes[i]->getInfo(), routes[i]->getX(), routes[i]->getY());
+		gv->setVertexSize(routes[i]->getInfo(), 8);
+		routes[i]->gvNodeID = routes[i]->getInfo();
+	}
+
+	// Creating the edges
+	unsigned int counter = 0;
+	for (unsigned int i = 0; i < routes.size(); i++){
+		for (int unsigned j = 0; j < routes[i]->adj.size(); j++){
+			gv->addEdge(counter++, routes[i]->gvNodeID, routes[i]->adj[j].getDest()->gvNodeID,EdgeType::DIRECTED);
+			gv->setEdgeThickness(counter, 5);
+			routes[i]->adj[j].setGvEdgeID(counter);
+		}
+	}
+	gv->rearrange();
 }
 
 int SchoolBus::menuRemoveConnection(){
