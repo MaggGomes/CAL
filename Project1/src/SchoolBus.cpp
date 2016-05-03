@@ -5,7 +5,6 @@ using namespace std;
 SchoolBus::SchoolBus(){
 	nodeID = 1;
 	loadData();
-	// TODO
 	this->routesGraph.floydWarshallShortestPath();
 };
 
@@ -1844,12 +1843,12 @@ void SchoolBus::menuBusManagement(){
 int SchoolBus::placeStudent(int nodeID,int schoolID,int start){
 	vector<int> vecBus;
 	int end;
-	for (int i = 0; i < bus.size(); ++i) {
+	for (size_t i = 0; i < bus.size(); ++i) {
 		if(bus[i].getSchool()->getID() == schoolID)
 			vecBus.push_back(i);
 	}
 
-	for (int i = 0; i < schools.size(); ++i) {
+	for (size_t i = 0; i < schools.size(); ++i) {
 		if(schools[i]->getID() == schoolID){
 			end = schools[i]->getNodeID();
 			break;
@@ -1862,12 +1861,12 @@ int SchoolBus::placeStudent(int nodeID,int schoolID,int start){
 
 	int tBus = -1;
 	int dist = INT_INFINITY;
-	for (int i = 0; i < vecBus.size(); i++) {
+	for (size_t i = 0; i < vecBus.size(); i++) {
 		vector<int> stuNodes;
 
 		stuNodes.push_back(start);
 		vector<Student*> tempStu = bus[vecBus[i]].getStudents();
-		for(int j = 0; j < tempStu.size() ;j++)
+		for(size_t j = 0; j < tempStu.size() ;j++)
 			stuNodes.push_back(tempStu[j]->getID());
 		stuNodes.push_back(nodeID);
 		stuNodes.push_back(end);
