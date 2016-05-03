@@ -1872,7 +1872,7 @@ int SchoolBus::placeStudent(int nodeID,int schoolID,int start){
 		stuNodes.push_back(end);
 
 		int tDist = this->getRoutesGraph().calculateDist(stuNodes);
-		//int tDist = 600;
+
 		if (tDist < dist) {
 			dist = tDist;
 			tBus = vecBus[i];
@@ -1917,48 +1917,8 @@ int SchoolBus::validNodes(int node1ID, int node2ID){
 	return edgeWeight;
 }
 
-void SchoolBus::showRemovedConnectionGraph(int node1ID, int node2ID){
+void SchoolBus::showRemovedConnectionGraph(int origin, int dest){
 
-	//show the graph
-	gv = new GraphViewer(WIDTH_SIZE, HEIGHT_SIZE, false);
-	gv->createWindow(WIDTH_SIZE, HEIGHT_SIZE);
-	gv->defineVertexColor("CYAN");
-	gv->defineEdgeColor("LIGHT_GRAY");
-	gv->defineEdgeCurved(false);
-
-	// Get network of all nodes of the graph
-	vector<Vertex<int>*> routes = routesGraph.getVertexSet();
-
-	// Creating the nodes
-	for (size_t i = 0; i < routes.size(); i++){
-		gv->addNode(routes[i]->getInfo(), routes[i]->getX(), routes[i]->getY());
-		gv->setVertexSize(routes[i]->getInfo(), 8);
-		routes[i]->gvNodeID = routes[i]->getInfo();
-	}
-
-	// Creating the edges
-	unsigned int counter = 0;
-	for (unsigned int i = 0; i < routes.size(); i++){
-		for (int unsigned j = 0; j < routes[i]->adj.size(); j++){
-			if (routes[i]->getInfo() == node1ID && routes[i]->adj[j].getDest()->getInfo() == node2ID){
-				gv->addEdge(counter++, routes[i]->gvNodeID,
-						routes[i]->adj[j].getDest()->gvNodeID,
-						EdgeType::DIRECTED);
-				gv->setEdgeThickness(counter, 8);
-				gv->setEdgeColor(counter, "RED");
-				routes[i]->adj[j].setGvEdgeID(counter);
-			}
-			else{
-				gv->addEdge(counter++, routes[i]->gvNodeID,
-						routes[i]->adj[j].getDest()->gvNodeID,
-						EdgeType::DIRECTED);
-				gv->setEdgeThickness(counter, 5);
-				routes[i]->adj[j].setGvEdgeID(counter);
-			}
-		}
-	}
-
-	gv->rearrange();
 }
 
 int SchoolBus::menuRemoveConnection(){
@@ -1982,9 +1942,6 @@ int SchoolBus::menuRemoveConnection(){
 	cout << ">> End Node ID: ";
 	cin >> node2ID;
 
-	//node1ID= atoi(startNodeID.c_str());
-	//node2ID= atoi(endNodeID.c_str());
-
 	valid = validNodes(node1ID, node2ID);
 
 	while(cin.fail() || valid == INT_INFINITY){
@@ -2001,8 +1958,6 @@ int SchoolBus::menuRemoveConnection(){
 		printAppName();
 		cout << ">> End Node ID : ";
 		cin >> node2ID;
-		//node1ID= atoi(startNodeID.c_str());
-		//node2ID= atoi(endNodeID.c_str());
 		valid = validNodes(node1ID, node2ID);
 	}
 
