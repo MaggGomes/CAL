@@ -1857,13 +1857,11 @@ int SchoolBus::placeStudent(int nodeID,int schoolID,int start){
 	}
 
 
-	cout << vecBus.size() << endl;
 	if (vecBus.size() == 1)
 		return vecBus[0];
 
 	int tBus = -1;
 	int dist = INT_INFINITY;
-
 	for (int i = 0; i < vecBus.size(); i++) {
 		vector<int> stuNodes;
 
@@ -1875,8 +1873,8 @@ int SchoolBus::placeStudent(int nodeID,int schoolID,int start){
 		stuNodes.push_back(end);
 
 		int tDist = this->getRoutesGraph().calculateDist(stuNodes);
-
-		if (tDist < dist && bus[tBus].getCapacity() > bus[tBus].getStudents().size()) {
+		//int tDist = 600;
+		if (tDist < dist) {
 			dist = tDist;
 			tBus = vecBus[i];
 		}
