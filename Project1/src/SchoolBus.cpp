@@ -5,7 +5,8 @@ using namespace std;
 SchoolBus::SchoolBus(){
 	nodeID = 1;
 	loadData();
-	this->routesGraph.floydWarshallShortestPath();
+	// TODO - CORRIGIR
+	//this->routesGraph.floydWarshallShortestPath();
 };
 
 SchoolBus::SchoolBus(const Graph<int> &graph){
@@ -43,6 +44,62 @@ void SchoolBus::showMap(){
 }
 
 void SchoolBus::showAllClientsAndSchools(){
+
+	// Get network of all nodes of the graph
+	vector<Vertex<int>*> routes = routesGraph.getVertexSet();
+
+	gv = new GraphViewer(WIDTH_SIZE, HEIGHT_SIZE, false);
+	gv->createWindow(WIDTH_SIZE, HEIGHT_SIZE);
+	gv->defineVertexColor("CYAN");
+	gv->defineEdgeCurved(false);
+
+	// Creating the nodes
+	for (size_t i = 0; i < routes.size(); i++){
+		gv->addNode(routes[i]->getInfo(), routes[i]->getX(), routes[i]->getY());
+
+		for (size_t j = 0; j < schools.size(); j++){
+			if (routes[i]->getInfo() == schools[j]->getNodeID()){
+				// Prints school's icon
+				gv->setVertexIcon(routes[i]->getInfo(), "res/schoolIcon.png");
+				break;
+			}
+
+			for (size_t k = 0; k < schools[j]->getStudents().size(); k++){
+				if (schools[j]->getStudents()[k]->getNodeID() == routes[i]->getInfo()){
+					// Prints student's icon
+					gv->setVertexIcon(routes[i]->getInfo(), "res/studentIcon.png");
+					break;
+				}
+			}
+		}
+
+		// Prints bus station's icon
+		if (routes[i]->getInfo() == this->nodeID)
+			gv->setVertexIcon(routes[i]->getInfo(), "res/busIcon.png");
+		else
+			gv->setVertexSize(routes[i]->getInfo(), 8);
+
+		routes[i]->gvNodeID = routes[i]->getInfo();
+	}
+
+	// Creating the edges
+	unsigned int counter = 0;
+	for (size_t i = 0; i < routes.size(); i++){
+		for (int unsigned j = 0; j < routes[i]->adj.size(); j++){
+			gv->addEdge(counter++, routes[i]->gvNodeID,
+					routes[i]->adj[j].getDest()->gvNodeID,
+					EdgeType::UNDIRECTED);
+			gv->setEdgeThickness(counter, 5);
+			gv->setEdgeColor(counter, "LIGHT_GRAY");
+			routes[i]->adj[j].setGvEdgeID(counter);
+		}
+	}
+
+	gv->rearrange();
+
+}
+
+void SchoolBus::showRoads(){
 
 	// Get network of all nodes of the graph
 	vector<Vertex<int>*> routes = routesGraph.getVertexSet();
@@ -316,9 +373,9 @@ void SchoolBus::saveStudents(){
 	for (size_t i = 0; i < schools.size(); i++){
 		for (unsigned j = 0; j < schools[i]->getStudents().size(); j++){
 			if ((i < schools.size() - 1) && (j < schools[i]->getStudents().size()-1))
-				file << schools[i]->getStudents()[j]->getID() << ";" << schools[i]->getStudents()[j]->getName() << ";" << schools[i]->getStudents()[j]->getNodeID() << ";" << schools[i]->getStudents()[j]->getSchoolID()<< ";" << schools[i]->getStudents()[j]->getBusID() << "\n";
+				file << schools[i]->getStudents()[j]->getID() << ";" << schools[i]->getStudents()[j]->getName() << ";" << schools[i]->getStudents()[j]->getNodeID() << ";" << schools[i]->getStudents()[j]->getRoad()<< ";" << schools[i]->getStudents()[j]->getSchoolID()<< ";" << schools[i]->getStudents()[j]->getBusID() << "\n";
 			else
-				file << schools[i]->getStudents()[j]->getID() << ";" << schools[i]->getStudents()[j]->getName() << ";" << schools[i]->getStudents()[j]->getNodeID() << ";" << schools[i]->getStudents()[j]->getSchoolID()<< ";" << schools[i]->getStudents()[j]->getBusID() << "\n";
+				file << schools[i]->getStudents()[j]->getID() << ";" << schools[i]->getStudents()[j]->getName() << ";" << schools[i]->getStudents()[j]->getNodeID() << ";" << schools[i]->getStudents()[j]->getRoad()<< ";" << schools[i]->getStudents()[j]->getSchoolID()<< ";" << schools[i]->getStudents()[j]->getBusID() << "\n";
 		}
 	}
 
@@ -408,6 +465,7 @@ void SchoolBus::loadStudents(){
 	string line;
 	string buffer;
 	string name;
+	string roadTemp;
 	int ID;
 	int nodeID;
 	int schoolID;
@@ -424,6 +482,7 @@ void SchoolBus::loadStudents(){
 			getline(ss, name, ';'); // Name
 			getline(ss, buffer, ';');
 			nodeID = atoi(buffer.c_str()); // Node ID
+			getline(ss, roadTemp, ';'); // Road
 			getline(ss, buffer, ';');
 			schoolID = atoi(buffer.c_str()); // schoolID
 			getline(ss, buffer, ';');
@@ -433,6 +492,7 @@ void SchoolBus::loadStudents(){
 		Student * student = new Student(name, nodeID);
 		student->setID(ID);
 		student->setNodeID(nodeID);
+		student->setRoad(roadTemp);
 		student->setSchoolID(schoolID);
 		student->setBusID(busID);
 
@@ -456,6 +516,8 @@ void SchoolBus::loadStudents(){
 
 void SchoolBus::loadData(){
 	routesGraph = LoadGraph::createGraph("res/nos.txt", "res/arestas.txt", "res/ligacoes.txt");
+	// TODO - REMOVER
+	pressKeyToContinue();
 	loadSchools();
 	loadBus();
 	loadStudents();
@@ -487,19 +549,28 @@ void SchoolBus::menuShowSchools(){
 void SchoolBus::menuShowStudents(){
 	clrscr();
 	printAppName();
+	int k = 0;
 	cout << endl << endl;
 
 	for (size_t i = 0; i < schools.size(); i++){
 		for (size_t j = 0; j < schools[i]->getStudents().size(); j++){
+			if (k%2 == 0)
+				setColor(7, 0);
+			else
+				setColor(3, 0);
 			cout << schools[i]->getStudents()[j];
+
+			k++;
 		};
 	}
+
+	setColor(7, 0);
 
 	cout << endl;
 }
 
 void SchoolBus::menuStarting(){
-	string Menu[7] = { "<<  SCHOOL MANAGEMENT >>", "<<  CLIENT MANAGEMENT >>", "<<  BUS MANAGEMENT    >>", "<<  VIEW OF CITY MAP  >>", "<<  VIEW OF CLIENT MAP>>", "<<  REMOVE CONNECTION >>" , "<<  EXIT              >>" };
+	string Menu[6] = { "<<  SCHOOL MANAGEMENT >>", "<<  CLIENT MANAGEMENT >>", "<<  BUS MANAGEMENT    >>", "<<  SEE MAPS          >>", "<<  REMOVE CONNECTION >>" , "<<  EXIT              >>" };
 	bool validity = true;
 	int pointer = 0;
 
@@ -510,7 +581,7 @@ void SchoolBus::menuStarting(){
 		setColor(11, 0);
 		cout << setw(51) << "<<<<<   WELCOME    >>>>>" << endl << endl;
 
-		for (int i = 0; i < 7; ++i)
+		for (int i = 0; i < 6; ++i)
 		{
 			if (i == pointer)
 			{
@@ -536,7 +607,7 @@ void SchoolBus::menuStarting(){
 			if (ch == ARROW_DOWN) {
 				Beep(250, 160);
 				pointer += 1;
-				if (pointer == 7)
+				if (pointer == 6)
 				{
 					pointer = 0;
 				}
@@ -548,7 +619,7 @@ void SchoolBus::menuStarting(){
 				pointer -= 1;
 				if (pointer == -1)
 				{
-					pointer = 6;
+					pointer = 5;
 				}
 				break;
 			}
@@ -573,15 +644,12 @@ void SchoolBus::menuStarting(){
 					menuBusManagement();
 					break;
 				case 3:
-					showMap();
+					menuShowMaps();
 					break;
 				case 4:
-					showAllClientsAndSchools();
-					break;
-				case 5:
 					menuRemoveConnection();
 					break;
-				case 6:
+				case 5:
 					saveData();
 					exiting();
 				}
@@ -589,7 +657,6 @@ void SchoolBus::menuStarting(){
 		}
 	}
 }
-
 
 void SchoolBus::searchSchoolID(int schoolID){
 	bool found = false;
@@ -1839,7 +1906,6 @@ void SchoolBus::menuBusManagement(){
 	}
 }
 
-
 int SchoolBus::placeStudent(int nodeID,int schoolID,int start){
 	vector<int> vecBus;
 	int end;
@@ -1887,54 +1953,43 @@ int SchoolBus::validNodes(int node1ID, int node2ID){
 	int edgeWeight = INT_INFINITY;
 
 	for (size_t i = 0; i < routesGraph.getVertexSet().size(); i++)
+	{
+		if (routesGraph.getVertexSet()[i]->getInfo() == node1ID)
 		{
-			if (routesGraph.getVertexSet()[i]->getInfo() == node1ID)
-			{
-				for (size_t j = 0; j < routesGraph.getVertexSet()[i]->adj.size(); j++){
-					if (routesGraph.getVertexSet()[i]->adj[j].getDest()->getInfo() == node2ID)
-					{
-						edgeWeight = routesGraph.getVertexSet()[i]->adj[j].getWeigth();
-						routesGraph.getVertexSet()[i]->adj[j].setWeight(INT_INFINITY);
-					}
+			for (size_t j = 0; j < routesGraph.getVertexSet()[i]->adj.size(); j++){
+				if (routesGraph.getVertexSet()[i]->adj[j].getDest()->getInfo() == node2ID)
+				{
+					edgeWeight = routesGraph.getVertexSet()[i]->adj[j].getWeigth();
+					routesGraph.getVertexSet()[i]->adj[j].setWeight(INT_INFINITY);
 				}
 			}
 		}
+	}
 
 	for (size_t i = 0; i < routesGraph.getVertexSet().size(); i++)
-			{
-				if (routesGraph.getVertexSet()[i]->getInfo() == node2ID)
+	{
+		if (routesGraph.getVertexSet()[i]->getInfo() == node2ID)
+		{
+			for (size_t j = 0; j < routesGraph.getVertexSet()[i]->adj.size(); j++){
+				if (routesGraph.getVertexSet()[i]->adj[j].getDest()->getInfo() == node1ID)
 				{
-					for (size_t j = 0; j < routesGraph.getVertexSet()[i]->adj.size(); j++){
-						if (routesGraph.getVertexSet()[i]->adj[j].getDest()->getInfo() == node1ID)
-						{
-							edgeWeight = routesGraph.getVertexSet()[i]->adj[j].getWeigth();
-							routesGraph.getVertexSet()[i]->adj[j].setWeight(INT_INFINITY);
-						}
-					}
+					edgeWeight = routesGraph.getVertexSet()[i]->adj[j].getWeigth();
+					routesGraph.getVertexSet()[i]->adj[j].setWeight(INT_INFINITY);
 				}
 			}
+		}
+	}
 
 	return edgeWeight;
 }
 
 void SchoolBus::showRemovedConnectionGraph(int node1ID, int node2ID){
 
-	//find the edge removed
-	for (size_t i = 0; i < routesGraph.getVertexSet().size(); i++){
-		if (routesGraph.getVertexSet()[i]->getInfo() == node1ID){
-			for (size_t j = 0; j < routesGraph.getVertexSet()[i]->adj.size(); j++){
-				if (routesGraph.getVertexSet()[i]->adj[j].getDest()->getInfo() == node2ID){
-					gv->setEdgeColor(routesGraph.getVertexSet()[i]->adj[j].getGvEdgeID(), _RED);
-				}
-			}
-		}
-	}
-
 	//show the graph
 	gv = new GraphViewer(WIDTH_SIZE, HEIGHT_SIZE, false);
 	gv->createWindow(WIDTH_SIZE, HEIGHT_SIZE);
 	gv->defineVertexColor("CYAN");
-	gv->defineEdgeColor("LIGHT_GRAY");
+	//gv->defineEdgeColor("LIGHT_GRAY");
 	gv->defineEdgeCurved(false);
 
 	// Get network of all nodes of the graph
@@ -1951,21 +2006,28 @@ void SchoolBus::showRemovedConnectionGraph(int node1ID, int node2ID){
 	unsigned int counter = 0;
 	for (unsigned int i = 0; i < routes.size(); i++){
 		for (int unsigned j = 0; j < routes[i]->adj.size(); j++){
-			gv->addEdge(counter++, routes[i]->gvNodeID, routes[i]->adj[j].getDest()->gvNodeID,EdgeType::DIRECTED);
-			gv->setEdgeThickness(counter, 5);
+			if (routes[i]->getInfo() == node1ID && routes[i]->adj[j].getDest()->getInfo() == node2ID){
+				gv->addEdge(counter++, routes[i]->gvNodeID, routes[i]->adj[j].getDest()->gvNodeID,EdgeType::DIRECTED);
+				gv->setEdgeColor(counter, "GREEN");
+			}
+
+			else {
+
+			}
+
+			//gv->addEdge(counter++, routes[i]->gvNodeID, routes[i]->adj[j].getDest()->gvNodeID,EdgeType::DIRECTED);
+			//gv->setEdgeThickness(counter, 5);
 			routes[i]->adj[j].setGvEdgeID(counter);
 		}
 	}
 	gv->rearrange();
 }
 
-int SchoolBus::menuRemoveConnection(){
+void SchoolBus::menuRemoveConnection(){
 
 	showGraph();
 
-	int edgeWeight = 0;
-
-	int node1ID, node2ID, edgeID;
+	int node1ID, node2ID;
 	string startNodeID, endNodeID;
 	int valid;
 
@@ -2006,6 +2068,88 @@ int SchoolBus::menuRemoveConnection(){
 	showRemovedConnectionGraph(node1ID, node2ID);
 
 	menuStarting();
+}
 
-	return edgeWeight;
+void SchoolBus::menuShowMaps(){
+	string Menu[5] = { "<<  VIEW OF CITY MAP  >>", "<<  VIEW OF ROADS MAP  >>", "<<  VIEW OF CLIENT MAP>>", "<<  BACK              >>", "<<  EXIT              >>" };
+	bool validity = true;
+	int pointer = 0;
+
+	while (validity)
+	{
+		clrscr();
+		printAppName();
+		setColor(11, 0);
+		cout << setw(51) << "<<<<<     MAPS     >>>>>" << endl << endl;
+
+		for (int i = 0; i < 5; ++i)
+		{
+			if (i == pointer)
+			{
+				cout << "                           ";
+				setColor(3, 1);
+				cout << Menu[i] << endl << endl;
+			}
+			else
+			{
+				setColor(3, 0);
+				cout << setw(51) << Menu[i] << endl << endl;
+			}
+		}
+		setColor(7, 0);
+
+		while (validity)
+		{
+			int ch = _getch();
+
+			if (ch == 0 || ch == 224)
+				ch = 256 + _getch();
+
+			if (ch == ARROW_DOWN) {
+				Beep(250, 160);
+				pointer += 1;
+				if (pointer == 5)
+				{
+					pointer = 0;
+				}
+				break;
+			}
+
+			if (ch == ARROW_UP){
+				Beep(250, 160);
+				pointer -= 1;
+				if (pointer == -1)
+				{
+					pointer = 4;
+				}
+				break;
+			}
+
+			if (ch == '\r')
+			{
+				setColor(7, 0);
+				Beep(200, 160);
+
+				switch (pointer)
+				{
+				case 0:
+					showMap();
+					break;
+				case 1:
+					showRoads()();
+					break;
+				case 2:
+					showAllClientsAndSchools();
+					break;
+				case 3:
+					validity = false;
+					menuStarting();
+					break;
+				case 4:
+					saveData();
+					exiting();
+				}
+			}
+		}
+	}
 }

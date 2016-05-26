@@ -10,6 +10,7 @@
 #include <list>
 #include <climits>
 #include <cmath>
+#include <string>
 using namespace std;
 
 template <class T> class Edge;
@@ -28,6 +29,7 @@ const int INT_INFINITY = INT_MAX;
 template <class T>
 class Vertex {
 	T info;
+	string road;
 	bool visited;
 	bool processing;
 	int indegree;
@@ -44,6 +46,13 @@ public:
 	void setCoords(double x, double y);
 	T getInfo() const;
 	void setInfo(T info);
+	void setRoad(string road){
+		if (road.size())
+			this->road = road;
+	}
+	string getRoad() const{
+		return road;
+	}
 	double getX() const {
 		return x;
 	}
@@ -130,12 +139,19 @@ int Vertex<T>::getIndegree() const {
 template <class T>
 class Edge {
 	Vertex<T> * dest;
+	string name;
 	double weight;
 	unsigned int gvEdgeID;
 public:
 	Edge(Vertex<T> *d, double w);
 	Vertex<T> * getDest() const {
 		return dest;
+	}
+	void setName(string name){
+		this->name = name;
+	}
+	string getName() const {
+		return name;
 	}
 	void setWeight(double peso) {
 		weight = peso;
@@ -182,6 +198,7 @@ public:
 	bool addVertex(const T &in, double x, double y);
 	bool addVertex(const T &in);
 	bool addEdge(const T &sourc, const T &dest, double w);
+	bool addEdge(const T &sourc, const T &dest, double w, string name);
 	bool removeVertex(const T &in);
 	bool removeEdge(const T &sourc, const T &dest);
 	vector<T> dfs() const;
@@ -302,6 +319,28 @@ bool Graph<T>::addEdge(const T &sourc, const T &dest, double w) {
 	if (found!=2) return false;
 	vD->indegree++;
 	vS->addEdge(vD,w);
+
+	return true;
+}
+
+template <class T>
+bool Graph<T>::addEdge(const T &sourc, const T &dest, double w, string name) {
+	typename vector<Vertex<T>*>::iterator it= vertexSet.begin();
+	typename vector<Vertex<T>*>::iterator ite= vertexSet.end();
+	int found=0;
+	Vertex<T> *vS, *vD;
+	while (found!=2 && it!=ite ) {
+		if ( (*it)->info == sourc )
+		{ vS=*it; found++;}
+		if ( (*it)->info == dest )
+		{ vD=*it; found++;}
+		it ++;
+	}
+	if (found!=2) return false;
+	vD->indegree++;
+	vS->addEdge(vD,w);
+	vS->setRoad(name);
+	vD->setRoad(name);
 
 	return true;
 }

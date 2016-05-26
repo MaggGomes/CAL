@@ -16,6 +16,7 @@ class Student {
 	int schoolID;
 	int busID;
 	int nodeID;
+	string road;
 public:
 	/**
 	 * @brief Student's constructor
@@ -94,6 +95,20 @@ public:
 	 * @return busID
 	 */
 	int getBusID() const;
+
+	/**
+	 * @brief Sets student's road
+	 *
+	 * @param road
+	 */
+	void setRoad(string road);
+
+	/**
+	 * @brief Returns student's road
+	 *
+	 * @return road
+	 */
+	string getRoad() const;
 
 	/**
 	 * @brief Overload of the operator == for the class Student

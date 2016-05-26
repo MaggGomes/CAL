@@ -38,10 +38,10 @@ Graph<int> LoadGraph::createGraph(const string &nodes, const string &roads, cons
 		}
 
 		if(temp.is_two_way){
-			graph.addEdge(vecConnections[i].node1,vecConnections[i].node2,distance(nd1.lat_deg,nd1.long_deg,nd2.lat_deg,nd2.long_deg));
-			graph.addEdge(vecConnections[i].node2,vecConnections[i].node1,distance(nd1.lat_deg,nd1.long_deg,nd2.lat_deg,nd2.long_deg));
+			graph.addEdge(vecConnections[i].node1,vecConnections[i].node2,distance(nd1.lat_deg,nd1.long_deg,nd2.lat_deg,nd2.long_deg), temp.road_name);
+			graph.addEdge(vecConnections[i].node2,vecConnections[i].node1,distance(nd1.lat_deg,nd1.long_deg,nd2.lat_deg,nd2.long_deg), temp.road_name);
 		}else
-			graph.addEdge(vecConnections[i].node1,vecConnections[i].node2,distance(nd1.lat_deg,nd1.long_deg,nd2.lat_deg,nd2.long_deg));
+			graph.addEdge(vecConnections[i].node1,vecConnections[i].node2,distance(nd1.lat_deg,nd1.long_deg,nd2.lat_deg,nd2.long_deg), temp.road_name);
 	}
 
 	return graph;

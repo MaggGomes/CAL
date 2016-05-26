@@ -1,250 +1,250 @@
-28610292;Avenida Bento de Freitas;False
-28612913;;False
-28612914;;False
-41889557;Avenida Júlio Saúl Dias;False
+﻿28610292;Avenida Bento de Freitas;False
+28612913;Rua A;False
+28612914;Rua B;False
+41889557;Avenida Julio Saul Dias;False
 41889547;Travessa do Farol;True
-41889548;Rua Cidade Guimarães;True
+41889548;Rua Cidade Guimaraes;True
 41889544;Bairro dos Pescadores;True
-41889543;;True
+41889543;Rua C;True
 41889558;Rua dos Benguiados;True
-41889566;Avenida Júlio Saúl Dias;False
+41889566;Avenida Julio Saul Dias;False
 41889551;Avenida Baltazar do Couto;False
 41889550;Avenida Doutor Carlos Pinto Ferreira;True
-41890148;;True
-41890139;;False
-41890145;Rua Doutor António José de Sousa Pereira;False
+41890148;Rua D;True
+41890139;Rua E;False
+41890145;Rua Doutor Antonio Jose de Sousa Pereira;False
 41890152;Rua Doutor Pereira Junior;True
-41890135;;True
-41890136;;True
+41890135;Rua F;True
+41890136;Rua G;True
 41889556;Rua Nossa Senhora da Boa Viagem;True
-41889564;Avenida Júlio Saúl Dias;False
-41889554;;False
-75537167;;False
-75537170;;False
+41889564;Avenida Julio Saul Dias;False
+41889554;Rua H;False
+75537167;Rua I;False
+75537170;Rua J;False
 75536841;Rua Doutor Elias de Aguiar;False
-75560065;;False
-75627367;;False
-75627359;;False
-75627377;;False
-75627374;;False
-75627366;;False
-75627375;;False
-75627380;;False
-75627379;;False
-41890140;;False
-41889832;;False
-75556744;;False
-41889719;;False
-41889831;;False
-41890144;;False
-41889718;;False
-41890143;;False
+75560065;Rua K;False
+75627367;Rua L;False
+75627359;Rua M;False
+75627377;Rua N;False
+75627374;Rua O;False
+75627366;Rua P;False
+75627375;Rua Q;False
+75627380;Rua R;False
+75627379;Rua S;False
+41890140;Rua T;False
+41889832;Rua U;False
+75556744;Rua V;False
+41889719;Rua W;False
+41889831;Rua X;False
+41890144;Rua Y;False
+41889718;Rua Z;False
+41890143;Rua do A;False
 75537169;Rua da Fraga;False
-41890147;Rua Doutor António Ramos de Almeida;True
+41890147;Rua Doutor Antonio Ramos de Almeida;True
 28612910;Avenida Brasil;True
-75627363;;False
-75689126;;False
-75688323;;False
-75688332;;False
-75688329;;False
-75688333;;False
-75689533;;False
-75689521;;False
-75689123;;False
-75689125;;False
-75689517;;True
+75627363;Rua do B;False
+75689126;Rua do C;False
+75688323;Rua do D;False
+75688332;Rua do E;False
+75688329;Rua do F;False
+75688333;Rua do G;False
+75689533;Rua do H;False
+75689521;Rua do I;False
+75689123;Rua do J;False
+75689125;Rua do K;False
+75689517;Rua do L;True
 41890146;Rua Doutor Pereira Junior;True
-75689531;;True
-218736727;Avenida Doutor João Canavarro;Rua 25 de Abril;True
+75689531;Rua do M;True
+218736727;Avenida Doutor Joao Canavarro;Rua 25 de Abril;True
 75537162;Rua dos Prazeres;False
 218736723;Rua 25 de Abril;True
-28608949;;False
-28608948;;False
-219534781;;False
-219534784;;False
-28608944;;False
-219534509;;False
-150173876;;False
+28608949;Rua do N;False
+28608948;Rua do O;False
+219534781;Rua do P;False
+219534784;Rua do Q;False
+28608944;Rua do R;False
+219534509;Rua do S;False
+150173876;Rua do T;False
 150173873;Rua Nossa Senhora da Boa Viagem;True
 133907150;Rua Dom Dinis;True
-41889565;Avenida Júlio Saúl Dias;False
+41889565;Avenida Julio Saul Dias;False
 134426137;Rua do Tanque;False
 134426645;Rua da Costeira;False
 134426004;Rua de Cima da Vila;True
 134426946;Rua de Santa Catarina;True
-134426948;;True
-134426947;;True
+134426948;Rua do U;True
+134426947;Rua do V;True
 41889545;Bairro dos Pescadores;True
 41889546;Bairro dos Pescadores;True
 134832134;Rotunda do Professor;False
 134207137;Rua dos Cirios;True
-135106792;;True
+135106792;Rua do W;True
 135179496;Praça Frei Mauro de Vila do Conde;True
 135179497;Rua da Granja;True
-135430715;Rua Padre José Praça;True
-135430716;;True
-135430718;;True
+135430715;Rua Padre Jose Praça;True
+135430716;Rua do W;True
+135430718;Rua do X;True
 135430711;Rua Dom Afonso Henriques;True
-135430717;;True
-135430719;;True
-135430720;;True
+135430717;Rua do Y;True
+135430719;Rua do Z;True
+135430720;Avenida do A;True
 135106492;Rua de Santa Catarina;True
-137065277;;True
-137065274;;True
-137065280;;True
-137065276;;False
-137065278;;False
-137067389;;False
-137067391;;False
-137067393;;False
-137067394;;False
-137067395;;False
-137067396;;False
-137067398;;False
-137067399;;False
-137067400;;False
-137067402;;False
-137067390;;False
-137066846;;False
-137066838;;False
-137066845;;False
-137067223;;False
-137067225;;False
-137067329;;False
-137067332;;False
-137067333;;False
-137067335;;False
-137067343;;False
-137067348;;False
-137067349;;False
-137067351;;False
-137067356;;False
-137165553;;False
-137165546;Avenida Doutor João Canavarro;False
-137165551;;False
-137165550;Avenida Doutor Artur Cunha Araújo;False
-137354424;;False
-137354413;;False
-137065275;;False
-159409866;;True
-137067392;;False
-159390770;;False
-162614318;;False
-169908946;;False
+137065277;Avenida do B;True
+137065274;Avenida do C;True
+137065280;Avenida do D;True
+137065276;Avenida do E;False
+137065278;Avenida do F;False
+137067389;Avenida do G;False
+137067391;Avenida do H;False
+137067393;Avenida do I;False
+137067394;Avenida do J;False
+137067395;Avenida do K;False
+137067396;Avenida do L;False
+137067398;Avenida do M;False
+137067399;Avenida do N;False
+137067400;Avenida do O;False
+137067402;Avenida do P;False
+137067390;Avenida do Q;False
+137066846;Avenida do R;False
+137066838;Avenida do S;False
+137066845;Avenida do T;False
+137067223;Avenida do U;False
+137067225;Avenida do W;False
+137067329;Avenida do X;False
+137067332;Avenida do Y;False
+137067333;Avenida do Z;False
+137067335;Avenida A;False
+137067343;Avenida B;False
+137067348;Avenida C;False
+137067349;Avenida D;False
+137067351;Avenida E;False
+137067356;Avenida F;False
+137165553;Avenida G;False
+137165546;Avenida Doutor Joao Canavarro;False
+137165551;Avenida H;False
+137165550;Avenida Doutor Artur Cunha Araujo;False
+137354424;Avenida I;False
+137354413;Avenida J;False
+137065275;Avenida K;False
+159409866;Avenida L;True
+137067392;Avenida M;False
+159390770;Avenida N;False
+162614318;Avenida O;False
+169908946;Avenida P;False
 109249690;Rua da Lapa;True
-135430713;Rua Doutor António José de Sousa Pereira;True
-135430712;Rua Doutor António José de Sousa Pereira;True
+135430713;Rua Doutor Antonio Jose de Sousa Pereira;True
+135430712;Rua Doutor Antonio Jose de Sousa Pereira;True
 135430714;Rua Doutor Jorge Faria;False
-169786559;;False
-28608947;;True
+169786559;Avenida Q;False
+28608947;Avenida R;True
 169786557;Avenida Dom Sancho I;False
 169786558;Avenida Dom Sancho I;False
 134425645;Rua dos Benguiados;True
-137354418;;True
-134670076;;True
+137354418;Avenida S;True
+134670076;Avenida T;True
 169908805;Rua da Agra Longa;True
-169908833;;False
-169908842;;False
-169908859;;False
-169908861;;False
-169908888;;False
-169908909;;False
-169908921;;False
-169908935;;False
-169908913;;False
-169908950;;False
-169908955;;False
-169908965;;False
-169908978;;False
+169908833;Avenida U;False
+169908842;Avenida V;False
+169908859;Avenida W;False
+169908861;Avenida X;False
+169908888;Avenida Y;False
+169908909;Avenida Z;False
+169908921;Avenida Dom A;False
+169908935;Avenida Dom B;False
+169908913;Avenida Dom C;False
+169908950;Avenida Dom D;False
+169908955;Avenida Dom E;False
+169908965;Avenida Dom F;False
+169908978;Avenida Dom G;False
 135179937;Rua Nossa Senhora das Candeias;True
-159431642;;False
+159431642;Avenida Dom H;False
 109411508;Avenida Dom Sancho I;True
-24808990;;True
-135179938;;True
-75701089;;False
-41889555;;False
-75701086;;False
-38329680;;False
-137067221;;False
-41889542;;False
-75560060;;False
-174545353;;False
-174545351;;False
-174545657;;False
-191829007;;False
-191829008;;False
-193661335;;False
-75688331;;False
-75688326;;False
-28608950;;False
-75688335;;False
-75688322;;False
-41890138;;False
-41890137;;False
-75685691;;False
-174545656;;False
-169785441;;False
-41889723;;False
-158697883;;True
-332160453;;True
-332160452;;True
+24808990;Avenida Dom I;True
+135179938;Avenida Dom J;True
+75701089;Avenida Dom K;False
+41889555;Avenida Dom L;False
+75701086;Avenida Dom M;False
+38329680;Avenida Dom N;False
+137067221;Avenida Dom O;False
+41889542;Avenida Dom P;False
+75560060;Avenida Dom Q;False
+174545353;Avenida Dom R;False
+174545351;Avenida Dom S;False
+174545657;Avenida Dom T;False
+191829007;Avenida Dom U;False
+191829008;Avenida Dom V;False
+193661335;Avenida Dom W;False
+75688331;Avenida Dom X;False
+75688326;Avenida Dom Y;False
+28608950;Avenida Dom Z;False
+75688335;Avenida Doutor A;False
+75688322;Avenida Doutor B;False
+41890138;Avenida Doutor C;False
+41890137;Avenida Doutor D;False
+75685691;Avenida Doutor E;False
+174545656;Avenida Doutor F;False
+169785441;Avenida Doutor G;False
+41889723;Avenida Doutor H;False
+158697883;Avenida Doutor I;True
+332160453;Avenida Doutor J;True
+332160452;Avenida Doutor K;True
 75627369;Avenida Figueiredo Faria;True
-383971804;;True
-383971793;;False
-383971797;;False
-383971801;;False
-383971798;;False
-383971802;;False
-383971795;;False
-383999912;;False
+383971804;Avenida Doutor L;True
+383971793;Avenida Doutor M;False
+383971797;Avenida Doutor N;False
+383971801;Avenida Doutor O;False
+383971798;Avenida Doutor P;False
+383971802;Avenida Doutor Q;False
+383971795;Avenida Doutor R;False
+383999912;Avenida Doutor S;False
 75556726;Rua do Lidador;False
-386578605;;False
-383971954;;True
-397461563;;True
-397461564;;True
-397633099;;True
+386578605;Avenida Doutor T;False
+383971954;Avenida Doutor U;True
+397461563;Avenida Doutor V;True
+397461564;Avenida Doutor W;True
+397633099;Avenida Doutor X;True
 398898910;Rua das Concheiras;True
-398898930;;True
-399322783;;True
-404218942;;True
-404218943;;True
-404218944;;True
-404218945;;True
-404218946;;True
-404802363;Rua Doutor António José de Sousa Pereira;True
-406775958;;False
-406775959;;False
-410604329;;False
-410604330;;False
-410604331;;False
-410606595;;False
-411792414;;False
-411792420;;False
-411798937;;False
-411802519;;False
-411819146;;False
-412057749;;False
-412057757;;False
-412057758;;False
-412057760;;False
-412059485;;False
-412059487;;False
-412059497;;False
-412057775;;False
-412149843;;False
-412529961;;False
-412529962;;False
-412529963;;False
-412529966;;False
-412529967;;False
-412534109;;False
-412534110;;False
-412534111;;False
-412534114;;False
-412782436;;False
-412782439;;False
-412782441;;False
-412782443;;False
-412782445;;False
-412782447;;False
-412782462;;False
+398898930;Avenida Doutor Y;True
+399322783;Avenida Doutor Z;True
+404218942;Rua Dom A;True
+404218943;Rua Dom B;True
+404218944;Rua Dom C;True
+404218945;Rua Dom D;True
+404218946;Rua Dom E;True
+404802363;Rua Doutor Antonio Jose de Sousa Pereira;True
+406775958;Rua Dom F;False
+406775959;Rua Dom G;False
+410604329;Rua Dom H;False
+410604330;Rua Dom I;False
+410604331;Rua Dom J;False
+410606595;Rua Dom K;False
+411792414;Rua Dom L;False
+411792420;Rua Dom M;False
+411798937;Rua Dom N;False
+411802519;Rua Dom O;False
+411819146;Rua Dom P;False
+412057749;Rua Dom Q;False
+412057757;Rua Dom Q;False
+412057758;Rua Dom S;False
+412057760;Rua Dom T;False
+412059485;Rua Dom U;False
+412059487;Rua Dom V;False
+412059497;Rua Dom W;False
+412057775;Rua Dom X;False
+412149843;Rua Dom Y;False
+412529961;Rua Dom Z;False
+412529962;Rua Doutor A;False
+412529963;Rua Doutor B;False
+412529966;Rua Doutor C;False
+412529967;Rua Doutor D;False
+412534109;Rua Doutor E;False
+412534110;Rua Doutor F;False
+412534111;Rua Doutor G;False
+412534114;Rua Doutor H;False
+412782436;Rua Doutor I;False
+412782439;Rua Doutor J;False
+412782441;Rua Doutor K;False
+412782443;Rua Doutor L;False
+412782445;Rua Doutor M;False
+412782447;Rua Doutor N;False
+412782462;Rua Doutor O;False

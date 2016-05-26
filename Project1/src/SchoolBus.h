@@ -78,6 +78,11 @@ public:
 	void showMap();
 
 	/**
+	 * @brief Shows the roads of the map
+	 */
+	void showRoads();
+
+	/**
 	 * @brief Shows the graph with the location of all clients and schools served by the Company
 	 */
 	void showAllClientsAndSchools();
@@ -365,10 +370,12 @@ public:
 	 * @param The node where the student is, and the school where the student belongs
 	 */
 	int placeStudent(int nodeID,int schoolID,int start);
+
 	/**
 	 * @brief Menu to remove connection
 	 */
-	int menuRemoveConnection();
+	void menuRemoveConnection();
+
 	/**
 	 * @brief Checks if the nodes are connected
 	 *
@@ -382,6 +389,11 @@ public:
 	 * @param Nodes of the connection
 	 */
 	void showRemovedConnectionGraph(int node1ID, int node2ID);
+
+	/**
+	 * @brief Show maps
+	 */
+	void menuShowMaps();
 };
 
 #endif // SCHOOLBUS_H

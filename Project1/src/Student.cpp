@@ -6,6 +6,8 @@ Student::Student(string name, int nodeID){
 	this->name = name;
 	this->ID = lastID;
 	this->nodeID = nodeID;
+	// TODO - APAGAR
+	this->road = "road";
 	lastID++;
 }
 
@@ -31,6 +33,15 @@ void Student::setNodeID(int nodeID){
 
 int Student::getNodeID() const {
 	return nodeID;
+}
+
+void Student::setRoad(string road){
+	this->road = road;
+}
+
+
+string Student::getRoad() const{
+	return road;
 }
 
 void Student::setSchoolID(int schoolID){
@@ -63,7 +74,10 @@ ostream& operator<<(ostream& os, Student * student){
 	os << "Name: ";
 	os << student->getName();
 	os << " | ";
-	os << "NODE ID: ";
+	os << "Address: ";
+	os << student->getRoad();
+	os << endl;
+	os << "  NODE ID: ";
 	os << student->getNodeID();
 	os << " | ";
 	os << "SCHOOL ID: ";
