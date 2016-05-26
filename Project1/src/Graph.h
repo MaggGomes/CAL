@@ -42,12 +42,13 @@ public:
 	friend class Graph<T>;
 
 	void addEdge(Vertex<T> *dest, double w);
+	void addEdge(Vertex<T> *dest, double w, string name);
 	bool removeEdgeTo(Vertex<T> *d);
 	void setCoords(double x, double y);
 	T getInfo() const;
 	void setInfo(T info);
 	void setRoad(string road){
-		if (road.size())
+		if (this->road.size() == 0)
 			this->road = road;
 	}
 	string getRoad() const{
@@ -99,7 +100,6 @@ bool Vertex<T>::removeEdgeTo(Vertex<T> *d) {
 	return false;
 }
 
-//atualizado pelo exercício 5
 template <class T>
 Vertex<T>::Vertex(T in): info(in), visited(false), processing(false), indegree(0), dist(0) {
 	path = NULL;
@@ -108,6 +108,15 @@ Vertex<T>::Vertex(T in): info(in), visited(false), processing(false), indegree(0
 template <class T>
 void Vertex<T>::addEdge(Vertex<T> *dest, double w) {
 	Edge<T> edgeD(dest,w);
+	adj.push_back(edgeD);
+}
+
+template <class T>
+void Vertex<T>::addEdge(Vertex<T> *dest, double w, string name) {
+	Edge<T> edgeD(dest,w);
+	this->setRoad(name);
+	dest->setRoad(name);
+	edgeD.setName(name);
 	adj.push_back(edgeD);
 }
 
@@ -338,9 +347,7 @@ bool Graph<T>::addEdge(const T &sourc, const T &dest, double w, string name) {
 	}
 	if (found!=2) return false;
 	vD->indegree++;
-	vS->addEdge(vD,w);
-	vS->setRoad(name);
-	vD->setRoad(name);
+	vS->addEdge(vD, w, name);
 
 	return true;
 }

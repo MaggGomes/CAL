@@ -145,6 +145,7 @@ void SchoolBus::showRoads(){
 			gv->addEdge(counter++, routes[i]->gvNodeID,
 					routes[i]->adj[j].getDest()->gvNodeID,
 					EdgeType::UNDIRECTED);
+			gv->setEdgeLabel(counter, routes[i]->adj[j].getName());
 			gv->setEdgeThickness(counter, 5);
 			gv->setEdgeColor(counter, "LIGHT_GRAY");
 			routes[i]->adj[j].setGvEdgeID(counter);
@@ -516,8 +517,6 @@ void SchoolBus::loadStudents(){
 
 void SchoolBus::loadData(){
 	routesGraph = LoadGraph::createGraph("res/nos.txt", "res/arestas.txt", "res/ligacoes.txt");
-	// TODO - REMOVER
-	pressKeyToContinue();
 	loadSchools();
 	loadBus();
 	loadStudents();
@@ -2071,7 +2070,7 @@ void SchoolBus::menuRemoveConnection(){
 }
 
 void SchoolBus::menuShowMaps(){
-	string Menu[5] = { "<<  VIEW OF CITY MAP  >>", "<<  VIEW OF ROADS MAP  >>", "<<  VIEW OF CLIENT MAP>>", "<<  BACK              >>", "<<  EXIT              >>" };
+	string Menu[5] = { "<<  VIEW OF CITY MAP  >>", "<<  VIEW OF ROADS MAP >>", "<<  VIEW OF CLIENT MAP>>", "<<  BACK              >>", "<<  EXIT              >>" };
 	bool validity = true;
 	int pointer = 0;
 
@@ -2136,7 +2135,7 @@ void SchoolBus::menuShowMaps(){
 					showMap();
 					break;
 				case 1:
-					showRoads()();
+					showRoads();
 					break;
 				case 2:
 					showAllClientsAndSchools();
