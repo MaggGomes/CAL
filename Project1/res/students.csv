@@ -1,11 +1,12 @@
-0;Carlos Costa;334;road;0;0
-4;Rui Duarte;276;road;0;0
-5;Joselino Teixeira;509;road;0;0
-1;Carlos Oliveira;555;road;1;1
-2;Manuel Almeira;156;road;1;1
-6;Pedro Tomas;569;road;1;2
-8;Jose Castro;27;road;1;1
-9;Joao Sousa;811;road;1;1
-3;Tiago Henriques;491;road;2;3
-7;Andre Lima;280;road;2;3
-10;Antonio Serra;398;road;2;3
+0;Carlos Costa;334;Rua dos Benguiados;0;0
+4;Rui Duarte;276;Rua X;0;0
+5;Joselino Teixeira;509;Avenida Brasil;0;0
+1;Carlos Oliveira;555;Avenida do Z;1;1
+2;Manuel Almeira;156;Rua H;1;1
+6;Pedro Tomas;569;Avenida C;1;2
+8;Jose Castro;27;Avenida Doutor I;1;1
+9;Joao Sousa;811;Avenida do C;1;1
+11;Pedro Cardoso;331;Rua dos Benguiados;1;2
+3;Tiago Henriques;491;Avenida Doutor Joao Canavarro;2;3
+7;Andre Lima;280;Rua do Z;2;3
+10;Antonio Serra;398;Avenida Baltazar do Couto;2;3

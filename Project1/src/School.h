@@ -13,6 +13,7 @@ class School {
 	int ID;
 	static int lastID;
 	int nodeID;
+	string road;
 public:
 
 	/**
@@ -85,6 +86,20 @@ public:
 	 * @return the ID
 	 */
 	int getID() const;
+
+	/**
+	 * @brief Sets school's road
+	 *
+	 * @param road
+	 */
+	void setRoad(string road);
+
+	/**
+	 * @brief Returns school's road
+	 *
+	 * @return road
+	 */
+	string getRoad() const;
 
 	/**
 	 * @brief Overload of the operator == for the class School

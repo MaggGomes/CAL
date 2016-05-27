@@ -112,29 +112,7 @@ void SchoolBus::showRoads(){
 	// Creating the nodes
 	for (size_t i = 0; i < routes.size(); i++){
 		gv->addNode(routes[i]->getInfo(), routes[i]->getX(), routes[i]->getY());
-
-		for (size_t j = 0; j < schools.size(); j++){
-			if (routes[i]->getInfo() == schools[j]->getNodeID()){
-				// Prints school's icon
-				gv->setVertexIcon(routes[i]->getInfo(), "res/schoolIcon.png");
-				break;
-			}
-
-			for (size_t k = 0; k < schools[j]->getStudents().size(); k++){
-				if (schools[j]->getStudents()[k]->getNodeID() == routes[i]->getInfo()){
-					// Prints student's icon
-					gv->setVertexIcon(routes[i]->getInfo(), "res/studentIcon.png");
-					break;
-				}
-			}
-		}
-
-		// Prints bus station's icon
-		if (routes[i]->getInfo() == this->nodeID)
-			gv->setVertexIcon(routes[i]->getInfo(), "res/busIcon.png");
-		else
-			gv->setVertexSize(routes[i]->getInfo(), 8);
-
+		gv->setVertexSize(routes[i]->getInfo(), 8);
 		routes[i]->gvNodeID = routes[i]->getInfo();
 	}
 
@@ -340,7 +318,7 @@ void SchoolBus::saveBus(){
 
 	for (size_t i = 0; i < bus.size(); i++){
 		if (i < bus.size() - 1)
-			file << bus[i].getID() << ";" << bus[i].getRegistration() << ";" << bus[i].getBuildYear()<<";"<< bus[i].getCapacity() << ";" << bus[i].getSchool()->getID() <<"\n";
+			file << bus[i].getID() << ";" << bus[i].getRegistration() << ";" << bus[i].getBuildYear()<<";"<< bus[i].getCapacity() << ";" << bus[i].getSchool()->getID() << "\n";
 		else
 			file << bus[i].getID() << ";" << bus[i].getRegistration() << ";" << bus[i].getBuildYear()<<";"<< bus[i].getCapacity() << ";" << bus[i].getSchool()->getID();
 	}
@@ -356,9 +334,9 @@ void SchoolBus::saveSchools(){
 
 	for (size_t i = 0; i < schools.size(); i++){
 		if (i < schools.size() - 1)
-			file << schools[i]->getID() << ";" << schools[i]->getName() << ";" << schools[i]->getNodeID() << "\n";
+			file << schools[i]->getID() << ";" << schools[i]->getName() << ";" << schools[i]->getNodeID() << ";" << schools[i]->getRoad() << "\n";
 		else
-			file << schools[i]->getID() << ";" << schools[i]->getName() << ";" << schools[i]->getNodeID();
+			file << schools[i]->getID() << ";" << schools[i]->getName() << ";" << schools[i]->getNodeID() << ";" << schools[i]->getRoad();
 	}
 
 	file.close();
@@ -437,6 +415,7 @@ void SchoolBus::loadSchools(){
 	string line;
 	string buffer;
 	string name;
+	string roadTemp;
 	int ID;
 	int nodeID;
 
@@ -451,10 +430,12 @@ void SchoolBus::loadSchools(){
 			getline(ss, name, ';'); // Name
 			getline(ss, buffer, ';');
 			nodeID = atoi(buffer.c_str()); // Node ID
+			getline(ss, roadTemp, ';');
 		}
 
 		School * school = new School(name, nodeID);
 		school->setID(ID);
+		school->setRoad(roadTemp);
 		schools.push_back(school);
 	}
 
@@ -525,9 +506,15 @@ void SchoolBus::loadData(){
 void SchoolBus::menuShowBus(){
 	clrscr();
 	printAppName();
+	int k = 0;
 	cout << endl << endl;
 
 	for (size_t i = 0; i < bus.size(); i++){
+		if (k%2 == 0)
+			setColor(7, 0);
+		else
+			setColor(3, 0);
+		k++;
 		cout << bus[i];
 	}
 
@@ -537,8 +524,15 @@ void SchoolBus::menuShowBus(){
 void SchoolBus::menuShowSchools(){
 	clrscr();
 	printAppName();
+	int k = 0;
+	cout << endl;
 
 	for (size_t i = 0; i < schools.size(); i++){
+		if (k%2 == 0)
+			setColor(7, 0);
+		else
+			setColor(3, 0);
+		k++;
 		cout << schools[i];
 	}
 
@@ -567,6 +561,7 @@ void SchoolBus::menuShowStudents(){
 
 	cout << endl;
 }
+
 
 void SchoolBus::menuStarting(){
 	string Menu[6] = { "<<  SCHOOL MANAGEMENT >>", "<<  CLIENT MANAGEMENT >>", "<<  BUS MANAGEMENT    >>", "<<  SEE MAPS          >>", "<<  REMOVE CONNECTION >>" , "<<  EXIT              >>" };
@@ -657,6 +652,7 @@ void SchoolBus::menuStarting(){
 	}
 }
 
+
 void SchoolBus::searchSchoolID(int schoolID){
 	bool found = false;
 	School *tempSchool;
@@ -694,6 +690,7 @@ void SchoolBus::searchSchoolID(int schoolID){
 	}
 }
 
+
 void SchoolBus::searchSchoolName(string schoolName){
 	bool found = false;
 	School *tempSchool;
@@ -730,6 +727,7 @@ void SchoolBus::searchSchoolName(string schoolName){
 		menuSearchBus();
 	}
 }
+
 
 void SchoolBus::menuSearchSchool(){
 	string Menu[4] = { "<<  SEARCH BY ID      >>", "<<  SEARCH BY NAME    >>", "<<  BACK              >>", "<<  EXIT              >>" };
@@ -838,6 +836,7 @@ void SchoolBus::menuSearchSchool(){
 	}
 }
 
+
 bool SchoolBus::validSchoolName(const string &name){
 
 	for (size_t i = 0; i < schools.size(); i++){
@@ -847,6 +846,7 @@ bool SchoolBus::validSchoolName(const string &name){
 
 	return true;
 }
+
 
 string SchoolBus::registerSchoolName(){
 	string name;
@@ -872,6 +872,7 @@ string SchoolBus::registerSchoolName(){
 
 	return name;
 }
+
 
 bool SchoolBus::validSchoolNodeID(int nodeID){
 
@@ -907,6 +908,7 @@ bool SchoolBus::validSchoolNodeID(int nodeID){
 	return false;
 }
 
+
 int SchoolBus::registerSchoolNodeID(){
 
 	int nodeID;
@@ -934,12 +936,14 @@ int SchoolBus::registerSchoolNodeID(){
 	return nodeID;
 }
 
+
 void SchoolBus::registerNewSchool(){
 
 	string name = registerSchoolName();
 	int schoolNodeID = registerSchoolNodeID();
 
 	School * schoolTemp = new School(name, schoolNodeID);
+	schoolTemp->setRoad(getRoadByID(schoolNodeID));
 	this->schools.push_back(schoolTemp);
 
 	setColor(10, 0);
@@ -950,6 +954,7 @@ void SchoolBus::registerNewSchool(){
 
 	menuSchoolManagement();
 }
+
 
 void SchoolBus::menuSchoolManagement(){
 	string Menu[5] = { "<<  SEE SCHOOLS       >>", "<<  SEARCH SCHOOL     >>", "<<  CREATE SCHOOL     >>","<<  BACK              >>", "<<  EXIT              >>" };
@@ -1040,6 +1045,7 @@ void SchoolBus::menuSchoolManagement(){
 	}
 }
 
+
 void SchoolBus::menuClientManagement(){
 	string Menu[5] = { "<<  SEE CLIENTS       >>", "<<  SEARCH CLIENT     >>","<<  CREATE CLIENT     >>", "<<  BACK              >>", "<<  EXIT              >>" };
 	bool validity = true;
@@ -1128,6 +1134,7 @@ void SchoolBus::menuClientManagement(){
 	}
 }
 
+
 void SchoolBus::searchBusID(int busID){
 	bool found = false;
 	Bus tempBus;
@@ -1165,6 +1172,7 @@ void SchoolBus::searchBusID(int busID){
 	}
 }
 
+
 void SchoolBus::searchBusReg(string busReg){
 	bool found = false;
 	Bus tempBus;
@@ -1201,6 +1209,7 @@ void SchoolBus::searchBusReg(string busReg){
 		menuSearchSchool();
 	}
 }
+
 
 void SchoolBus::menuSearchBus(){
 	string Menu[4] = { "<<  SEARCH BY ID      >>", "<<  SEARCH BY REGIST  >>", "<<  BACK              >>", "<<  EXIT              >>" };
@@ -1309,6 +1318,7 @@ void SchoolBus::menuSearchBus(){
 	}
 }
 
+
 int SchoolBus::registerBusYear(){
 	int busYear;
 	time_t t = time(0);   // get time now
@@ -1338,6 +1348,7 @@ int SchoolBus::registerBusYear(){
 	return busYear;
 }
 
+
 bool SchoolBus::validRegistration(const string &reg){
 
 	if (reg.size() != 6)
@@ -1357,6 +1368,7 @@ bool SchoolBus::validRegistration(const string &reg){
 
 	return false;
 }
+
 
 string SchoolBus::registerBusRegistration(){
 	string busReg;
@@ -1382,6 +1394,7 @@ string SchoolBus::registerBusRegistration(){
 
 	return busReg;
 }
+
 
 int SchoolBus::registerBusCapacity(){
 	int capacity;
@@ -1409,6 +1422,7 @@ int SchoolBus::registerBusCapacity(){
 	return capacity;
 }
 
+
 bool SchoolBus::validBusSchoolID(int id){
 	for (size_t i = 0; i < schools.size(); i++){
 		if (schools[i]->getID() == id){
@@ -1418,6 +1432,7 @@ bool SchoolBus::validBusSchoolID(int id){
 
 	return false;
 }
+
 
 int SchoolBus::registerBusSchool(){
 	int ID;
@@ -1444,6 +1459,7 @@ int SchoolBus::registerBusSchool(){
 
 	return ID;
 }
+
 
 void SchoolBus::registerNewBus(){
 
@@ -1485,6 +1501,7 @@ void SchoolBus::registerNewBus(){
 
 }
 
+
 string SchoolBus::registerStudentName(){
 	string stuName;
 	clrscr();
@@ -1509,6 +1526,7 @@ string SchoolBus::registerStudentName(){
 
 	return stuName;
 }
+
 
 int SchoolBus::registerStudentSchool(){
 	int stuSchool = 0;
@@ -1535,6 +1553,7 @@ int SchoolBus::registerStudentSchool(){
 	return stuSchool;
 }
 
+
 int SchoolBus::registerStudentBus(int schoolID){
 	int stuBus = 0;
 
@@ -1548,6 +1567,7 @@ int SchoolBus::registerStudentBus(int schoolID){
 
 	return stuBus;
 }
+
 
 bool SchoolBus::validStudentNodeID(int studentNodeID, int schoolNodeID){
 
@@ -1584,6 +1604,7 @@ bool SchoolBus::validStudentNodeID(int studentNodeID, int schoolNodeID){
 	return false;
 }
 
+
 int SchoolBus::registerStudentNode(int schoolNodeID){
 	int nodeID;
 
@@ -1610,6 +1631,20 @@ int SchoolBus::registerStudentNode(int schoolNodeID){
 	return nodeID;
 }
 
+
+string SchoolBus::getRoadByID(int roadID) const {
+
+	// Get network of all nodes of the graph
+	vector<Vertex<int>*> routes = routesGraph.getVertexSet();
+
+	for (size_t i = 0; i < routes.size(); i++)
+		if (routes[i]->getInfo() == roadID)
+			return routes[i]->getRoad();
+
+	return NULL;
+}
+
+
 void SchoolBus::registerNewClient(){
 
 	if (bus.size() == 0){
@@ -1634,10 +1669,9 @@ void SchoolBus::registerNewClient(){
 		}
 
 		int nodeID = registerStudentNode(schoolNodeID);
-		//int busID = registerStudentBus(schoolID);
 
 		Student tempStudent(name, nodeID);
-		//tempStudent.setBusID(busID);
+		tempStudent.setRoad(getRoadByID(nodeID));
 		tempStudent.setSchoolID(schoolID);
 
 		Student* ptTempStudent = &tempStudent;
@@ -1674,6 +1708,7 @@ void SchoolBus::registerNewClient(){
 	}
 
 }
+
 
 void SchoolBus::searchStudentID(int studentID){
 	bool found = false;
@@ -1720,6 +1755,7 @@ void SchoolBus::searchStudentID(int studentID){
 		menuSearchStudent();
 	}
 }
+
 
 void SchoolBus::menuSearchStudent(){
 	string Menu[3] = { "<<  SEARCH BY ID      >>", "<<  BACK              >>", "<<  EXIT              >>" };
@@ -1816,6 +1852,7 @@ void SchoolBus::menuSearchStudent(){
 	}
 }
 
+
 void SchoolBus::menuBusManagement(){
 	string Menu[5] = { "<<  SEE ALL BUS       >>", "<<  SEARCH BUS        >>", "<<  REGISTER NEW BUS  >>", "<<  BACK              >>", "<<  EXIT              >>" };
 	bool validity = true;
@@ -1905,6 +1942,7 @@ void SchoolBus::menuBusManagement(){
 	}
 }
 
+
 int SchoolBus::placeStudent(int nodeID,int schoolID,int start){
 	vector<int> vecBus;
 	int end;
@@ -1947,6 +1985,7 @@ int SchoolBus::placeStudent(int nodeID,int schoolID,int start){
 	return tBus;
 }
 
+
 int SchoolBus::validNodes(int node1ID, int node2ID){
 
 	int edgeWeight = INT_INFINITY;
@@ -1981,6 +2020,7 @@ int SchoolBus::validNodes(int node1ID, int node2ID){
 
 	return edgeWeight;
 }
+
 
 void SchoolBus::showRemovedConnectionGraph(int node1ID, int node2ID){
 
@@ -2021,6 +2061,7 @@ void SchoolBus::showRemovedConnectionGraph(int node1ID, int node2ID){
 	}
 	gv->rearrange();
 }
+
 
 void SchoolBus::menuRemoveConnection(){
 
@@ -2068,6 +2109,7 @@ void SchoolBus::menuRemoveConnection(){
 
 	menuStarting();
 }
+
 
 void SchoolBus::menuShowMaps(){
 	string Menu[5] = { "<<  VIEW OF CITY MAP  >>", "<<  VIEW OF ROADS MAP >>", "<<  VIEW OF CLIENT MAP>>", "<<  BACK              >>", "<<  EXIT              >>" };

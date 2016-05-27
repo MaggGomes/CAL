@@ -45,6 +45,14 @@ int School::getID() const{
 	return ID;
 }
 
+void School::setRoad(string road){
+	this->road = road;
+}
+
+string School::getRoad() const{
+	return road;
+}
+
 bool School::operator==(School * school) const{
 	if (this->name == school->getName())
 		return true;
@@ -59,11 +67,15 @@ ostream& operator<<(ostream& os, School * school){
 	os << "Name: ";
 	os << school->getName();
 	os << " | ";
+	os << "NUMBER OF STUDENTS: ";
+	os << school->getNumStudents();
+	os << endl;
+	os << " | ";
 	os << "NODE ID: ";
 	os << school->getNodeID();
 	os << " | ";
-	os << "NUMBER OF STUDENTS: ";
-	os << school->getNumStudents();
+	os << "NODE ID: ";
+	os << school->getRoad();
 	os << endl;
 
 	return os;

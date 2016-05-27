@@ -149,6 +149,13 @@ public:
 	void loadData();
 
 	/**
+	 * @brief Returns the road associted with a nodeID
+	 *
+	 * @return road
+	 */
+	string getRoadByID(int roadID) const;
+
+	/**
 	 * @brief Menu showing all bus
 	 */
 	void menuShowBus();
