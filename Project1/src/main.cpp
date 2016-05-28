@@ -3,7 +3,6 @@
 
 using namespace std;
 int main(){
-
 	SchoolBus schoolBus;
 	schoolBus.menuStarting();
 

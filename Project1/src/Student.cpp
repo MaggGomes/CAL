@@ -6,8 +6,8 @@ Student::Student(string name, int nodeID){
 	this->name = name;
 	this->ID = lastID;
 	this->nodeID = nodeID;
-	// TODO - APAGAR
-	this->road = "road";
+	this->nameEditDist = 0;
+	this->roadEditDist = 0;
 	lastID++;
 }
 
@@ -58,6 +58,30 @@ void Student::setBusID(int busID){
 
 int Student::getBusID() const{
 	return busID;
+}
+
+void Student::setNameEditDist(int dist){
+	this->nameEditDist = dist;
+}
+
+void Student::incNameEditDist(){
+	this->nameEditDist++;
+}
+
+int Student::getNameEditDist() const{
+	return nameEditDist;
+}
+
+void Student::setRoadEditDist(int dist){
+	this->roadEditDist = dist;
+}
+
+void Student::incRoadEditDist(){
+	this->roadEditDist++;
+}
+
+int Student::getRoadEditDist() const{
+	return roadEditDist;
 }
 
 bool Student::operator==(Student * student) const{

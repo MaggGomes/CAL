@@ -11,12 +11,14 @@ using namespace std;
  */
 class Student {
 	string name;
+	string road;
+	int nameEditDist;
+	int roadEditDist;
 	int ID;
 	static int lastID;
 	int schoolID;
 	int busID;
 	int nodeID;
-	string road;
 public:
 	/**
 	 * @brief Student's constructor
@@ -111,6 +113,40 @@ public:
 	string getRoad() const;
 
 	/**
+	 * @brief Sets a new name's edition distance
+	 */
+	void setNameEditDist(int dist);
+
+	/**
+	 * @brief Increments by 1 the name's edition distance
+	 */
+	void incNameEditDist();
+
+	/**
+	 * @Return name's edition distance
+	 *
+	 * @return name's edition distance
+	 */
+	int getNameEditDist() const;
+
+	/**
+	 * @brief Sets a new road's edition distance
+	 */
+	void setRoadEditDist(int dist);
+
+	/**
+	 * @brief Increments by 1 the road's edition distance
+	 */
+	void incRoadEditDist();
+
+	/**
+	 * @brief Returns the road's edition distance
+	 *
+	 * @return the road's edition distance
+	 */
+	int getRoadEditDist() const;
+
+	/**
 	 * @brief Overload of the operator == for the class Student
 	 *
 	 * @returns true if the name and ID of the 2 student are equal
@@ -122,5 +158,6 @@ public:
 	 */
 	friend ostream& operator<<(ostream& os, Student * student);
 };
+
 
 #endif // STUDENT_H
