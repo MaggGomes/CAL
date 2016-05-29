@@ -30,6 +30,12 @@
 #define ARROW_UP 328
 #define ARROW_DOWN 336
 
+/**
+ * @brief Comparing definitions
+ */
+#define CMP_STUDENTNAME 0
+#define CMP_ROADNAME 1
+
 using namespace std;
 
 /**

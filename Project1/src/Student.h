@@ -159,5 +159,4 @@ public:
 	friend ostream& operator<<(ostream& os, Student * student);
 };
 
-
 #endif // STUDENT_H

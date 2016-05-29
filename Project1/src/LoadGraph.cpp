@@ -7,12 +7,15 @@ Graph<int> LoadGraph::createGraph(const string &nodes, const string &roads, cons
 	vector<Connect> vecConnections = loadConnections(connections);
 	vector<Node> vecNodes = loadNodes(nodes,vecConnections);
 
+	for (size_t i = 0; i < vecRoads.size(); i++){
+		graph.addRoad(vecRoads[i].road_name);
+	}
 
-	for (unsigned int i = 0; i < vecNodes.size(); ++i) {
+	for (size_t i = 0; i < vecNodes.size(); ++i) {
 		graph.addVertex(vecNodes[i].node_id, degToCartLong(vecNodes[i].long_deg),degToCartLat(vecNodes[i].lat_deg));
 	}
 
-	for(unsigned int i = 0;i<vecConnections.size();i++){
+	for(size_t i = 0;i<vecConnections.size();i++){
 		Road temp;
 		Node nd1;
 		Node nd2;

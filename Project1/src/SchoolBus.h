@@ -17,6 +17,7 @@ class SchoolBus {
 	Graph <int> routesGraph;
 	vector <Bus> bus;
 	vector <School *> schools;
+	vector <Student *> students;
 	int nodeID;
 public:
 	/**
@@ -412,6 +413,11 @@ public:
 	 * @param Nodes of the connection
 	 */
 	void showRemovedConnectionGraph(int node1ID, int node2ID);
+
+	/**
+	 * @brief Show the students living in a road
+	 */
+	void showRoadStudents(const string &road);
 
 	/**
 	 * @brief Show maps

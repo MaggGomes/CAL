@@ -1,11 +1,14 @@
 #include "Matcher.h"
 
-bool compStudentNED (Student * s1, Student* s2){
-	return (s1->getNameEditDist() < s2->getNameEditDist());
-}
+string toLowerString(string s){
 
-bool compStudentRED (Student * s1, Student* s2){
-	return (s1->getRoadEditDist() < s2->getRoadEditDist());
+	string temp = "";
+
+	for (int i = 0; i < s.size(); i++){
+		temp+=tolower(s[i]);
+	}
+
+	return temp;
 }
 
 void pre_kmp(string pattern, vector<int> & prefix)
@@ -37,7 +40,7 @@ int kmp(string text, string pattern)
 		if (pattern[q+1]==text[i])
 			q++;
 		if (q==m-1) {
-			cout <<"pattern occurs with shift" << i-m+1 << endl;
+			//cout <<"pattern occurs with shift" << i-m+1 << endl;
 			num++;
 			q=prefix[q];
 		}
@@ -49,7 +52,7 @@ int numStringMatching(string filename,string toSearch)
 {
 	ifstream fich(filename.c_str());
 	if (!fich)
-	   { cout << "Erro a abrir ficheiro de leitura\n"; return 0; }
+	{ cout << "Erro a abrir ficheiro de leitura\n"; return 0; }
 
 	string line1;
 	int num=0;
@@ -91,7 +94,7 @@ float numApproximateStringMatching(string filename,string toSearch)
 {
 	ifstream fich(filename.c_str());
 	if (!fich)
-	   { cout << "Erro a abrir ficheiro de leitura\n"; return 0; }
+	{ cout << "Erro a abrir ficheiro de leitura\n"; return 0; }
 
 	string line1, word1;
 	int num=0, nwords=0;

@@ -89,6 +89,10 @@ void SchoolBus::showAllClientsAndSchools(){
 			gv->addEdge(counter++, routes[i]->gvNodeID,
 					routes[i]->adj[j].getDest()->gvNodeID,
 					EdgeType::UNDIRECTED);
+			if (j > 0){
+				if (routes[i]->adj[j].getName() != routes[i]->adj[j-1].getName())
+					gv->setEdgeLabel(counter, routes[i]->adj[j].getName());
+			}
 			gv->setEdgeThickness(counter, 5);
 			gv->setEdgeColor(counter, "LIGHT_GRAY");
 			routes[i]->adj[j].setGvEdgeID(counter);
@@ -123,7 +127,6 @@ void SchoolBus::showRoads(){
 			gv->addEdge(counter++, routes[i]->gvNodeID,
 					routes[i]->adj[j].getDest()->gvNodeID,
 					EdgeType::UNDIRECTED);
-			gv->setEdgeLabel(counter, routes[i]->adj[j].getName());
 			gv->setEdgeThickness(counter, 5);
 			gv->setEdgeColor(counter, "LIGHT_GRAY");
 			routes[i]->adj[j].setGvEdgeID(counter);
@@ -491,6 +494,8 @@ void SchoolBus::loadStudents(){
 				break;
 			}
 		}
+
+		students.push_back(student);
 	}
 
 	file.close();
@@ -1674,35 +1679,127 @@ void SchoolBus::registerNewClient(){
 	}
 
 }
-// TODO - IMPLEMENTAR/CORRIGIR
-void SchoolBus::searchStudentRoad(string studentRoad){
 
-
-}
-// TODO - IMPLEMENTAR/CORRIGIR
-void SchoolBus::searchStudentName(string studentName){
-
-	vector <Student *> tempStudents;
+void SchoolBus::showRoadStudents(const string &road){
+	int counter = 0;
 	int k = 0;
 
-	for (size_t i = 0; i < schools.size(); i++){
-		for (size_t j = 0; j < schools[i]->getStudents().size(); j++){
-			schools[i]->getStudents()[j]->setNameEditDist(editDistance(studentName, schools[i]->getStudents()[j]->getName()));
-			tempStudents.push_back(schools[i]->getStudents()[j]);
+	clrscr();
+	printAppName();
+
+	// Shows the first 10 most similar results
+	for (size_t i = 0; i < students.size(); i++){
+		if (kmp(students[i]->getRoad(), road) > 0 && students[i]->getRoad().size() == road.size()){
+			counter++;
+			if (k%2 == 0)
+				setColor(7, 0);
+			else
+				setColor(3, 0);
+			cout <<i+1 <<" - " << students[i]->getName() << endl;
+			k++;
 		}
 	}
 
-	sort(tempStudents.begin(), tempStudents.end(), compStudentNED);
+	setColor(7, 0);
+
+	cout << endl << "> " << counter << " register(s) found. " << endl << endl;
+}
+
+void SchoolBus::searchStudentRoad(string studentRoad){
+	// All the comparisons are made in lowercase mode to prevent inaccurate results
+
+	// Converts the string to lowercase
+	studentRoad = toLowerString(studentRoad);
+
+	// Struct with the comparing function to be used
+	compareED<RoadT> cmpED;
+	vector <RoadT *> vec = routesGraph.getRoads();
+	int k = 0;
+	char input;
+
+	// Order the results by edition distance
+	updateResults(studentRoad, vec, cmpED);
 
 	setColor(11, 0);
 	cout << endl << ">> RESULTS:" << endl << endl;
 
-	for (size_t i = 0; i < tempStudents.size(); i++){
+	// Shows the first 10 most similar results
+	for (size_t i = 0; i < 10; i++){
 		if (k%2 == 0)
 			setColor(7, 0);
 		else
 			setColor(3, 0);
-		cout <<i+1 <<" - " << tempStudents[i]->getName() << " | " << "EDITION DISTANCE: " << tempStudents[i]->getNameEditDist() << endl;;
+		cout <<i+1 <<" - " << vec[i]->getName() << " | " << "EDITION DISTANCE: " << vec[i]->getNameEditDist() << endl;
+		k++;
+	}
+
+	if (vec.size() > 0){
+		setColor(7, 0);
+		cleanBuffer();
+		cout << endl << ">> Do you want to select any of the results? (y/n): ";
+		cin >> input;
+
+		while (cin.fail() || ( tolower(input) != 'y' && tolower(input) != 'n')){
+			cleanBuffer();
+			setColor(4, 0);
+			cout << endl << input << endl;
+			cout << ":: ERROR: Invalid input! Please try again." << endl << endl;
+			setColor(7, 0);
+			Sleep(1000);
+			cout << ">> Do you want to select any of the results? (y/n): ";
+			cin >> input;
+		}
+
+		if (tolower(input) == 'y'){
+			int option;
+			int sizeV = vec.size();
+			if (sizeV > 10)
+				sizeV = 10;
+
+			cleanBuffer();
+			cout << endl << ">> Select the road you want to see (1 - " << sizeV << "): ";
+			cin >> option;
+
+			while (cin.fail() || option < 1 || option > sizeV){
+				cleanBuffer();
+				setColor(4, 0);
+				cout << endl << option << endl;
+				cout << ":: ERROR: Invalid input! Please try again." << endl << endl;
+				setColor(7, 0);
+				Sleep(1000);
+				cout << endl << ">> Select the road you want to see (1 - " << sizeV << "): ";
+				cin >> option;
+			}
+
+			cleanBuffer();
+			showRoadStudents(vec[option-1]->getName());
+		}
+	}
+}
+// TODO - COMPLETAR
+void SchoolBus::searchStudentName(string studentName){
+	// All the comparisons are made in lowercase mode to prevent inaccurate results
+
+	// Converts the string to lowercase
+	studentName = toLowerString(studentName);
+
+	// Struct with the comparing function to be used
+	compareED<Student> cmpED;
+	int k = 0;
+
+	// Order the results by edition distance
+	updateResults(studentName, students, cmpED);
+
+	setColor(11, 0);
+	cout << endl << ">> RESULTS:" << endl << endl;
+
+	// Shows the first 10 most similar results
+	for (size_t i = 0; i < 10; i++){
+		if (k%2 == 0)
+			setColor(7, 0);
+		else
+			setColor(3, 0);
+		cout <<i+1 <<" - " << students[i]->getName() << " | " << "EDITION DISTANCE: " << students[i]->getNameEditDist() << endl;
 		k++;
 	}
 }
