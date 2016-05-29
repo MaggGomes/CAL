@@ -5,7 +5,8 @@ using namespace std;
 SchoolBus::SchoolBus(){
 	nodeID = 1;
 	loadData();
-	this->routesGraph.floydWarshallShortestPath();
+	// TODO - CORRIGIR
+	//this->routesGraph.floydWarshallShortestPath();
 };
 
 SchoolBus::SchoolBus(const Graph<int> &graph){
@@ -1769,7 +1770,7 @@ void SchoolBus::showRoadStudents(const string &road){
 
 	setColor(7, 0);
 
-	cout << endl << "> " << counter << " student(s) found. " << endl << endl;
+	cout << endl << "> " << counter << " register(s) found. " << endl << endl;
 }
 
 void SchoolBus::searchStudentRoad(string studentRoad){
@@ -1785,7 +1786,7 @@ void SchoolBus::searchStudentRoad(string studentRoad){
 	char input;
 
 	// Order the results by edition distance
-	updateResults(studentRoad, vec, cmpED, roadMap);
+	updateResults(studentRoad, vec, cmpED);
 
 	setColor(11, 0);
 	cout << endl << ">> RESULTS:" << endl << endl;
@@ -1796,7 +1797,7 @@ void SchoolBus::searchStudentRoad(string studentRoad){
 			setColor(7, 0);
 		else
 			setColor(3, 0);
-		cout <<i+1 <<" - " << vec[i]->getName() << endl;
+		cout <<i+1 <<" - " << vec[i]->getName() << " | " << "EDITION DISTANCE: " << vec[i]->getNameEditDist() << endl;
 		k++;
 	}
 
@@ -1845,6 +1846,76 @@ void SchoolBus::searchStudentRoad(string studentRoad){
 }
 
 void SchoolBus::searchStudentName(string studentName){
+	/*// All the comparisons are made in lowercase mode to prevent inaccurate results
+
+	// Converts the string to lowercase
+	studentName = toLowerString(studentName);
+
+	// Struct with the comparing function to be used
+	compareED<Student> cmpED;
+	int k = 0;
+
+	// Order the results by edition distance
+	updateResults(studentName, students, cmpED);
+
+	setColor(11, 0);
+	cout << endl << ">> RESULTS:" << endl << endl;
+
+	// Shows the first 10 most similar results
+	for (size_t i = 0; i < 10; i++){
+		if (k%2 == 0)
+			setColor(7, 0);
+		else
+			setColor(3, 0);
+		cout <<i+1 <<" - " << students[i]->getName() << " | " << "EDITION DISTANCE: " << students[i]->getNameEditDist() << endl;
+		k++;
+	}
+
+	if (students.size() > 0){
+		setColor(7, 0);
+		cleanBuffer();
+		char input = ' ';
+		cout << endl << ">> Do you want to select any of the results? (y/n): ";
+		cin >> input;
+
+		while (cin.fail() || ( tolower(input) != 'y' && tolower(input) != 'n')){
+			cleanBuffer();
+			setColor(4, 0);
+			cout << endl << input << endl;
+			cout << ":: ERROR: Invalid input! Please try again." << endl << endl;
+			setColor(7, 0);
+			Sleep(1000);
+			cout << ">> Do you want to select any of the results? (y/n): ";
+			cin >> input;
+		}
+
+		if (tolower(input) == 'y'){
+			int option;
+			int sizeV = students.size();
+			if (sizeV > 10)
+				sizeV = 10;
+
+			cleanBuffer();
+			cout << endl << ">> Select the student you want to see (1 - " << sizeV << "): ";
+			cin >> option;
+
+			while (cin.fail() || option < 1 || option > sizeV){
+				cleanBuffer();
+				setColor(4, 0);
+				cout << endl << option << endl;
+				cout << ":: ERROR: Invalid input! Please try again." << endl << endl;
+				setColor(7, 0);
+				Sleep(1000);
+				cout << endl << ">> Select the student you want to see (1 - " << sizeV << "): ";
+				cin >> option;
+			}
+
+			cleanBuffer();
+
+			// Prints the student selected
+			cout << students[option-1] << endl;
+		}
+	}*/
 	// All the comparisons are made in lowercase mode to prevent inaccurate results
 
 	// Converts the string to lowercase
@@ -1856,7 +1927,7 @@ void SchoolBus::searchStudentName(string studentName){
 	vector <Student *> vec = students;
 
 	// Order the results by edition distance
-	updateResults(studentName, vec, cmpED, studentMap);
+	updateResultsAdvanced(studentName, vec, cmpED, studentMap);
 
 	setColor(11, 0);
 	cout << endl << ">> RESULTS:" << endl << endl;
@@ -1867,7 +1938,7 @@ void SchoolBus::searchStudentName(string studentName){
 			setColor(7, 0);
 		else
 			setColor(3, 0);
-		cout <<i+1 <<" - " << vec[i]->getName() << endl;
+		cout <<i+1 <<" - " << vec[i]->getName() << " | " << "EDITION DISTANCE: " << vec[i]->getNameEditDist() << endl;
 		k++;
 	}
 

@@ -5,7 +5,8 @@ using namespace std;
 SchoolBus::SchoolBus(){
 	nodeID = 1;
 	loadData();
-	this->routesGraph.floydWarshallShortestPath();
+	// TODO - CORRIGIR
+	//this->routesGraph.floydWarshallShortestPath();
 };
 
 SchoolBus::SchoolBus(const Graph<int> &graph){
@@ -1769,7 +1770,7 @@ void SchoolBus::showRoadStudents(const string &road){
 
 	setColor(7, 0);
 
-	cout << endl << "> " << counter << " student(s) found. " << endl << endl;
+	cout << endl << "> " << counter << " register(s) found. " << endl << endl;
 }
 
 void SchoolBus::searchStudentRoad(string studentRoad){
@@ -1785,7 +1786,7 @@ void SchoolBus::searchStudentRoad(string studentRoad){
 	char input;
 
 	// Order the results by edition distance
-	updateResults(studentRoad, vec, cmpED, roadMap);
+	updateResults(studentRoad, vec, cmpED);
 
 	setColor(11, 0);
 	cout << endl << ">> RESULTS:" << endl << endl;
@@ -1796,7 +1797,7 @@ void SchoolBus::searchStudentRoad(string studentRoad){
 			setColor(7, 0);
 		else
 			setColor(3, 0);
-		cout <<i+1 <<" - " << vec[i]->getName() << endl;
+		cout <<i+1 <<" - " << vec[i]->getName() << " | " << "EDITION DISTANCE: " << vec[i]->getNameEditDist() << endl;
 		k++;
 	}
 
@@ -1853,10 +1854,9 @@ void SchoolBus::searchStudentName(string studentName){
 	// Struct with the comparing function to be used
 	compareED<Student> cmpED;
 	int k = 0;
-	vector <Student *> vec = students;
 
 	// Order the results by edition distance
-	updateResults(studentName, vec, cmpED, studentMap);
+	updateResults(studentName, students, cmpED);
 
 	setColor(11, 0);
 	cout << endl << ">> RESULTS:" << endl << endl;
@@ -1867,7 +1867,7 @@ void SchoolBus::searchStudentName(string studentName){
 			setColor(7, 0);
 		else
 			setColor(3, 0);
-		cout <<i+1 <<" - " << vec[i]->getName() << endl;
+		cout <<i+1 <<" - " << students[i]->getName() << " | " << "EDITION DISTANCE: " << students[i]->getNameEditDist() << endl;
 		k++;
 	}
 
@@ -1891,7 +1891,7 @@ void SchoolBus::searchStudentName(string studentName){
 
 		if (tolower(input) == 'y'){
 			int option;
-			int sizeV = vec.size();
+			int sizeV = students.size();
 			if (sizeV > 10)
 				sizeV = 10;
 
@@ -1913,7 +1913,7 @@ void SchoolBus::searchStudentName(string studentName){
 			cleanBuffer();
 
 			// Prints the student selected
-			cout << vec[option-1] << endl;
+			cout << students[option-1] << endl;
 		}
 	}
 }

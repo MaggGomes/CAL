@@ -5,7 +5,8 @@ using namespace std;
 SchoolBus::SchoolBus(){
 	nodeID = 1;
 	loadData();
-	this->routesGraph.floydWarshallShortestPath();
+	// TODO - CORRIGIR
+	//this->routesGraph.floydWarshallShortestPath();
 };
 
 SchoolBus::SchoolBus(const Graph<int> &graph){
@@ -1785,7 +1786,7 @@ void SchoolBus::searchStudentRoad(string studentRoad){
 	char input;
 
 	// Order the results by edition distance
-	updateResults(studentRoad, vec, cmpED, roadMap);
+	updateResultsAdvanced(studentRoad, vec, cmpED, roadMap);
 
 	setColor(11, 0);
 	cout << endl << ">> RESULTS:" << endl << endl;
@@ -1856,7 +1857,7 @@ void SchoolBus::searchStudentName(string studentName){
 	vector <Student *> vec = students;
 
 	// Order the results by edition distance
-	updateResults(studentName, vec, cmpED, studentMap);
+	updateResultsAdvanced(studentName, vec, cmpED, studentMap);
 
 	setColor(11, 0);
 	cout << endl << ">> RESULTS:" << endl << endl;

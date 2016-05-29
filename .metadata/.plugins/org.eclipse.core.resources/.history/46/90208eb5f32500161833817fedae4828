@@ -5,7 +5,8 @@ using namespace std;
 SchoolBus::SchoolBus(){
 	nodeID = 1;
 	loadData();
-	this->routesGraph.floydWarshallShortestPath();
+	// TODO - CORRIGIR
+	//this->routesGraph.floydWarshallShortestPath();
 };
 
 SchoolBus::SchoolBus(const Graph<int> &graph){

@@ -39,7 +39,7 @@ int editDistance(string pattern, string text);
 float numApproximateStringMatching(string filename,string toSearch);
 
 template <typename T, typename A>
-void updateResults(const string &pattern, vector <T *> &vec, A func, unordered_map<string, vector<T*>> &unMap){
+void updateResultsAdvanced(const string &pattern, vector <T *> &vec, A func, unordered_map<string, vector<T*>> &unMap){
 
 	// Verifies if the search results for the pattern already exists
 	if (unMap.count(pattern) > 0){

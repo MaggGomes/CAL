@@ -39,11 +39,25 @@ int editDistance(string pattern, string text);
 float numApproximateStringMatching(string filename,string toSearch);
 
 template <typename T, typename A>
-void updateResults(const string &pattern, vector <T *> &vec, A func, unordered_map<string, vector<T*>> &unMap){
+void updateResults(const string &pattern, vector <T *> &vec, A func){
+
+	// For each member of the vector, calculates the edit distance
+	for (size_t i = 0; i < vec.size(); i++){
+		vec[i]->setNameEditDist(editDistance(pattern, toLowerString(vec[i]->getName())));
+	}
+
+	// Sorts the vector according to the edit distance in relation to the pattern
+	sort(vec.begin(), vec.end(), func);
+}
+
+template <typename T, typename A>
+void updateResultsAdvanced(const string &pattern, vector <T *> &vec, A func, unordered_map<string, vector<T*>> &unMap){
 
 	// Verifies if the search results for the pattern already exists
 	if (unMap.count(pattern) > 0){
 		vec = unMap[pattern]; // Key found
+		cout << "map"<< endl;
+		pressKeyToContinue();
 		return;
 	}
 
