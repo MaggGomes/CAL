@@ -1,0 +1,24 @@
+//============================================================================
+// Name        : dasda.cpp
+// Author      : 
+// Version     :
+// Copyright   : Your copyright notice
+// Description : Hello World in C++, Ansi-style
+//============================================================================
+
+#include <iostream>
+#include <string>
+#include <unordered_map>
+using namespace std;
+
+int main() {
+	unordered_map <string,int> tempMap;
+
+	tempMap.insert(make_pair("abc", 2));
+	tempMap.insert(make_pair("a", 3));
+
+	cout << "!!!Hello World!!!" << endl; // prints !!!Hello World!!!
+	cout << tempMap["abc"];
+
+	return 0;
+}

@@ -1,0 +1,20 @@
+#include "SchoolBus.h"
+#include <unordered_map>
+
+using namespace std;
+int main(){
+	unordered_map <string,int> tempMap;
+	tempMap.insert(make_pair("abc", 2));
+	tempMap.insert(make_pair("a", 3));
+	cout << tempMap["abc"]<< endl;
+
+	if (tempMap["b"] == NULL)
+		cout << "sim";
+	else
+		cout << "nao";
+
+	//SchoolBus schoolBus;
+	//schoolBus.menuStarting();
+
+	return 0;
+}
