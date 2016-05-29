@@ -420,6 +420,13 @@ public:
 	void showRoadStudents(const string &road);
 
 	/**
+	 * @brief Verifies if a student is using a particular Bus to go to the school
+	 *
+	 * @param bus
+	 */
+	void searchStudentInBus(Bus &bus);
+
+	/**
 	 * @brief Show maps
 	 */
 	void menuShowMaps();

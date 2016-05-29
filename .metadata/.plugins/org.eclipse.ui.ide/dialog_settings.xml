@@ -7,4 +7,7 @@
 		<item value="433" key="DIALOG_X_ORIGIN"/>
 		<item value="112" key="DIALOG_Y_ORIGIN"/>
 	</section>
+	<section name="org.eclipse.ui.internal.ide.dialogs.ProjectContentsLocationArea">
+		<item value="C:\Users\Manuel Gomes\Documents\Projetos\FEUP\CAL" key="OUTSIDE_LOCATION"/>
+	</section>
 </section>

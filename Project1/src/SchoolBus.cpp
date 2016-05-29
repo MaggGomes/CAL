@@ -1128,6 +1128,50 @@ void SchoolBus::menuClientManagement(){
 	}
 }
 
+void SchoolBus::searchStudentInBus(Bus &bus){
+
+	clrscr();
+	printAppName();
+	cleanBuffer();
+	string input;
+	bool found = false;
+
+	cout << "> STUDENT NAME: ";
+	getline(cin, input);
+	input = toLowerString(input);
+
+	for (size_t i = 0; i < bus.getStudents().size(); i++){
+		if (kmp(toLowerString(bus.getStudents()[i]->getName()), input) > 0){
+			found = true;
+			clrscr();
+			printAppName();
+			setColor(10, 0);
+			cout << ">> Student found!" << endl;
+			setColor(7, 0);
+			cout << bus.getStudents()[i];
+			break;
+		}
+	}
+
+	if (!found){
+		setColor(4, 0);
+		cout << ">> Student not found!" << endl << endl;
+		setColor(7, 0);
+		Sleep(1000);
+
+		char answer = ' ';
+		cout << "> Do you want to see the most similar results for your input (press Y/y to see)?";
+		cin >> answer;
+		if (tolower(answer) == 'y'){
+			clrscr();
+			printAppName();
+			searchStudentName(input);
+		}
+	}
+
+	cout << endl;
+}
+
 void SchoolBus::searchBusID(int busID){
 	bool found = false;
 	Bus tempBus;
@@ -1150,6 +1194,18 @@ void SchoolBus::searchBusID(int busID){
 		if (input == 'y' || input == 'Y'){
 			cout << "\n> Please wait a moment while the map loads.\n";
 			generateRoute(this->nodeID, tempBus.getSchool()->getNodeID(),tempBus.getStops());
+		}
+
+		clrscr();
+		printAppName();
+		cleanBuffer();
+		input = ' ';
+
+		cout << "> Do you want to see if a student is using this Bus Service (Press Y/y to continue)?";
+		cin >> input;
+		if (input == 'y' || input == 'Y'){
+			searchStudentInBus(tempBus);
+			cleanBuffer();
 		}
 
 		pressKeyToContinue();
@@ -1187,6 +1243,18 @@ void SchoolBus::searchBusReg(string busReg){
 		if (input == 'y' || input == 'Y'){
 			cout << "\n> Please wait a moment while the map loads.\n";
 			generateRoute(this->nodeID, tempBus.getSchool()->getNodeID(),tempBus.getStops());
+		}
+
+		clrscr();
+		printAppName();
+		cleanBuffer();
+		input = ' ';
+
+		cout << "> Do you want to see if a student is using this Bus Service (Press Y/y to continue)?";
+		cin >> input;
+		if (input == 'y' || input == 'Y'){
+			searchStudentInBus(tempBus);
+			cleanBuffer();
 		}
 
 		pressKeyToContinue();
@@ -1776,7 +1844,7 @@ void SchoolBus::searchStudentRoad(string studentRoad){
 		}
 	}
 }
-// TODO - COMPLETAR
+
 void SchoolBus::searchStudentName(string studentName){
 	// All the comparisons are made in lowercase mode to prevent inaccurate results
 
@@ -2154,7 +2222,6 @@ void SchoolBus::showRemovedConnectionGraph(int node1ID, int node2ID){
 	gv = new GraphViewer(WIDTH_SIZE, HEIGHT_SIZE, false);
 	gv->createWindow(WIDTH_SIZE, HEIGHT_SIZE);
 	gv->defineVertexColor("CYAN");
-	//gv->defineEdgeColor("LIGHT_GRAY");
 	gv->defineEdgeCurved(false);
 
 	// Get network of all nodes of the graph
@@ -2180,8 +2247,6 @@ void SchoolBus::showRemovedConnectionGraph(int node1ID, int node2ID){
 
 			}
 
-			//gv->addEdge(counter++, routes[i]->gvNodeID, routes[i]->adj[j].getDest()->gvNodeID,EdgeType::DIRECTED);
-			//gv->setEdgeThickness(counter, 5);
 			routes[i]->adj[j].setGvEdgeID(counter);
 		}
 	}
