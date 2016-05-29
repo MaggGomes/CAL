@@ -32,6 +32,11 @@
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/cute}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Project1/boost}&quot;"/>
 								</option>
+								<option id="gnu.cpp.compiler.option.dialect.std.356472918" name="Language standard" superClass="gnu.cpp.compiler.option.dialect.std" value="gnu.cpp.compiler.dialect.default" valueType="enumerated"/>
+								<option id="gnu.cpp.compiler.option.other.other.2049667408" name="Other flags" superClass="gnu.cpp.compiler.option.other.other" value="-c -fmessage-length=0 -std=c++11" valueType="string"/>
+								<option id="gnu.cpp.compiler.option.preprocessor.def.1394933973" superClass="gnu.cpp.compiler.option.preprocessor.def" valueType="definedSymbols">
+									<listOptionValue builtIn="false" value="__GXX_EXPERIMENTAL_CXX0X__"/>
+								</option>
 								<inputType id="cdt.managedbuild.tool.gnu.cpp.compiler.input.1086877440" superClass="cdt.managedbuild.tool.gnu.cpp.compiler.input"/>
 							</tool>
 							<tool id="cdt.managedbuild.tool.gnu.c.compiler.mingw.exe.debug.328898383" name="GCC C Compiler" superClass="cdt.managedbuild.tool.gnu.c.compiler.mingw.exe.debug">
@@ -46,7 +51,7 @@
 							<tool id="cdt.managedbuild.tool.gnu.c.linker.mingw.exe.debug.2007388799" name="MinGW C Linker" superClass="cdt.managedbuild.tool.gnu.c.linker.mingw.exe.debug"/>
 							<tool id="cdt.managedbuild.tool.gnu.cpp.linker.mingw.exe.debug.1996829392" name="MinGW C++ Linker" superClass="cdt.managedbuild.tool.gnu.cpp.linker.mingw.exe.debug">
 								<option id="gnu.cpp.link.option.flags.313153053" name="Linker flags" superClass="gnu.cpp.link.option.flags" value="-static" valueType="string"/>
-								<option id="gnu.cpp.link.option.userobjs.858873114" superClass="gnu.cpp.link.option.userobjs" valueType="userObjs">
+								<option id="gnu.cpp.link.option.userobjs.858873114" name="Other objects" superClass="gnu.cpp.link.option.userobjs" valueType="userObjs">
 									<listOptionValue builtIn="false" value="&quot;C:\MinGW\lib\libwsock32.a&quot;"/>
 								</option>
 								<inputType id="cdt.managedbuild.tool.gnu.cpp.linker.input.1057620498" superClass="cdt.managedbuild.tool.gnu.cpp.linker.input">

@@ -658,12 +658,12 @@ void SchoolBus::menuStarting(){
 
 void SchoolBus::searchSchoolID(int schoolID){
 	bool found = false;
-	School *tempSchool;
+	int schoolFound = 0;
 
 	for (size_t i = 0; i < schools.size(); i++){
 		if (schools[i]->getID()==schoolID){
 			found = true;
-			tempSchool = schools[i];
+			schoolFound = i;
 			break;
 		}
 	}
@@ -677,7 +677,7 @@ void SchoolBus::searchSchoolID(int schoolID){
 		cin >> input;
 		if (input == 'y' || input == 'Y'){
 			cout << "\n> Please wait a moment while the map loads.\n";
-			showSchoolAndStudents(tempSchool);
+			showSchoolAndStudents(schools[schoolFound]);
 		}
 
 		pressKeyToContinue();
@@ -695,12 +695,12 @@ void SchoolBus::searchSchoolID(int schoolID){
 
 void SchoolBus::searchSchoolName(string schoolName){
 	bool found = false;
-	School *tempSchool;
+	int schoolFound = 0;
 
 	for (size_t i = 0; i < schools.size(); i++){
 		if (schools[i]->getName()==schoolName){
 			found = true;
-			tempSchool = schools[i];
+			schoolFound = i;
 			break;
 		}
 	}
@@ -714,7 +714,7 @@ void SchoolBus::searchSchoolName(string schoolName){
 		cin >> input;
 		if (input == 'y' || input == 'Y'){
 			cout << "\n> Please wait a moment while the map loads.\n";
-			showSchoolAndStudents(tempSchool);
+			showSchoolAndStudents(schools[schoolFound]);
 		}
 
 		pressKeyToContinue();
@@ -726,7 +726,7 @@ void SchoolBus::searchSchoolName(string schoolName){
 		cout << ":: ERROR: There is no School with the name " << schoolName << " registered in the database! Please try again."<< endl << endl;
 		setColor(7, 0);
 		Sleep(2000);
-		menuSearchBus();
+		menuSearchSchool();
 	}
 }
 
@@ -742,7 +742,7 @@ void SchoolBus::menuSearchSchool(){
 		clrscr();
 		printAppName();
 		setColor(11, 0);
-		cout << setw(51) << "<<<<<  SEARCH BUS  >>>>>" << endl << endl;
+		cout << setw(51) << "<<<<< SEARCH SCHOOL>>>>>" << endl << endl;
 
 		for (int i = 0; i < 4; ++i)
 		{
@@ -1920,22 +1920,26 @@ void SchoolBus::searchStudentName(string studentName){
 
 void SchoolBus::searchStudentID(int studentID){
 	bool found = false;
-	Student * tempStudent;
+	int schoolFound = 0;
+	int studentFound = 0;
 	Bus tempBus;
 
 	for (size_t i = 0; i < schools.size(); i++){
 		for (size_t j = 0; j < schools[i]->getStudents().size(); j++){
 			if (schools[i]->getStudents()[j]->getID()==studentID){
 				found = true;
-				tempStudent = schools[i]->getStudents()[j];
+				schoolFound = i;
+				studentFound = j;
 				break;
 			}
 		}
 	}
 
-	for (size_t k = 0; k < bus.size(); k++){
-		if (bus[k].getID() == tempStudent->getBusID()){
-			tempBus = bus[k];
+	if (found){
+		for (size_t k = 0; k < bus.size(); k++){
+			if (bus[k].getID() == schools[schoolFound]->getStudents()[studentFound]->getBusID()){
+				tempBus = bus[k];
+			}
 		}
 	}
 
@@ -2428,4 +2432,12 @@ void SchoolBus::menuShowMaps(){
 			}
 		}
 	}
+}
+
+unordered_map<string, vector<Student *>>& SchoolBus::getStudentMap(){
+	return studentMap;
+}
+
+unordered_map<string, vector<RoadT *>>& SchoolBus::getRoadMap(){
+	return roadMap;
 }

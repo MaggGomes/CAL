@@ -18,6 +18,8 @@ class SchoolBus {
 	vector <Bus> bus;
 	vector <School *> schools;
 	vector <Student *> students;
+	unordered_map<string, vector<Student *>> studentMap;
+	unordered_map<string, vector<RoadT *>> roadMap;
 	int nodeID;
 public:
 	/**
@@ -430,6 +432,20 @@ public:
 	 * @brief Show maps
 	 */
 	void menuShowMaps();
+
+	/**
+	 * @brief Returns student's unordered map
+	 *
+	 * @return student's unordered map
+	 */
+	unordered_map<string, vector<Student *>>& getStudentMap();
+
+	/**
+	 * @brief Returns road's unordered map
+	 *
+	 * @return student's unordered map
+	 */
+	unordered_map<string, vector<RoadT *>>& getRoadMap();
 };
 
 #endif // SCHOOLBUS_H

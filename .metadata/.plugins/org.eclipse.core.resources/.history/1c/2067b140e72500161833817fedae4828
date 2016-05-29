@@ -1,0 +1,13 @@
+#include "SchoolBus.h"
+
+using namespace std;
+int main(){
+	vector <RoadT *> a;
+	SchoolBus schoolBus;
+	schoolBus.getRoadMap().insert(make_pair("abc", a));
+	cout << "daçldas" ;
+	pressKeyToContinue();
+	schoolBus.menuStarting();
+
+	return 0;
+}
