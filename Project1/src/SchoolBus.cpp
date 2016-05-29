@@ -1155,7 +1155,7 @@ void SchoolBus::searchStudentInBus(Bus &bus){
 
 	if (!found){
 		setColor(4, 0);
-		cout << ">> Student not found!" << endl << endl;
+		cout << ">> Not exact match found!" << endl << endl;
 		setColor(7, 0);
 		Sleep(1000);
 
@@ -1869,6 +1869,52 @@ void SchoolBus::searchStudentName(string studentName){
 			setColor(3, 0);
 		cout <<i+1 <<" - " << students[i]->getName() << " | " << "EDITION DISTANCE: " << students[i]->getNameEditDist() << endl;
 		k++;
+	}
+
+	if (students.size() > 0){
+		setColor(7, 0);
+		cleanBuffer();
+		char input = ' ';
+		cout << endl << ">> Do you want to select any of the results? (y/n): ";
+		cin >> input;
+
+		while (cin.fail() || ( tolower(input) != 'y' && tolower(input) != 'n')){
+			cleanBuffer();
+			setColor(4, 0);
+			cout << endl << input << endl;
+			cout << ":: ERROR: Invalid input! Please try again." << endl << endl;
+			setColor(7, 0);
+			Sleep(1000);
+			cout << ">> Do you want to select any of the results? (y/n): ";
+			cin >> input;
+		}
+
+		if (tolower(input) == 'y'){
+			int option;
+			int sizeV = students.size();
+			if (sizeV > 10)
+				sizeV = 10;
+
+			cleanBuffer();
+			cout << endl << ">> Select the student you want to see (1 - " << sizeV << "): ";
+			cin >> option;
+
+			while (cin.fail() || option < 1 || option > sizeV){
+				cleanBuffer();
+				setColor(4, 0);
+				cout << endl << option << endl;
+				cout << ":: ERROR: Invalid input! Please try again." << endl << endl;
+				setColor(7, 0);
+				Sleep(1000);
+				cout << endl << ">> Select the student you want to see (1 - " << sizeV << "): ";
+				cin >> option;
+			}
+
+			cleanBuffer();
+
+			// Prints the student selected
+			cout << students[option-1] << endl;
+		}
 	}
 }
 
